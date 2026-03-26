@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Workspace — Assistant & Partnership Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0efe9;
+  --border:rgba(0,0,0,.08);--border-mid:rgba(0,0,0,.14);
+  --text:#1a1917;--text-2:#6b6a65;--text-3:#a09f9a;
+  --teal:#0f6e56;--teal-bg:#e1f5ee;--teal-mid:#1d9e75;
+  --purple:#3c3489;--purple-bg:#eeedfe;--purple-mid:#7f77dd;
+  --amber:#633806;--amber-bg:#faeeda;--amber-mid:#ba7517;
+  --red:#a32d2d;--red-bg:#fcebeb;--red-mid:#e24b4a;
+  --blue:#0c447c;--blue-bg:#e6f1fb;--blue-mid:#378add;
+  --green:#3b6d11;--green-bg:#eaf3de;--green-mid:#639922;
+  --coral:#712b13;--coral-bg:#faece7;
+  --pink:#72243e;--pink-bg:#fbeaf0;
+  --gray-bg:#f1efe8;
+  --radius:10px;--radius-sm:6px;--radius-pill:20px;
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;line-height:1.5}
+.page{max-width:1300px;margin:0 auto;padding:24px 20px 48px;display:flex;flex-direction:column;gap:18px}
+
+/* topbar */
+.topbar{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:var(--shadow)}
+.topbar-left{display:flex;align-items:center;gap:13px}
+.logo-mark{width:34px;height:34px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark span{color:#fff;font-size:13px;font-weight:600;letter-spacing:-.5px}
+.topbar h1{font-size:15px;font-weight:600}
+.topbar .date{font-size:12px;color:var(--text-3);font-family:var(--mono)}
+.topbar-right{display:flex;gap:6px;flex-wrap:wrap}
+.btn{font-family:var(--font);font-size:12px;font-weight:500;padding:6px 14px;border-radius:var(--radius-pill);border:1px solid var(--border-mid);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--surface2);color:var(--text);border-color:rgba(0,0,0,.2)}
+.btn-primary{background:var(--text);color:#fff;border-color:var(--text)}
+.btn-primary:hover{background:#333}
+.btn-danger{background:var(--red-bg);color:var(--red);border-color:#f09595}
+.btn-danger:hover{background:#f7c1c1}
+
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 16px;box-shadow:var(--shadow)}
+.mc-label{font-size:11px;color:var(--text-3);font-weight:500;letter-spacing:.03em;text-transform:uppercase;margin-bottom:4px}
+.mc-val{font-size:24px;font-weight:600;font-family:var(--mono)}
+.mc-val.red{color:var(--red-mid)}.mc-val.green{color:var(--green-mid)}.mc-val.blue{color:var(--blue-mid)}.mc-val.grey{color:var(--text-3)}
+
+/* zone */
+.zone-divider{display:flex;align-items:center;gap:10px;margin:4px 0 0}
+.zone-line{flex:1;height:1px;background:var(--border)}
+.zone-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.zone-dot{width:6px;height:6px;border-radius:50%}
+.zone-dot.teal{background:var(--teal-mid)}.zone-dot.purple{background:var(--purple-mid)}
+.zone-a{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.zone-b{display:grid;grid-template-columns:2.2fr 1fr 1fr;gap:14px}
+
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.panel-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.panel-title{font-size:12px;font-weight:600;color:var(--text-2);letter-spacing:.02em}
+.pill-count{font-size:11px;padding:2px 8px;border-radius:var(--radius-pill);background:var(--surface2);color:var(--text-3);border:1px solid var(--border)}
+.cat-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.ctab{font-family:var(--font);font-size:11px;font-weight:500;padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--border);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s}
+.ctab.on{background:var(--text);color:#fff;border-color:var(--text)}
+.ctab:hover:not(.on){background:var(--surface2);color:var(--text-2)}
+
+/* STATUS BADGES */
+.st-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap;cursor:pointer;user-select:none;transition:all .15s;border:1px solid transparent}
+.st-new{background:var(--gray-bg);color:#5f5e5a;border-color:#d3d1c7}
+.st-progress{background:var(--blue-bg);color:var(--blue);border-color:#85b7eb}
+.st-done{background:var(--green-bg);color:var(--green);border-color:#97c459}
+.st-cancelled{background:var(--red-bg);color:var(--red);border-color:#f09595;text-decoration:line-through}
+.st-custom{background:var(--amber-bg);color:var(--amber);border-color:#fac775}
+
+/* DAILY TASK CARDS */
+.task-item{background:var(--surface2);border:1px solid transparent;border-radius:var(--radius-sm);transition:all .15s;position:relative}
+.task-item:hover{background:#e8e7e0;border-color:var(--border)}
+.task-item:hover .card-actions{opacity:1;pointer-events:all}
+.task-item.done-item .task-name{text-decoration:line-through;color:var(--text-3)}
+.task-item.cancelled-item .task-name{text-decoration:line-through;color:var(--text-3);opacity:.6}
+.task-item.cancelled-item{opacity:.55}
+.task-top{display:flex;align-items:flex-start;gap:8px;padding:8px 10px 6px}
+.chk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border-mid);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;background:var(--surface)}
+.chk.ticked{background:var(--text);border-color:var(--text)}
+.chk.ticked::after{content:'';width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px);display:block}
+.task-body{flex:1;min-width:0}
+.task-name{font-size:12px;font-weight:500;color:var(--text);line-height:1.4}
+.task-meta{font-size:11px;color:var(--text-3);margin-top:3px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.task-note{font-size:11px;color:var(--text-2);background:rgba(255,255,255,.7);border-top:1px solid var(--border);padding:5px 10px 6px 34px;border-radius:0 0 var(--radius-sm) var(--radius-sm);font-style:italic;line-height:1.5}
+.task-note:empty{display:none}
+
+/* CARD ACTION BUTTONS (edit / delete) */
+.card-actions{opacity:0;pointer-events:none;display:flex;gap:3px;flex-shrink:0;transition:opacity .15s;margin-top:1px}
+.ca-btn{width:22px;height:22px;border-radius:5px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0}
+.ca-btn:hover{border-color:var(--border-mid);background:var(--surface2)}
+.ca-btn.del:hover{background:var(--red-bg);border-color:#f09595}
+.ca-btn svg{width:11px;height:11px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ca-btn.del svg{stroke:var(--red-mid)}
+
+/* badges */
+.badge{font-size:10px;padding:1px 7px;border-radius:var(--radius-pill);font-weight:600;white-space:nowrap}
+.b-adm{background:var(--purple-bg);color:var(--purple)}.b-rep{background:var(--blue-bg);color:var(--blue)}
+.b-trv{background:var(--teal-bg);color:var(--teal)}.b-evt{background:var(--amber-bg);color:var(--amber)}
+.b-par{background:var(--pink-bg);color:var(--pink)}.b-fup{background:var(--gray-bg);color:#444441}.b-int{background:var(--gray-bg);color:#444441}
+.b-custom{background:#faeeda;color:#633806;border:1px solid #fac775}
+.pdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.ph{background:var(--red-mid)}.pm{background:var(--amber-mid)}.pl{background:var(--green-mid)}
+
+/* trip/event */
+.trip-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;position:relative}
+.trip-card:last-of-type{margin-bottom:0}
+.trip-card:hover .card-actions{opacity:1;pointer-events:all}
+.trip-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:6px}
+.trip-name{font-size:12px;font-weight:600;color:var(--text)}
+.tstatus{font-size:10px;padding:2px 8px;border-radius:var(--radius-pill);font-weight:600;white-space:nowrap;flex-shrink:0}
+.ts-plan{background:var(--amber-bg);color:var(--amber)}.ts-book{background:var(--purple-bg);color:var(--purple)}.ts-ok{background:var(--green-bg);color:var(--green)}
+.steps{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.step{font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);border:1px solid var(--border);color:var(--text-3);background:var(--surface);white-space:nowrap}
+.step.s-done{background:var(--green-bg);border-color:#97c459;color:var(--green)}
+.step.s-curr{background:var(--purple-bg);border-color:#afa9ec;color:var(--purple)}
+.pbar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.pfill{height:100%;border-radius:2px;background:var(--green-mid)}
+.trip-sub{font-size:10px;color:var(--text-3);margin-top:5px;font-family:var(--mono)}
+
+/* kanban */
+.kanban{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kcol{background:var(--surface2);border-radius:var(--radius-sm);border:1px solid var(--border);padding:8px;display:flex;flex-direction:column;gap:6px}
+.kcol-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:6px;border-bottom:1px solid var(--border);margin-bottom:2px}
+.kcol-title{font-size:11px;font-weight:600;color:var(--text-2)}
+.kcard{background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border);transition:all .15s;position:relative}
+.kcard:hover{border-color:var(--border-mid);transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.kcard:hover .card-actions{opacity:1;pointer-events:all}
+.kcard.done-card .kcard-title{text-decoration:line-through;color:var(--text-3)}
+.kcard.cancelled-card .kcard-title{text-decoration:line-through;color:var(--text-3);opacity:.6}
+.kcard.cancelled-card{opacity:.55}
+.kcard-top{padding:9px 10px 7px;display:flex;flex-direction:column;gap:5px}
+.kcard-title{font-size:12px;font-weight:500;color:var(--text);line-height:1.4}
+.kcard-row{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.kcard-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex:1}
+.kcard-note{font-size:11px;color:var(--text-2);background:#f8f7f3;border-top:1px solid var(--border);padding:5px 10px 6px;border-radius:0 0 var(--radius-sm) var(--radius-sm);font-style:italic;line-height:1.5}
+.kcard-note:empty{display:none}
+.pri{font-size:10px;padding:1px 7px;border-radius:var(--radius-pill);font-weight:600;white-space:nowrap}
+.pri-h{background:var(--coral-bg);color:var(--coral)}.pri-m{background:var(--amber-bg);color:var(--amber)}.pri-l{background:var(--green-bg);color:var(--green)}
+.due{font-size:10px;color:var(--text-3);font-family:var(--mono)}
+.due-hot{color:var(--red-mid);font-family:var(--mono)}
+
+/* partner */
+.partner-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);position:relative}
+.partner-row:last-child{border-bottom:none}
+.partner-row:hover .card-actions{opacity:1;pointer-events:all}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;font-family:var(--mono)}
+.av-p{background:var(--purple-bg);color:var(--purple)}.av-t{background:var(--teal-bg);color:var(--teal)}
+.av-b{background:var(--blue-bg);color:var(--blue)}.av-c{background:var(--pink-bg);color:var(--pink)}.av-g{background:var(--amber-bg);color:var(--amber)}
+.p-name{font-size:12px;font-weight:600;color:var(--text)}
+.p-sub{font-size:10px;color:var(--text-3);font-family:var(--mono)}
+.pstat{font-size:10px;font-weight:600;white-space:nowrap}
+.ps-act{color:var(--teal)}.ps-pend{color:var(--amber-mid)}.ps-warm{color:var(--purple)}
+
+/* reminders */
+.remind-item{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);position:relative}
+.remind-item:last-child{border-bottom:none}
+.remind-item:hover .card-actions{opacity:1;pointer-events:all}
+.ri-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.ri-urg{background:var(--red-mid)}.ri-mid{background:var(--amber-mid)}.ri-norm{background:var(--green-mid)}
+.ri-text{font-size:12px;color:var(--text);line-height:1.4}
+.ri-time{font-size:10px;color:var(--text-3);margin-top:1px;font-family:var(--mono)}
+
+.add-row{display:flex;justify-content:flex-end;padding-top:4px}
+.add-btn{font-family:var(--font);font-size:11px;font-weight:500;padding:4px 11px;border-radius:var(--radius-pill);border:1px dashed var(--border-mid);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s}
+.add-btn:hover{background:var(--surface2);color:var(--text-2);border-style:solid}
+
+/* modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border-mid);padding:20px;width:420px;max-width:95vw;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.modal h3{font-size:14px;font-weight:600;margin-bottom:14px}
+.form-group{margin-bottom:11px}
+.form-group label{font-size:11px;font-weight:600;color:var(--text-2);display:block;margin-bottom:4px;letter-spacing:.03em;text-transform:uppercase}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 10px;border:1px solid var(--border-mid);border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s}
+.form-group textarea{resize:vertical;min-height:64px;line-height:1.5}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(0,0,0,.3)}
+.modal-actions{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
+.modal-actions-right{display:flex;gap:8px}
+
+.footer{text-align:center;font-size:11px;color:var(--text-3);padding-top:8px;border-top:1px solid var(--border);font-family:var(--mono)}
+
+/* toast notification */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:#fff;font-size:12px;padding:8px 18px;border-radius:var(--radius-pill);z-index:200;transition:transform .2s;pointer-events:none;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* SMART SELECT — select + optional free-text input */
+.smart-select{display:flex;flex-direction:column;gap:6px}
+.smart-select select{width:100%}
+.smart-select .custom-input{width:100%;padding:8px 10px;border:1px solid var(--border-mid);border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s;display:none}
+.smart-select .custom-input.visible{display:block}
+.smart-select .custom-input:focus{border-color:rgba(0,0,0,.3)}
+.smart-select .custom-hint{font-size:11px;color:var(--text-3);display:none}
+.smart-select .custom-input.visible~.custom-hint{display:block}
+
+@media print{body{background:#fff}.btn,.add-btn,.modal-overlay,.card-actions{display:none!important}.panel,.mc{box-shadow:none}}
+@media(max-width:900px){.metrics{grid-template-columns:repeat(3,1fr)}.zone-a,.zone-b{grid-template-columns:1fr}.kanban{grid-template-columns:1fr}}
+@media(max-width:560px){.metrics{grid-template-columns:repeat(2,1fr)}.topbar{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo-mark"><span>WS</span></div>
+    <div>
+      <h1>My Workspace</h1>
+      <div class="date" id="live-date"></div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="btn" onclick="openModal('m-daily')">+ Daily task</button>
+    <button class="btn" onclick="openModal('m-trip')">+ Trip</button>
+    <button class="btn" onclick="openModal('m-event')">+ Event</button>
+    <button class="btn" onclick="openModal('m-ptask')">+ Partner task</button>
+    <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="mc"><div class="mc-label">Total tasks</div><div class="mc-val" id="m-total">10</div></div>
+  <div class="mc"><div class="mc-label">In progress</div><div class="mc-val blue" id="m-prog">3</div></div>
+  <div class="mc"><div class="mc-label">Done today</div><div class="mc-val green" id="m-done">0</div></div>
+  <div class="mc"><div class="mc-label">Cancelled</div><div class="mc-val grey" id="m-cancel">0</div></div>
+  <div class="mc"><div class="mc-label">Active partners</div><div class="mc-val" style="color:var(--blue-mid)">6</div></div>
+  <div class="mc"><div class="mc-label">Trips tracked</div><div class="mc-val">3</div></div>
+</div>
+
+<div class="zone-divider">
+  <div class="zone-line"></div>
+  <div class="zone-label"><span class="zone-dot teal"></span>Zone A — Daily & operations</div>
+  <div class="zone-line"></div>
+</div>
+
+<div class="zone-a">
+
+  <!-- DAILY CHECKLIST -->
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">Daily checklist</span>
+      <div class="cat-tabs">
+        <div class="ctab on" onclick="filterDaily(this,'all')">All</div>
+        <div class="ctab" onclick="filterDaily(this,'adm')">Admin</div>
+        <div class="ctab" onclick="filterDaily(this,'rep')">Report</div>
+        <div class="ctab" onclick="filterDaily(this,'trv')">Travel</div>
+        <div class="ctab" onclick="filterDaily(this,'evt')">Event</div>
+      </div>
+    </div>
+    <div id="daily-list" style="display:flex;flex-direction:column;gap:5px">
+      <!-- tasks injected by JS -->
+    </div>
+    <div class="add-row"><button class="add-btn" onclick="openModal('m-daily')">+ Add task</button></div>
+  </div>
+
+  <!-- TRIP TRACKER -->
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Business trip tracker</span><span class="pill-count" id="trip-count">3 trips</span></div>
+    <div id="trip-list"></div>
+    <div class="add-row"><button class="add-btn" onclick="openModal('m-trip')">+ New trip</button></div>
+  </div>
+
+  <!-- EVENT TRACKER -->
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Event & teambuilding tracker</span><span class="pill-count" id="event-count">3 events</span></div>
+    <div id="event-list"></div>
+    <div class="add-row"><button class="add-btn" onclick="openModal('m-event')">+ New event</button></div>
+  </div>
+
+</div>
+
+<div class="zone-divider">
+  <div class="zone-line"></div>
+  <div class="zone-label"><span class="zone-dot purple"></span>Zone B — Partnership & strategy</div>
+  <div class="zone-line"></div>
+</div>
+
+<div class="zone-b">
+
+  <!-- KANBAN -->
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">Partnership task board</span>
+      <div class="cat-tabs">
+        <div class="ctab on" onclick="filterKanban(this,'all')">All</div>
+        <div class="ctab" onclick="filterKanban(this,'par')">Partnership</div>
+        <div class="ctab" onclick="filterKanban(this,'fup')">Follow-up</div>
+        <div class="ctab" onclick="filterKanban(this,'int')">Internal</div>
+      </div>
+    </div>
+    <div class="kanban">
+      <div class="kcol"><div class="kcol-head"><span class="kcol-title">To do</span><span class="pill-count" id="k-todo-count">4</span></div><div id="k-todo"></div></div>
+      <div class="kcol"><div class="kcol-head"><span class="kcol-title">In progress</span><span class="pill-count" id="k-prog-count">3</span></div><div id="k-prog"></div></div>
+      <div class="kcol"><div class="kcol-head"><span class="kcol-title">Done this week</span><span class="pill-count">4</span></div><div id="k-done"></div></div>
+    </div>
+    <div class="add-row"><button class="add-btn" onclick="openModal('m-ptask')">+ Add task</button></div>
+  </div>
+
+  <!-- PARTNER TRACKER -->
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Partner tracker</span><span class="pill-count">6 active</span></div>
+    <div id="partner-list"></div>
+    <div class="add-row"><button class="add-btn" onclick="openModal('m-partner')">+ Add partner</button></div>
+  </div>
+
+  <!-- REMINDERS -->
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Reminders today</span></div>
+    <div id="reminder-list"></div>
+    <div class="add-row"><button class="add-btn" onclick="openModal('m-reminder')">+ Add reminder</button></div>
+  </div>
+
+</div>
+
+<div class="footer">My Workspace · Assistant & Partnership Manager · <span id="footer-date"></span></div>
+</div><!-- /page -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ MODALS ═══════════════ -->
+
+<!-- Daily task modal -->
+<div class="modal-overlay" id="m-daily" onclick="closeIfBg(event,'m-daily')">
+  <div class="modal">
+    <h3 id="m-daily-title">Add daily task</h3>
+    <input type="hidden" id="dt-edit-id">
+    <div class="form-group"><label>Task name</label><input type="text" id="dt-name" placeholder="e.g. Submit monthly eForm"></div>
+    <div class="form-group"><label>Category</label>
+      <div class="smart-select">
+        <select id="dt-cat" onchange="toggleCustom('dt-cat','dt-cat-custom')">
+          <option value="adm">Admin</option><option value="rep">Report</option>
+          <option value="trv">Travel</option><option value="evt">Event</option>
+          <option value="__other__">Other…</option>
+        </select>
+        <input class="custom-input" type="text" id="dt-cat-custom" placeholder="Type your category, e.g. Private, Finance…">
+        <span class="custom-hint">This will appear as a custom badge on the card</span>
+      </div></div>
+    <div class="form-group"><label>Priority</label>
+      <select id="dt-pri"><option value="h">Urgent</option><option value="m">Medium</option><option value="l">Normal</option></select></div>
+    <div class="form-group"><label>Due</label><input type="text" id="dt-due" placeholder="e.g. Today, Thu, Next week"></div>
+    <div class="form-group"><label>Status</label>
+      <div class="smart-select">
+        <select id="dt-status" onchange="toggleCustom('dt-status','dt-status-custom')">
+          <option value="new">New</option><option value="progress">In progress</option>
+          <option value="done">Done</option><option value="cancelled">Cancelled</option>
+          <option value="__other__">Other…</option>
+        </select>
+        <input class="custom-input" type="text" id="dt-status-custom" placeholder="Type your status, e.g. Paid, Unpaid, On hold…">
+        <span class="custom-hint">This will appear as a badge on the card</span>
+      </div></div>
+    <div class="form-group"><label>Note (optional)</label><textarea id="dt-note" placeholder="Context, blockers, or next steps…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="dt-delete-btn" style="display:none" onclick="deleteEditingItem('daily')">Delete task</button>
+      <div class="modal-actions-right">
+        <button class="btn" onclick="closeModal('m-daily')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveDailyTask()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Kanban task modal -->
+<div class="modal-overlay" id="m-ptask" onclick="closeIfBg(event,'m-ptask')">
+  <div class="modal">
+    <h3 id="m-ptask-title">Add partnership task</h3>
+    <input type="hidden" id="pt-edit-id">
+    <input type="hidden" id="pt-edit-col">
+    <div class="form-group"><label>Task name</label><input type="text" id="pt-name" placeholder="e.g. Draft MOU with XYZ Corp"></div>
+    <div class="form-group"><label>Column</label>
+      <select id="pt-col"><option value="k-todo">To do</option><option value="k-prog">In progress</option><option value="k-done">Done this week</option></select></div>
+    <div class="form-group"><label>Type</label>
+      <div class="smart-select">
+        <select id="pt-cat" onchange="toggleCustom('pt-cat','pt-cat-custom')">
+          <option value="par">Partnership</option><option value="fup">Follow-up</option>
+          <option value="int">Internal</option><option value="__other__">Other…</option>
+        </select>
+        <input class="custom-input" type="text" id="pt-cat-custom" placeholder="Type your category, e.g. Legal, Finance…">
+        <span class="custom-hint">This will appear as a custom badge on the card</span>
+      </div></div>
+    <div class="form-group"><label>Priority</label>
+      <select id="pt-pri"><option value="h">High</option><option value="m">Medium</option><option value="l">Low</option></select></div>
+    <div class="form-group"><label>Due</label><input type="text" id="pt-due" placeholder="e.g. Today, Thu, Next week"></div>
+    <div class="form-group"><label>Status</label>
+      <div class="smart-select">
+        <select id="pt-status" onchange="toggleCustom('pt-status','pt-status-custom')">
+          <option value="new">New</option><option value="progress">In progress</option>
+          <option value="done">Done</option><option value="cancelled">Cancelled</option>
+          <option value="__other__">Other…</option>
+        </select>
+        <input class="custom-input" type="text" id="pt-status-custom" placeholder="Type your status, e.g. Paid, Unpaid, Pending approval…">
+        <span class="custom-hint">This will appear as a badge on the card</span>
+      </div></div>
+    <div class="form-group"><label>Note (optional)</label><textarea id="pt-note" placeholder="Context, blockers, next steps…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="pt-delete-btn" style="display:none" onclick="deleteEditingItem('ptask')">Delete task</button>
+      <div class="modal-actions-right">
+        <button class="btn" onclick="closeModal('m-ptask')">Cancel</button>
+        <button class="btn btn-primary" onclick="savePTask()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trip modal -->
+<div class="modal-overlay" id="m-trip" onclick="closeIfBg(event,'m-trip')">
+  <div class="modal">
+    <h3 id="m-trip-title">Add business trip</h3>
+    <input type="hidden" id="tr-edit-id">
+    <div class="form-group"><label>Trip name</label><input type="text" id="tr-name" placeholder="e.g. Hanoi — partner summit"></div>
+    <div class="form-group"><label>Dates</label><input type="text" id="tr-date" placeholder="e.g. Apr 3–5"></div>
+    <div class="form-group"><label>Note</label><input type="text" id="tr-note" placeholder="e.g. 3 steps remaining"></div>
+    <div class="form-group"><label>Status</label>
+      <select id="tr-status"><option value="ts-plan">Planning</option><option value="ts-book">Booking</option><option value="ts-ok">Confirmed</option></select></div>
+    <div class="form-group"><label>Progress (%)</label><input type="number" id="tr-pct" min="0" max="100" placeholder="e.g. 33"></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="tr-delete-btn" style="display:none" onclick="deleteEditingItem('trip')">Delete trip</button>
+      <div class="modal-actions-right">
+        <button class="btn" onclick="closeModal('m-trip')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveTrip()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Event modal -->
+<div class="modal-overlay" id="m-event" onclick="closeIfBg(event,'m-event')">
+  <div class="modal">
+    <h3 id="m-event-title">Add event</h3>
+    <input type="hidden" id="ev-edit-id">
+    <div class="form-group"><label>Event name</label><input type="text" id="ev-name" placeholder="e.g. Q3 teambuilding offsite"></div>
+    <div class="form-group"><label>Date / attendees</label><input type="text" id="ev-sub" placeholder="e.g. Jun 15 · 20 attendees"></div>
+    <div class="form-group"><label>Status</label>
+      <select id="ev-status"><option value="ts-plan">Planning</option><option value="ts-book">Booking</option><option value="ts-ok">Confirmed</option></select></div>
+    <div class="form-group"><label>Progress (%)</label><input type="number" id="ev-pct" min="0" max="100" placeholder="e.g. 45"></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="ev-delete-btn" style="display:none" onclick="deleteEditingItem('event')">Delete event</button>
+      <div class="modal-actions-right">
+        <button class="btn" onclick="closeModal('m-event')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveEvent()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Partner modal -->
+<div class="modal-overlay" id="m-partner" onclick="closeIfBg(event,'m-partner')">
+  <div class="modal">
+    <h3 id="m-partner-title">Add partner</h3>
+    <input type="hidden" id="pn-edit-id">
+    <div class="form-group"><label>Company name</label><input type="text" id="pn-name" placeholder="e.g. SkyBridge Corp"></div>
+    <div class="form-group"><label>Note</label><input type="text" id="pn-sub" placeholder="e.g. Intro call done · today"></div>
+    <div class="form-group"><label>Status</label>
+      <select id="pn-status"><option value="ps-act">Active</option><option value="ps-warm">Warm</option><option value="ps-pend">Awaiting</option></select></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="pn-delete-btn" style="display:none" onclick="deleteEditingItem('partner')">Delete partner</button>
+      <div class="modal-actions-right">
+        <button class="btn" onclick="closeModal('m-partner')">Cancel</button>
+        <button class="btn btn-primary" onclick="savePartner()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reminder modal -->
+<div class="modal-overlay" id="m-reminder" onclick="closeIfBg(event,'m-reminder')">
+  <div class="modal">
+    <h3 id="m-reminder-title">Add reminder</h3>
+    <input type="hidden" id="rm-edit-id">
+    <div class="form-group"><label>Reminder</label><input type="text" id="rm-text" placeholder="e.g. Call TechVN re: proposal"></div>
+    <div class="form-group"><label>Time</label><input type="text" id="rm-time" placeholder="e.g. 2:00 PM · Today"></div>
+    <div class="form-group"><label>Urgency</label>
+      <select id="rm-urg"><option value="ri-urg">Urgent</option><option value="ri-mid">Medium</option><option value="ri-norm">Normal</option></select></div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="rm-delete-btn" style="display:none" onclick="deleteEditingItem('reminder')">Delete</button>
+      <div class="modal-actions-right">
+        <button class="btn" onclick="closeModal('m-reminder')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveReminder()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── helpers ── */
+let uid=0;
+const id=()=>'i'+(++uid);
+function setDate(){const d=new Date(),s=d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});document.getElementById('live-date').textContent=s;document.getElementById('footer-date').textContent=s}
+setDate();
+
+function openModal(mid){document.getElementById(mid).classList.add('open')}
+function closeModal(mid){document.getElementById(mid).classList.remove('open')}
+function closeIfBg(e,mid){if(e.target===e.currentTarget)closeModal(mid)}
+
+let toastTimer;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2000)}
+
+/* ── smart-select helpers ── */
+function toggleCustom(selId, inputId){
+  const sel=document.getElementById(selId);
+  const inp=document.getElementById(inputId);
+  const show=sel.value==='__other__';
+  inp.classList.toggle('visible',show);
+  if(show)setTimeout(()=>inp.focus(),50);
+}
+
+// Read the effective value from a smart-select pair
+function readSmart(selId, inputId){
+  const sel=document.getElementById(selId);
+  if(sel.value==='__other__'){
+    const v=document.getElementById(inputId).value.trim();
+    return v||'Other';
+  }
+  return sel.value;
+}
+
+// Set a smart-select pair to a value (handles custom values)
+function setSmart(selId, inputId, value){
+  const sel=document.getElementById(selId);
+  const inp=document.getElementById(inputId);
+  // Check if value matches one of the fixed options
+  const exists=[...sel.options].some(o=>o.value===value&&o.value!=='__other__');
+  if(exists){
+    sel.value=value;inp.classList.remove('visible');inp.value='';
+  } else {
+    sel.value='__other__';inp.value=value;inp.classList.add('visible');
+  }
+}
+
+/* ── status helpers ── */
+// Built-in status key → css class
+const builtinStClass={new:'st-new',progress:'st-progress',done:'st-done',cancelled:'st-cancelled'};
+const builtinStLabel={new:'New',progress:'In progress',done:'Done',cancelled:'Cancelled'};
+
+function stClassFor(key){return builtinStClass[key]||'st-custom';}
+function stLabelFor(key){return builtinStLabel[key]||key;}
+
+// For custom statuses, use a neutral pill style
+const stClass={new:'st-new',progress:'st-progress',done:'st-done',cancelled:'st-cancelled'};
+const stLabel={new:'New',progress:'In progress',done:'Done',cancelled:'Cancelled'};
+
+const statusCycle={
+  'st-new':{next:'st-progress',label:'In progress',key:'progress'},
+  'st-progress':{next:'st-done',label:'Done',key:'done'},
+  'st-done':{next:'st-cancelled',label:'Cancelled',key:'cancelled'},
+  'st-cancelled':{next:'st-new',label:'New',key:'new'}
+};
+
+function stClassFor(key){return builtinStClass[key]||'st-custom';}
+function stLabelFor(key){return builtinStLabel[key]||key;}
+function cycleStatus(el){
+  const cur=Object.keys(statusCycle).find(k=>el.classList.contains(k));if(!cur)return;
+  const nx=statusCycle[cur];
+  el.classList.remove(cur);el.classList.add(nx.next);el.textContent=nx.label;
+  const card=el.closest('.task-item,.kcard');
+  if(card){
+    card.dataset.status=nx.key;
+    card.classList.remove('done-item','cancelled-item','done-card','cancelled-card');
+    if(nx.key==='done'){card.classList.add(card.classList.contains('task-item')?'done-item':'done-card');const chk=card.querySelector('.chk');if(chk)chk.classList.add('ticked')}
+    if(nx.key==='cancelled')card.classList.add(card.classList.contains('task-item')?'cancelled-item':'cancelled-card');
+  }
+  updateMetrics();
+}
+
+/* ── metrics ── */
+function updateMetrics(){
+  const items=document.querySelectorAll('#daily-list .task-item');
+  let prog=0,done=0,can=0;
+  items.forEach(i=>{
+    const s=i.dataset.status;
+    if(s==='progress')prog++;
+    else if(s==='done')done++;
+    else if(s==='cancelled')can++;
+  });
+  document.getElementById('m-total').textContent=items.length;
+  document.getElementById('m-prog').textContent=prog;
+  document.getElementById('m-done').textContent=done;
+  document.getElementById('m-cancel').textContent=can;
+}
+
+/* ── checkbox tick ── */
+function tickDaily(chk){
+  chk.classList.toggle('ticked');
+  const item=chk.closest('.task-item');
+  const isDone=chk.classList.contains('ticked');
+  item.classList.toggle('done-item',isDone);
+  item.classList.remove('cancelled-item');
+  const sb=item.querySelector('.st-badge');
+  if(sb){
+    ['st-new','st-progress','st-done','st-cancelled'].forEach(c=>sb.classList.remove(c));
+    const key=isDone?'done':'new';
+    sb.classList.add(stClass[key]);sb.textContent=stLabel[key];item.dataset.status=key;
+  }
+  updateMetrics();
+}
+
+/* ── filter ── */
+function filterDaily(el,cat){
+  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('#daily-list .task-item').forEach(t=>{t.style.display=(cat==='all'||t.dataset.cat===cat)?'flex':'none'});
+}
+function filterKanban(el,cat){
+  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('.kcard').forEach(c=>{c.style.display=(cat==='all'||c.dataset.kcat===cat)?'block':'none'});
+}
+
+/* ── action buttons SVG ── */
+const editSVG=`<svg viewBox="0 0 16 16"><path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z"/></svg>`;
+const delSVG=`<svg viewBox="0 0 16 16"><path d="M3 5h10M6 5V3h4v2M6 8v4M10 8v4"/></svg>`;
+
+function makeActions(editFn,delFn){
+  const wrap=document.createElement('div');wrap.className='card-actions';
+  const eb=document.createElement('div');eb.className='ca-btn';eb.innerHTML=editSVG;eb.title='Edit';eb.onclick=e=>{e.stopPropagation();editFn()};
+  const db=document.createElement('div');db.className='ca-btn del';db.innerHTML=delSVG;db.title='Delete';
+  db.onclick=e=>{e.stopPropagation();if(confirm('Delete this item?'))delFn()};
+  wrap.append(eb,db);return wrap;
+}
+
+/* ══════════════════════════════════════
+   DAILY TASKS
+══════════════════════════════════════ */
+const catBadge={adm:'b-adm',rep:'b-rep',trv:'b-trv',evt:'b-evt'};
+const catLabel={adm:'Admin',rep:'Report',trv:'Travel',evt:'Event'};
+const priDot={h:'ph',m:'pm',l:'pl'};
+const priLabel={h:'Urgent',m:'Medium',l:'Normal'};
+
+function badgeClassFor(cat){return catBadge[cat]||'b-custom';}
+function labelFor(cat){return catLabel[cat]||cat;}
+
+function buildDailyTask(d){
+  const wrap=document.createElement('div');
+  wrap.className='task-item';wrap.dataset.cat=d.cat;wrap.dataset.status=d.status;wrap.dataset.uid=d.uid;
+  if(d.status==='done')wrap.classList.add('done-item');
+  if(d.status==='cancelled')wrap.classList.add('cancelled-item');
+  const top=document.createElement('div');top.className='task-top';
+  const chk=document.createElement('div');chk.className='chk';if(d.status==='done')chk.classList.add('ticked');
+  chk.onclick=()=>tickDaily(chk);
+  const body=document.createElement('div');body.className='task-body';
+  const sc=stClassFor(d.status);
+  const sl=stLabelFor(d.status);
+  body.innerHTML=`<div class="task-name">${d.name}</div><div class="task-meta"><span class="pdot ${priDot[d.pri]||'pl'}"></span>${priLabel[d.pri]||d.pri} · ${d.due}<span class="badge ${badgeClassFor(d.cat)}">${labelFor(d.cat)}</span><span class="st-badge ${sc}" onclick="cycleStatus(this)">${sl}</span></div>`;
+  const acts=makeActions(()=>editDailyTask(d.uid),()=>{wrap.remove();dailyTasks=dailyTasks.filter(x=>x.uid!==d.uid);updateMetrics();toast('Task deleted')});
+  top.append(chk,body,acts);
+  const note=document.createElement('div');note.className='task-note';note.textContent=d.note||'';
+  wrap.append(top,note);
+  return wrap;
+}
+
+function renderDailyTasks(){
+  const list=document.getElementById('daily-list');list.innerHTML='';
+  dailyTasks.forEach(d=>list.appendChild(buildDailyTask(d)));
+  updateMetrics();
+}
+
+let editingDailyUid=null;
+function editDailyTask(uid){
+  const d=dailyTasks.find(x=>x.uid===uid);if(!d)return;
+  editingDailyUid=uid;
+  document.getElementById('m-daily-title').textContent='Edit daily task';
+  document.getElementById('dt-edit-id').value=uid;
+  document.getElementById('dt-name').value=d.name;
+  setSmart('dt-cat','dt-cat-custom',d.cat);
+  document.getElementById('dt-pri').value=d.pri;
+  document.getElementById('dt-due').value=d.due;
+  setSmart('dt-status','dt-status-custom',d.status);
+  document.getElementById('dt-note').value=d.note||'';
+  document.getElementById('dt-delete-btn').style.display='block';
+  openModal('m-daily');
+}
+
+function saveDailyTask(){
+  const name=document.getElementById('dt-name').value.trim();if(!name)return;
+  const obj={
+    uid:editingDailyUid||id(),
+    name,
+    cat:readSmart('dt-cat','dt-cat-custom'),
+    pri:document.getElementById('dt-pri').value,
+    due:document.getElementById('dt-due').value||'This week',
+    status:readSmart('dt-status','dt-status-custom'),
+    note:document.getElementById('dt-note').value.trim()
+  };
+  if(editingDailyUid){const idx=dailyTasks.findIndex(x=>x.uid===editingDailyUid);if(idx>-1)dailyTasks[idx]=obj;}
+  else dailyTasks.push(obj);
+  renderDailyTasks();resetDailyForm();closeModal('m-daily');toast(editingDailyUid?'Task updated':'Task added');
+}
+
+function resetDailyForm(){
+  editingDailyUid=null;
+  document.getElementById('m-daily-title').textContent='Add daily task';
+  document.getElementById('dt-delete-btn').style.display='none';
+  ['dt-name','dt-due','dt-note','dt-cat-custom','dt-status-custom'].forEach(x=>document.getElementById(x).value='');
+  document.getElementById('dt-status').value='new';
+  document.getElementById('dt-cat').value='adm';
+  ['dt-cat-custom','dt-status-custom'].forEach(x=>document.getElementById(x).classList.remove('visible'));
+}
+
+/* ══════════════════════════════════════
+   KANBAN TASKS
+══════════════════════════════════════ */
+const ptCatBadge={par:'b-par',fup:'b-fup',int:'b-int'};
+const ptCatLabel={par:'Partnership',fup:'Follow-up',int:'Internal'};
+const ptPriClass={h:'pri-h',m:'pri-m',l:'pri-l'};
+const ptPriLabel={h:'High',m:'Medium',l:'Low'};
+
+function ptBadgeClass(cat){return ptCatBadge[cat]||'b-custom';}
+function ptLabel(cat){return ptCatLabel[cat]||cat;}
+
+function buildKCard(d){
+  const wrap=document.createElement('div');
+  wrap.className='kcard';wrap.dataset.kcat=d.cat;wrap.dataset.uid=d.uid;
+  if(d.status==='done')wrap.classList.add('done-card');
+  if(d.status==='cancelled')wrap.classList.add('cancelled-card');
+  const top=document.createElement('div');top.className='kcard-top';
+  const row=document.createElement('div');row.className='kcard-row';
+  const meta=document.createElement('div');meta.className='kcard-meta';
+  const sc=stClassFor(d.status);
+  const sl=stLabelFor(d.status);
+  meta.innerHTML=`<span class="pri ${ptPriClass[d.pri]||'pri-l'}">${ptPriLabel[d.pri]||d.pri}</span><span class="${d.due.toLowerCase().includes('today')?'due due-hot':'due'}">${d.due}</span><span class="badge ${ptBadgeClass(d.cat)}">${ptLabel(d.cat)}</span><span class="st-badge ${sc}" onclick="cycleStatus(this)">${sl}</span>`;
+  const acts=makeActions(()=>editKCard(d.uid,d.col),()=>{wrap.remove();kanbanTasks=kanbanTasks.filter(x=>x.uid!==d.uid);toast('Task deleted')});
+  row.append(meta,acts);
+  top.innerHTML=`<div class="kcard-title">${d.name}</div>`;top.appendChild(row);
+  const note=document.createElement('div');note.className='kcard-note';note.textContent=d.note||'';
+  wrap.append(top,note);return wrap;
+}
+
+function renderKanban(){
+  ['k-todo','k-prog','k-done'].forEach(col=>{
+    const el=document.getElementById(col);el.innerHTML='';
+    kanbanTasks.filter(t=>t.col===col).forEach(t=>el.appendChild(buildKCard(t)));
+  });
+}
+
+let editingPTaskUid=null;
+function editKCard(uid,col){
+  const d=kanbanTasks.find(x=>x.uid===uid);if(!d)return;
+  editingPTaskUid=uid;
+  document.getElementById('m-ptask-title').textContent='Edit task';
+  document.getElementById('pt-edit-id').value=uid;
+  document.getElementById('pt-edit-col').value=col;
+  document.getElementById('pt-name').value=d.name;
+  document.getElementById('pt-col').value=d.col;
+  setSmart('pt-cat','pt-cat-custom',d.cat);
+  document.getElementById('pt-pri').value=d.pri;
+  document.getElementById('pt-due').value=d.due;
+  setSmart('pt-status','pt-status-custom',d.status);
+  document.getElementById('pt-note').value=d.note||'';
+  document.getElementById('pt-delete-btn').style.display='block';
+  openModal('m-ptask');
+}
+
+function savePTask(){
+  const name=document.getElementById('pt-name').value.trim();if(!name)return;
+  const obj={
+    uid:editingPTaskUid||id(),
+    name,col:document.getElementById('pt-col').value,
+    cat:readSmart('pt-cat','pt-cat-custom'),
+    pri:document.getElementById('pt-pri').value,
+    due:document.getElementById('pt-due').value||'This week',
+    status:readSmart('pt-status','pt-status-custom'),
+    note:document.getElementById('pt-note').value.trim()
+  };
+  if(editingPTaskUid){const idx=kanbanTasks.findIndex(x=>x.uid===editingPTaskUid);if(idx>-1)kanbanTasks[idx]=obj;}
+  else kanbanTasks.push(obj);
+  renderKanban();resetPTaskForm();closeModal('m-ptask');toast(editingPTaskUid?'Task updated':'Task added');
+}
+
+function resetPTaskForm(){
+  editingPTaskUid=null;
+  document.getElementById('m-ptask-title').textContent='Add partnership task';
+  document.getElementById('pt-delete-btn').style.display='none';
+  ['pt-name','pt-due','pt-note','pt-cat-custom','pt-status-custom'].forEach(x=>document.getElementById(x).value='');
+  document.getElementById('pt-status').value='new';document.getElementById('pt-col').value='k-todo';
+  document.getElementById('pt-cat').value='par';
+  ['pt-cat-custom','pt-status-custom'].forEach(x=>document.getElementById(x).classList.remove('visible'));
+}
+
+/* ══════════════════════════════════════
+   TRIPS
+══════════════════════════════════════ */
+const tsLabel={'ts-plan':'Planning','ts-book':'Booking','ts-ok':'Confirmed'};
+
+function buildTripCard(d){
+  const wrap=document.createElement('div');wrap.className='trip-card';wrap.dataset.uid=d.uid;
+  const pct=Math.min(100,Math.max(0,parseInt(d.pct)||0));
+  wrap.innerHTML=`<div class="trip-top"><span class="trip-name">${d.name}</span><span class="tstatus ${d.status}">${tsLabel[d.status]}</span></div><div class="steps">${d.steps.map((s,i)=>`<span class="step${s==='done'?' s-done':s==='curr'?' s-curr':''}">${['Approval','Flight','Hotel','eForm','Briefing'][i]||s}</span>`).join('')}</div><div class="pbar"><div class="pfill" style="width:${pct}%"></div></div><div class="trip-sub">${d.date}${d.note?' · '+d.note:''}</div>`;
+  wrap.appendChild(makeActions(()=>editTrip(d.uid),()=>{wrap.remove();trips=trips.filter(x=>x.uid!==d.uid);document.getElementById('trip-count').textContent=trips.length+' trips';toast('Trip deleted')}));
+  return wrap;
+}
+
+function renderTrips(){
+  const list=document.getElementById('trip-list');list.innerHTML='';
+  trips.forEach(d=>list.appendChild(buildTripCard(d)));
+  document.getElementById('trip-count').textContent=trips.length+' trips';
+}
+
+let editingTripUid=null;
+function editTrip(uid){
+  const d=trips.find(x=>x.uid===uid);if(!d)return;
+  editingTripUid=uid;
+  document.getElementById('m-trip-title').textContent='Edit trip';
+  document.getElementById('tr-name').value=d.name;document.getElementById('tr-date').value=d.date;
+  document.getElementById('tr-note').value=d.note||'';document.getElementById('tr-status').value=d.status;
+  document.getElementById('tr-pct').value=d.pct||'';
+  document.getElementById('tr-delete-btn').style.display='block';
+  openModal('m-trip');
+}
+
+function saveTrip(){
+  const name=document.getElementById('tr-name').value.trim();if(!name)return;
+  const pct=parseInt(document.getElementById('tr-pct').value)||0;
+  const steps=pct>=100?['done','done','done','done','done']:pct>=60?['done','done','done','curr','']:pct>=40?['done','done','curr','','']:pct>=20?['done','curr','','','']:['curr','','','',''];
+  const obj={uid:editingTripUid||id(),name,date:document.getElementById('tr-date').value||'TBD',note:document.getElementById('tr-note').value.trim(),status:document.getElementById('tr-status').value,pct,steps};
+  if(editingTripUid){const idx=trips.findIndex(x=>x.uid===editingTripUid);if(idx>-1)trips[idx]=obj;}else trips.push(obj);
+  renderTrips();resetTripForm();closeModal('m-trip');toast(editingTripUid?'Trip updated':'Trip added');
+}
+
+function resetTripForm(){editingTripUid=null;document.getElementById('m-trip-title').textContent='Add business trip';document.getElementById('tr-delete-btn').style.display='none';['tr-name','tr-date','tr-note','tr-pct'].forEach(x=>document.getElementById(x).value='')}
+
+/* ══════════════════════════════════════
+   EVENTS
+══════════════════════════════════════ */
+const evSteps=['Concept','Budget','Venue','Activities','Comms'];
+
+function buildEventCard(d){
+  const wrap=document.createElement('div');wrap.className='trip-card';wrap.dataset.uid=d.uid;
+  const pct=Math.min(100,Math.max(0,parseInt(d.pct)||0));
+  const si=Math.round(pct/20);
+  const steps=evSteps.map((s,i)=>`<span class="step${i<si?' s-done':i===si?' s-curr':''}">${s}</span>`).join('');
+  wrap.innerHTML=`<div class="trip-top"><span class="trip-name">${d.name}</span><span class="tstatus ${d.status}">${tsLabel[d.status]}</span></div><div class="steps">${steps}</div><div class="pbar"><div class="pfill" style="width:${pct}%"></div></div><div class="trip-sub">${d.sub}</div>`;
+  wrap.appendChild(makeActions(()=>editEvent(d.uid),()=>{wrap.remove();events=events.filter(x=>x.uid!==d.uid);document.getElementById('event-count').textContent=events.length+' events';toast('Event deleted')}));
+  return wrap;
+}
+
+function renderEvents(){
+  const list=document.getElementById('event-list');list.innerHTML='';
+  events.forEach(d=>list.appendChild(buildEventCard(d)));
+  document.getElementById('event-count').textContent=events.length+' events';
+}
+
+let editingEventUid=null;
+function editEvent(uid){
+  const d=events.find(x=>x.uid===uid);if(!d)return;
+  editingEventUid=uid;
+  document.getElementById('m-event-title').textContent='Edit event';
+  document.getElementById('ev-name').value=d.name;document.getElementById('ev-sub').value=d.sub;
+  document.getElementById('ev-status').value=d.status;document.getElementById('ev-pct').value=d.pct||'';
+  document.getElementById('ev-delete-btn').style.display='block';
+  openModal('m-event');
+}
+
+function saveEvent(){
+  const name=document.getElementById('ev-name').value.trim();if(!name)return;
+  const obj={uid:editingEventUid||id(),name,sub:document.getElementById('ev-sub').value||'TBD',status:document.getElementById('ev-status').value,pct:parseInt(document.getElementById('ev-pct').value)||0};
+  if(editingEventUid){const idx=events.findIndex(x=>x.uid===editingEventUid);if(idx>-1)events[idx]=obj;}else events.push(obj);
+  renderEvents();resetEventForm();closeModal('m-event');toast(editingEventUid?'Event updated':'Event added');
+}
+
+function resetEventForm(){editingEventUid=null;document.getElementById('m-event-title').textContent='Add event';document.getElementById('ev-delete-btn').style.display='none';['ev-name','ev-sub','ev-pct'].forEach(x=>document.getElementById(x).value='')}
+
+/* ══════════════════════════════════════
+   PARTNERS
+══════════════════════════════════════ */
+const avColors=['av-p','av-t','av-b','av-c','av-g'];let avIdx=0;
+const pStatClass={'ps-act':'ps-act','ps-warm':'ps-warm','ps-pend':'ps-pend'};
+const pStatLabel={'ps-act':'Active','ps-warm':'Warm','ps-pend':'Awaiting'};
+
+function buildPartnerRow(d){
+  const wrap=document.createElement('div');wrap.className='partner-row';wrap.dataset.uid=d.uid;
+  const initials=d.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  wrap.innerHTML=`<div class="av ${d.color}">${initials}</div><div style="flex:1"><div class="p-name">${d.name}</div><div class="p-sub">${d.sub}</div></div><span class="pstat ${pStatClass[d.status]}">${pStatLabel[d.status]}</span>`;
+  wrap.appendChild(makeActions(()=>editPartner(d.uid),()=>{wrap.remove();partners=partners.filter(x=>x.uid!==d.uid);toast('Partner removed')}));
+  return wrap;
+}
+
+function renderPartners(){const list=document.getElementById('partner-list');list.innerHTML='';partners.forEach(d=>list.appendChild(buildPartnerRow(d)))}
+
+let editingPartnerUid=null;
+function editPartner(uid){
+  const d=partners.find(x=>x.uid===uid);if(!d)return;
+  editingPartnerUid=uid;
+  document.getElementById('m-partner-title').textContent='Edit partner';
+  document.getElementById('pn-name').value=d.name;document.getElementById('pn-sub').value=d.sub;
+  document.getElementById('pn-status').value=d.status;
+  document.getElementById('pn-delete-btn').style.display='block';
+  openModal('m-partner');
+}
+
+function savePartner(){
+  const name=document.getElementById('pn-name').value.trim();if(!name)return;
+  const obj={uid:editingPartnerUid||id(),name,sub:document.getElementById('pn-sub').value||'Just added',status:document.getElementById('pn-status').value,color:editingPartnerUid?partners.find(x=>x.uid===editingPartnerUid)?.color||avColors[avIdx++%avColors.length]:avColors[avIdx++%avColors.length]};
+  if(editingPartnerUid){const idx=partners.findIndex(x=>x.uid===editingPartnerUid);if(idx>-1)partners[idx]=obj;}else partners.push(obj);
+  renderPartners();resetPartnerForm();closeModal('m-partner');toast(editingPartnerUid?'Partner updated':'Partner added');
+}
+
+function resetPartnerForm(){editingPartnerUid=null;document.getElementById('m-partner-title').textContent='Add partner';document.getElementById('pn-delete-btn').style.display='none';['pn-name','pn-sub'].forEach(x=>document.getElementById(x).value='')}
+
+/* ══════════════════════════════════════
+   REMINDERS
+══════════════════════════════════════ */
+const riLabel={'ri-urg':'Urgent','ri-mid':'Medium','ri-norm':'Normal'};
+
+function buildReminderRow(d){
+  const wrap=document.createElement('div');wrap.className='remind-item';wrap.dataset.uid=d.uid;
+  wrap.innerHTML=`<div class="ri-dot ${d.urg}"></div><div style="flex:1"><div class="ri-text">${d.text}</div><div class="ri-time">${d.time}</div></div>`;
+  wrap.appendChild(makeActions(()=>editReminder(d.uid),()=>{wrap.remove();reminders=reminders.filter(x=>x.uid!==d.uid);toast('Reminder deleted')}));
+  return wrap;
+}
+
+function renderReminders(){const list=document.getElementById('reminder-list');list.innerHTML='';reminders.forEach(d=>list.appendChild(buildReminderRow(d)))}
+
+let editingReminderUid=null;
+function editReminder(uid){
+  const d=reminders.find(x=>x.uid===uid);if(!d)return;
+  editingReminderUid=uid;
+  document.getElementById('m-reminder-title').textContent='Edit reminder';
+  document.getElementById('rm-text').value=d.text;document.getElementById('rm-time').value=d.time;
+  document.getElementById('rm-urg').value=d.urg;
+  document.getElementById('rm-delete-btn').style.display='block';
+  openModal('m-reminder');
+}
+
+function saveReminder(){
+  const text=document.getElementById('rm-text').value.trim();if(!text)return;
+  const obj={uid:editingReminderUid||id(),text,time:document.getElementById('rm-time').value||'Today',urg:document.getElementById('rm-urg').value};
+  if(editingReminderUid){const idx=reminders.findIndex(x=>x.uid===editingReminderUid);if(idx>-1)reminders[idx]=obj;}else reminders.push(obj);
+  renderReminders();resetReminderForm();closeModal('m-reminder');toast(editingReminderUid?'Reminder updated':'Reminder added');
+}
+
+function resetReminderForm(){editingReminderUid=null;document.getElementById('m-reminder-title').textContent='Add reminder';document.getElementById('rm-delete-btn').style.display='none';['rm-text','rm-time'].forEach(x=>document.getElementById(x).value='')}
+
+/* ══════════════════════════════════════
+   GENERIC DELETE FROM EDIT MODAL
+══════════════════════════════════════ */
+function deleteEditingItem(type){
+  if(!confirm('Delete this item?'))return;
+  if(type==='daily'){dailyTasks=dailyTasks.filter(x=>x.uid!==editingDailyUid);renderDailyTasks();resetDailyForm();closeModal('m-daily');toast('Task deleted')}
+  else if(type==='ptask'){kanbanTasks=kanbanTasks.filter(x=>x.uid!==editingPTaskUid);renderKanban();resetPTaskForm();closeModal('m-ptask');toast('Task deleted')}
+  else if(type==='trip'){trips=trips.filter(x=>x.uid!==editingTripUid);renderTrips();resetTripForm();closeModal('m-trip');toast('Trip deleted')}
+  else if(type==='event'){events=events.filter(x=>x.uid!==editingEventUid);renderEvents();resetEventForm();closeModal('m-event');toast('Event deleted')}
+  else if(type==='partner'){partners=partners.filter(x=>x.uid!==editingPartnerUid);renderPartners();resetPartnerForm();closeModal('m-partner');toast('Partner removed')}
+  else if(type==='reminder'){reminders=reminders.filter(x=>x.uid!==editingReminderUid);renderReminders();resetReminderForm();closeModal('m-reminder');toast('Reminder deleted')}
+}
+
+/* ══════════════════════════════════════
+   SEED DATA
+══════════════════════════════════════ */
+let dailyTasks=[
+  {uid:id(),name:'Submit eForm — expense claim',cat:'adm',pri:'h',due:'Today',status:'new',note:''},
+  {uid:id(),name:'Weekly partnership activity report',cat:'rep',pri:'h',due:'Today',status:'new',note:''},
+  {uid:id(),name:'Book flight HAN–SGN (Apr 3)',cat:'trv',pri:'h',due:'Today',status:'progress',note:'Checking Vietnam Airlines & Bamboo for best fare'},
+  {uid:id(),name:'Submit leave request eForm Apr 7',cat:'adm',pri:'m',due:'Thu',status:'new',note:''},
+  {uid:id(),name:'Book hotel Hanoi (Apr 3–5)',cat:'trv',pri:'m',due:'Thu',status:'new',note:''},
+  {uid:id(),name:'Compile Q1 partnership summary',cat:'rep',pri:'m',due:'Fri',status:'progress',note:'Draft outline done, pending data from TechVN & NovaCorp'},
+  {uid:id(),name:'Confirm teambuilding venue Q2',cat:'evt',pri:'m',due:'Fri',status:'new',note:''},
+  {uid:id(),name:'Draft teambuilding activity schedule',cat:'evt',pri:'l',due:'Next week',status:'new',note:''},
+  {uid:id(),name:'Update internal contact list Q2',cat:'adm',pri:'l',due:'Next week',status:'new',note:''},
+  {uid:id(),name:'Business travel report – Linhnh3 – ZhuHai–BeiJing – Mar 15',cat:'adm',pri:'l',due:'Today',status:'progress',note:'Receipts collected, waiting for hotel invoice from finance'},
+];
+
+let kanbanTasks=[
+  {uid:id(),col:'k-todo',name:'Draft Q2 proposal — TechVN',cat:'par',pri:'h',due:'Today',status:'new',note:''},
+  {uid:id(),col:'k-todo',name:'Follow up GreenBridge MOU status',cat:'fup',pri:'h',due:'Today',status:'new',note:''},
+  {uid:id(),col:'k-todo',name:'Prepare weekly exec briefing slides',cat:'int',pri:'m',due:'Due Thu',status:'progress',note:'Slide deck 60% done — need Q1 numbers from finance'},
+  {uid:id(),col:'k-todo',name:'Review co-marketing agreement draft',cat:'par',pri:'m',due:'Due Fri',status:'new',note:''},
+  {uid:id(),col:'k-prog',name:'Negotiate terms with NovaCorp',cat:'par',pri:'h',due:'Today',status:'progress',note:'Call at 3PM — align on revenue share clause'},
+  {uid:id(),col:'k-prog',name:'Schedule kickoff call — BluePeak',cat:'fup',pri:'m',due:'Due Thu',status:'progress',note:'Awaiting 2 time slot confirmations from their side'},
+  {uid:id(),col:'k-prog',name:'Build Q1 partnership performance report',cat:'int',pri:'m',due:'Due Fri',status:'new',note:''},
+  {uid:id(),col:'k-done',name:'Onboard EcoLink as strategic partner',cat:'par',pri:'h',due:'Mon',status:'done',note:''},
+  {uid:id(),col:'k-done',name:'Send recap email post-summit',cat:'fup',pri:'m',due:'Tue',status:'done',note:''},
+  {uid:id(),col:'k-done',name:'Internal team sync — Q2 priorities',cat:'int',pri:'l',due:'Tue',status:'done',note:''},
+  {uid:id(),col:'k-done',name:'Review & sign StellarPath NDA',cat:'par',pri:'h',due:'Wed',status:'done',note:''},
+];
+
+let trips=[
+  {uid:id(),name:'Hanoi — partner summit',date:'Apr 3–5',note:'3 steps remaining',status:'ts-book',pct:33,steps:['done','curr','','','']},
+  {uid:id(),name:'HCMC — client visit',date:'Apr 14–15',note:'Awaiting approval',status:'ts-plan',pct:10,steps:['curr','','','','']},
+  {uid:id(),name:'Da Nang — annual offsite',date:'May 8–10',note:'All set',status:'ts-ok',pct:100,steps:['done','done','done','done','done']},
+];
+
+let events=[
+  {uid:id(),name:'Q2 teambuilding offsite',sub:'Target May 20 · 18 attendees',status:'ts-plan',pct:45},
+  {uid:id(),name:'Partner appreciation dinner',sub:'Apr 18 · 12 partners invited',status:'ts-book',pct:70},
+  {uid:id(),name:'Q1 team lunch',sub:'Mar 10 · 22 attendees · Completed',status:'ts-ok',pct:100},
+];
+
+let partners=[
+  {uid:id(),name:'TechVN',sub:'2 open tasks · 2d ago',status:'ps-act',color:'av-p'},
+  {uid:id(),name:'GreenBridge',sub:'MOU in review · 5d ago',status:'ps-pend',color:'av-t'},
+  {uid:id(),name:'NovaCorp',sub:'Negotiation · today',status:'ps-act',color:'av-b'},
+  {uid:id(),name:'BluePeak Alliance',sub:'Kickoff pending · 3d ago',status:'ps-warm',color:'av-c'},
+  {uid:id(),name:'EcoLink',sub:'Onboarded · today',status:'ps-act',color:'av-g'},
+  {uid:id(),name:'StellarPath',sub:'NDA signed · today',status:'ps-act',color:'av-p'},
+];
+
+let reminders=[
+  {uid:id(),text:'Call GreenBridge re: MOU deadline',time:'9:30 AM · Overdue',urg:'ri-urg'},
+  {uid:id(),text:'Send TechVN proposal for review',time:'12:00 PM · Due soon',urg:'ri-mid'},
+  {uid:id(),text:'Prep agenda for NovaCorp call',time:'3:00 PM · Today',urg:'ri-mid'},
+  {uid:id(),text:'Check BluePeak call availability',time:'EOD · Today',urg:'ri-norm'},
+  {uid:id(),text:'Submit expense eForm before COB',time:'COB · Today',urg:'ri-norm'},
+];
+
+/* ── initial render ── */
+renderDailyTasks();
+renderKanban();
+renderTrips();
+renderEvents();
+renderPartners();
+renderReminders();
+</script>
+</body>
+</html>
