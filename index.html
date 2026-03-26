@@ -201,6 +201,62 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .smart-select .custom-hint{font-size:11px;color:var(--text-3);display:none}
 .smart-select .custom-input.visible~.custom-hint{display:block}
 
+
+/* ════ ZONE C — Partner CRM ════ */
+.zone-c-table{width:100%;border-collapse:collapse;font-size:12px}
+.zone-c-table th{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase;padding:6px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface2)}
+.zone-c-table td{padding:0;vertical-align:top;border-bottom:1px solid var(--border)}
+.zone-c-table tr:last-child td{border-bottom:none}
+.zone-c-table tr:hover td{background:#faf9f6}
+.partner-row-main{display:flex;align-items:center;gap:8px;padding:10px;cursor:pointer}
+.partner-expand-detail{display:none;background:#faf9f6;border-top:1px solid var(--border);padding:12px 14px}
+.partner-expand-detail.open{display:block}
+.c-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:var(--mono)}
+.c-av-0{background:#eeedfe;color:#3c3489}.c-av-1{background:#e1f5ee;color:#0f6e56}
+.c-av-2{background:#e6f1fb;color:#0c447c}.c-av-3{background:#fbeaf0;color:#72243e}
+.c-av-4{background:#faeeda;color:#633806}.c-av-5{background:#eaf3de;color:#3b6d11}
+.c-company{font-weight:600;color:var(--text);font-size:13px}
+.c-subtext{font-size:11px;color:var(--text-3);margin-top:1px}
+.c-status-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.cs-active{background:#e1f5ee;color:#0f6e56}
+.cs-negotiating{background:#eeedfe;color:#3c3489}
+.cs-paused{background:#f1efe8;color:#5f5e5a}
+.cs-prospect{background:#faeeda;color:#633806}
+.cs-ended{background:#fcebeb;color:#a32d2d}
+.c-contract-ok{color:#3b6d11;font-weight:600}
+.c-contract-warn{color:#ba7517;font-weight:600}
+.c-contract-exp{color:#e24b4a;font-weight:600}
+.detail-grid-c{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.detail-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px}
+.detail-box h4{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.member-row{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px}
+.member-row:last-child{border-bottom:none}
+.member-name{font-weight:500;color:var(--text);flex:1}
+.member-role{font-size:11px;color:var(--text-3)}
+.product-item{padding:4px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text)}
+.product-item:last-child{border-bottom:none}
+.note-item{padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+.note-item:last-child{border-bottom:none}
+.note-date{font-size:10px;color:var(--text-3);font-family:var(--mono);margin-bottom:2px}
+.note-text{color:var(--text);line-height:1.5}
+.reminder-item-c{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px}
+.reminder-item-c:last-child{border-bottom:none}
+.rc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.rc-hot{background:#e24b4a}.rc-mid{background:#ba7517}.rc-ok{background:#1d9e75}
+.attach-list-c{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.attach-chip{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--blue-bg);color:var(--blue);border:1px solid #85b7eb;cursor:pointer;text-decoration:none;white-space:nowrap}
+.attach-chip:hover{background:#b5d4f4}
+.c-upload-area{border:1.5px dashed var(--border-mid);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--text-3);cursor:pointer;text-align:center;transition:all .15s;margin-top:6px}
+.c-upload-area:hover{border-color:var(--text);color:var(--text);background:var(--surface2)}
+.c-upload-area input{display:none}
+.exp-toggle{background:none;border:none;cursor:pointer;color:var(--text-3);font-size:16px;transition:transform .2s;flex-shrink:0;padding:0 4px}
+.exp-toggle.open{transform:rotate(180deg)}
+.zone-c-wrap{overflow-x:auto}
+.c-contact-info{font-size:12px;color:var(--text-2);display:flex;flex-direction:column;gap:2px}
+.c-contact-info a{color:var(--blue);text-decoration:none;font-size:11px}
+.c-contract-cell{font-size:12px}
+.days-left{font-size:10px;font-family:var(--mono)}
+
 @media print{body{background:#fff}.btn,.add-btn,.modal-overlay,.card-actions{display:none!important}.panel,.mc{box-shadow:none}}
 @media(max-width:900px){.metrics{grid-template-columns:repeat(3,1fr)}.zone-a,.zone-b{grid-template-columns:1fr}.kanban{grid-template-columns:1fr}}
 @media(max-width:560px){.metrics{grid-template-columns:repeat(2,1fr)}.topbar{flex-direction:column;align-items:flex-start}}
@@ -319,6 +375,106 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
     <div class="add-row"><button class="add-btn" onclick="openModal('m-reminder')">+ Add reminder</button></div>
   </div>
 
+</div>
+
+
+<div class="zone-divider" style="margin-top:4px">
+  <div class="zone-line"></div>
+  <div class="zone-label"><span class="zone-dot" style="background:#d85a30"></span>Zone C — Partner & contract management</div>
+  <div class="zone-line"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <span class="panel-title">Partner directory</span>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span class="pill-count" id="zc-count">0 partners</span>
+      <div class="cat-tabs">
+        <div class="ctab on" onclick="filterZC(this,'all')">All</div>
+        <div class="ctab" onclick="filterZC(this,'active')">Active</div>
+        <div class="ctab" onclick="filterZC(this,'negotiating')">Negotiating</div>
+        <div class="ctab" onclick="filterZC(this,'prospect')">Prospect</div>
+        <div class="ctab" onclick="filterZC(this,'paused')">Paused</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone-c-wrap">
+    <table class="zone-c-table">
+      <thead>
+        <tr>
+          <th style="min-width:220px">Company</th>
+          <th style="min-width:170px">Contact</th>
+          <th style="min-width:130px">Status</th>
+          <th style="min-width:180px">Products / services</th>
+          <th style="min-width:160px">Contract</th>
+          <th style="min-width:110px">Expires</th>
+          <th style="min-width:80px">Follow-up</th>
+          <th style="width:60px"></th>
+        </tr>
+      </thead>
+      <tbody id="zc-tbody"></tbody>
+    </table>
+  </div>
+  <div class="add-row" style="margin-top:6px">
+    <button class="add-btn" onclick="openModal('m-zc')">+ Add partner</button>
+  </div>
+</div>
+
+<!-- Zone C modal -->
+<div class="modal-overlay" id="m-zc" onclick="closeIfBg(event,'m-zc')">
+  <div class="modal" style="width:520px;max-height:90vh;overflow-y:auto">
+    <h3 id="m-zc-title">Add partner</h3>
+    <input type="hidden" id="zc-edit-id">
+
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px">Company info</div>
+    <div class="form-group"><label>Company name</label><input type="text" id="zc-name" placeholder="e.g. TechVN Corp"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label>Address</label><input type="text" id="zc-address" placeholder="e.g. Hanoi, Vietnam"></div>
+      <div class="form-group"><label>Website</label><input type="text" id="zc-web" placeholder="e.g. techvn.com"></div>
+    </div>
+
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Primary contact</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label>Contact name</label><input type="text" id="zc-contact" placeholder="e.g. Mr. Minh"></div>
+      <div class="form-group"><label>Phone</label><input type="text" id="zc-phone" placeholder="e.g. 0912 345 678"></div>
+    </div>
+    <div class="form-group"><label>Email</label><input type="text" id="zc-email" placeholder="e.g. minh@techvn.com"></div>
+
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Status & contract</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label>Status</label>
+        <select id="zc-status">
+          <option value="active">Active</option>
+          <option value="negotiating">Negotiating</option>
+          <option value="prospect">Prospect</option>
+          <option value="paused">Paused</option>
+          <option value="ended">Ended</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Contract name</label><input type="text" id="zc-contract" placeholder="e.g. Partnership MOU 2025"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label>Contract start</label><input type="date" id="zc-start"></div>
+      <div class="form-group"><label>Contract expiry</label><input type="date" id="zc-expiry"></div>
+    </div>
+
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Products & members</div>
+    <div class="form-group"><label>Representative products / services (one per line)</label><textarea id="zc-products" rows="3" placeholder="e.g. ERP Software&#10;Cloud Hosting&#10;IT Consulting"></textarea></div>
+    <div class="form-group"><label>Key members (name — role, one per line)</label><textarea id="zc-members" rows="3" placeholder="e.g. Nguyen Van A — CEO&#10;Tran Thi B — Sales Manager"></textarea></div>
+
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Notes & follow-up</div>
+    <div class="form-group"><label>Follow-up date</label><input type="date" id="zc-followup"></div>
+    <div class="form-group"><label>Note</label><textarea id="zc-note" rows="3" placeholder="Important info, updates, things to remember…"></textarea></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="zc-delete-btn" style="display:none" onclick="deleteZC()">Delete</button>
+      <div class="modal-actions-right">
+        <button class="btn" onclick="closeModal('m-zc');resetZCForm()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveZC()">Save</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="footer">My Workspace · Assistant & Partnership Manager · <span id="footer-date"></span></div>
@@ -566,6 +722,20 @@ function closeIfBg(e,mid){if(e.target===e.currentTarget)closeModal(mid)}
 
 let toastTimer;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2000)}
+
+
+/* ── file upload for Zone C ── */
+async function uploadFile(file, context){
+  const BUCKET='zone-c-attachments';
+  const ext=file.name.split('.').pop();
+  const path=`${context}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  setSyncStatus('uploading');
+  const {data,error}=await db.storage.from(BUCKET).upload(path,file,{cacheControl:'3600',upsert:false});
+  if(error){setSyncStatus('error');console.error(error);return null;}
+  const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
+  setSyncStatus('ok');
+  return {url:urlData.publicUrl,name:file.name,path};
+}
 
 /* ── smart-select helpers ── */
 function toggleCustom(selId, inputId){
@@ -1085,7 +1255,9 @@ function renderAll(){
 /* ── boot: try DB first, fall back to seed data ── */
 (async()=>{
   const loaded = await loadAllFromDB();
+  await loadZCFromDB();
   renderAll();
+  renderZC();
   if(!loaded) setSyncStatus('offline');
 })();
 
@@ -1143,6 +1315,362 @@ deleteEditingItem=async function(type){
   _delItem(type);
   if(obj) await dbDelete(tableMap[type],obj);
 };
+
+/* ════ ZONE C — Partner CRM ════ */
+let zcPartners = [];
+let editingZCUid = null;
+let zcFilter = 'all';
+const zcAvColors = 6;
+
+const zcStatusClass = {
+  active:'cs-active', negotiating:'cs-negotiating',
+  prospect:'cs-prospect', paused:'cs-paused', ended:'cs-ended'
+};
+const zcStatusLabel = {
+  active:'Active', negotiating:'Negotiating',
+  prospect:'Prospect', paused:'Paused', ended:'Ended'
+};
+
+function zcDaysLeft(dateStr) {
+  if (!dateStr) return null;
+  const diff = Math.round((new Date(dateStr) - new Date()) / 86400000);
+  return diff;
+}
+
+function zcExpiryClass(days) {
+  if (days === null) return '';
+  if (days < 0) return 'c-contract-exp';
+  if (days <= 30) return 'c-contract-warn';
+  return 'c-contract-ok';
+}
+
+function zcExpiryLabel(days, dateStr) {
+  if (!dateStr) return '—';
+  if (days < 0) return `Expired ${Math.abs(days)}d ago`;
+  if (days === 0) return 'Expires today!';
+  if (days <= 30) return `${days}d left`;
+  return dateStr;
+}
+
+function renderZC() {
+  const filtered = zcFilter === 'all'
+    ? zcPartners
+    : zcPartners.filter(p => p.status === zcFilter);
+  document.getElementById('zc-count').textContent = zcPartners.length + ' partner' + (zcPartners.length !== 1 ? 's' : '');
+  const tbody = document.getElementById('zc-tbody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-3);padding:2rem;font-size:13px">No partners yet. Add your first partner above.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map((p, i) => {
+    const days = zcDaysLeft(p.expiry);
+    const expClass = zcExpiryClass(days);
+    const expLabel = zcExpiryLabel(days, p.expiry);
+    const avIdx = i % zcAvColors;
+    const products = (p.products || '').split('\n').filter(Boolean);
+    const members = (p.members || '').split('\n').filter(Boolean);
+    const notes = p.notes || [];
+    const reminders = p.reminders || [];
+    const attachments = p.attachments || [];
+
+    const detailHtml = `
+      <div class="partner-expand-detail" id="zcd-${p._dbid||p.uid}">
+        <div class="detail-grid-c">
+          <div class="detail-box">
+            <h4>Products & services</h4>
+            ${products.length ? products.map(pr=>`<div class="product-item">${pr}</div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">None added</div>'}
+          </div>
+          <div class="detail-box">
+            <h4>Key members</h4>
+            ${members.length ? members.map(m=>{
+              const parts = m.split('—').map(x=>x.trim());
+              return `<div class="member-row"><span class="member-name">${parts[0]||m}</span><span class="member-role">${parts[1]||''}</span></div>`;
+            }).join('') : '<div style="font-size:12px;color:var(--text-3)">None added</div>'}
+          </div>
+          <div class="detail-box">
+            <h4>Notes & updates</h4>
+            ${notes.length ? notes.slice().reverse().map(n=>`<div class="note-item"><div class="note-date">${n.date}</div><div class="note-text">${n.text}</div></div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">No notes yet</div>'}
+            <div style="display:flex;gap:6px;margin-top:8px">
+              <input type="text" id="zc-new-note-${p._dbid||p.uid}" placeholder="Add a note…" style="flex:1;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
+              <button class="btn btn-sm" onclick="addZCNote('${p._dbid||p.uid}')">Add</button>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+          <div class="detail-box">
+            <h4>Follow-up reminders</h4>
+            ${reminders.length ? reminders.map((r,ri)=>`<div class="reminder-item-c"><span class="rc-dot ${zcDaysLeft(r.date)<0?'rc-hot':zcDaysLeft(r.date)<=3?'rc-mid':'rc-ok'}"></span><span style="flex:1;font-size:12px">${r.text}</span><span style="font-size:10px;color:var(--text-3);font-family:var(--mono)">${r.date}</span><button onclick="removeZCReminder('${p._dbid||p.uid}',${ri})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:11px;padding:0 3px">✕</button></div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">No reminders</div>'}
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+              <input type="text" id="zc-rm-text-${p._dbid||p.uid}" placeholder="Reminder…" style="flex:1;min-width:80px;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
+              <input type="date" id="zc-rm-date-${p._dbid||p.uid}" style="height:28px;padding:0 6px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
+              <button class="btn btn-sm" onclick="addZCReminder('${p._dbid||p.uid}')">Add</button>
+            </div>
+          </div>
+          <div class="detail-box">
+            <h4>Attachments</h4>
+            <div class="attach-list-c">${attachments.map((a,ai)=>`<a class="attach-chip" href="${a.url}" target="_blank" rel="noopener">${a.name}</a>`).join('')}</div>
+            <div class="c-upload-area" onclick="document.getElementById('zc-file-${p._dbid||p.uid}').click()">
+              📎 Attach contract / document
+              <input type="file" id="zc-file-${p._dbid||p.uid}" multiple onchange="uploadZCFile(event,'${p._dbid||p.uid}')">
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    return `<tr data-zcstatus="${p.status}" data-zcuid="${p._dbid||p.uid}">
+      <td>
+        <div class="partner-row-main" onclick="toggleZCD('${p._dbid||p.uid}')">
+          <div class="c-av c-av-${avIdx}">${(p.name||'?').slice(0,2).toUpperCase()}</div>
+          <div>
+            <div class="c-company">${p.name||'—'}</div>
+            <div class="c-subtext">${p.address||''}</div>
+          </div>
+        </div>
+        ${detailHtml}
+      </td>
+      <td>
+        <div class="partner-row-main">
+          <div class="c-contact-info">
+            <span style="font-weight:500">${p.contact||'—'}</span>
+            ${p.phone?`<a href="tel:${p.phone}">${p.phone}</a>`:''}
+            ${p.email?`<a href="mailto:${p.email}">${p.email}</a>`:''}
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="partner-row-main">
+          <span class="c-status-badge ${zcStatusClass[p.status]||'cs-paused'}">${zcStatusLabel[p.status]||p.status}</span>
+        </div>
+      </td>
+      <td>
+        <div class="partner-row-main" style="flex-direction:column;align-items:flex-start;gap:3px">
+          ${products.length
+            ? products.slice(0,2).map(pr=>`<span style="font-size:11px;background:var(--teal-bg);color:var(--teal);padding:1px 7px;border-radius:20px;white-space:nowrap;font-weight:500">${pr}</span>`).join('')
+            + (products.length>2 ? `<span style="font-size:10px;color:var(--text-3)">+${products.length-2} more</span>` : '')
+            : '<span style="font-size:12px;color:var(--text-3)">—</span>'
+          }
+        </div>
+      </td>
+      <td>
+        <div class="partner-row-main">
+          <div class="c-contract-cell">${p.contract||'—'}</div>
+        </div>
+      </td>
+      <td>
+        <div class="partner-row-main">
+          <div class="${expClass} c-contract-cell">
+            ${expLabel}
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="partner-row-main" style="font-size:11px;color:var(--text-3);font-family:var(--mono)">
+          ${p.followup||'—'}
+        </div>
+      </td>
+      <td>
+        <div class="partner-row-main" style="gap:4px;justify-content:flex-end">
+          <button class="ca-btn" onclick="editZC('${p._dbid||p.uid}')" title="Edit"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z"/></svg></button>
+          <button class="ca-btn del" onclick="deleteZCDirect('${p._dbid||p.uid}')" title="Delete"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--red-mid);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M3 5h10M6 5V3h4v2M6 8v4M10 8v4"/></svg></button>
+          <button class="exp-toggle" id="zct-${p._dbid||p.uid}" onclick="toggleZCD('${p._dbid||p.uid}')">▾</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function toggleZCD(uid) {
+  const el = document.getElementById('zcd-'+uid);
+  const btn = document.getElementById('zct-'+uid);
+  if (el) { el.classList.toggle('open'); }
+  if (btn) { btn.classList.toggle('open'); }
+}
+
+function filterZC(el, val) {
+  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  zcFilter = val;
+  renderZC();
+}
+
+async function saveZCToDB(p) {
+  setSyncStatus('saving');
+  try {
+    const { _dbid, ...data } = p;
+    if (_dbid) {
+      await db.from('zone_c_partners').update({ data }).eq('id', _dbid);
+    } else {
+      const { data: rows } = await db.from('zone_c_partners').insert({ data }).select();
+      if (rows && rows[0]) p._dbid = rows[0].id;
+    }
+    setSyncStatus('ok');
+  } catch(e) { console.error(e); setSyncStatus('error'); }
+}
+
+async function deleteZCFromDB(p) {
+  if (!p._dbid) return;
+  await db.from('zone_c_partners').delete().eq('id', p._dbid);
+}
+
+function findZC(uid) {
+  return zcPartners.find(p => (p._dbid||p.uid) === uid);
+}
+
+async function addZCNote(uid) {
+  const p = findZC(uid); if (!p) return;
+  const inp = document.getElementById('zc-new-note-'+uid);
+  const text = inp?.value.trim(); if (!text) return;
+  if (!p.notes) p.notes = [];
+  p.notes.push({ date: new Date().toISOString().slice(0,10), text });
+  inp.value = '';
+  await saveZCToDB(p);
+  renderZC();
+  document.getElementById('zcd-'+uid)?.classList.add('open');
+  document.getElementById('zct-'+uid)?.classList.add('open');
+}
+
+async function addZCReminder(uid) {
+  const p = findZC(uid); if (!p) return;
+  const text = document.getElementById('zc-rm-text-'+uid)?.value.trim();
+  const date = document.getElementById('zc-rm-date-'+uid)?.value;
+  if (!text) return;
+  if (!p.reminders) p.reminders = [];
+  p.reminders.push({ text, date: date||'' });
+  document.getElementById('zc-rm-text-'+uid).value = '';
+  await saveZCToDB(p);
+  renderZC();
+  document.getElementById('zcd-'+uid)?.classList.add('open');
+  document.getElementById('zct-'+uid)?.classList.add('open');
+}
+
+async function removeZCReminder(uid, idx) {
+  const p = findZC(uid); if (!p) return;
+  p.reminders.splice(idx, 1);
+  await saveZCToDB(p);
+  renderZC();
+  document.getElementById('zcd-'+uid)?.classList.add('open');
+  document.getElementById('zct-'+uid)?.classList.add('open');
+}
+
+async function uploadZCFile(event, uid) {
+  const p = findZC(uid); if (!p) return;
+  const files = Array.from(event.target.files);
+  event.target.value = '';
+  if (!p.attachments) p.attachments = [];
+  setSyncStatus('uploading');
+  for (const file of files) {
+    const att = await uploadFile(file, 'zc/'+uid);
+    if (att) p.attachments.push(att);
+  }
+  await saveZCToDB(p);
+  renderZC();
+  document.getElementById('zcd-'+uid)?.classList.add('open');
+  document.getElementById('zct-'+uid)?.classList.add('open');
+}
+
+function editZC(uid) {
+  const p = findZC(uid); if (!p) return;
+  editingZCUid = uid;
+  document.getElementById('m-zc-title').textContent = 'Edit partner';
+  document.getElementById('zc-name').value = p.name||'';
+  document.getElementById('zc-address').value = p.address||'';
+  document.getElementById('zc-web').value = p.web||'';
+  document.getElementById('zc-contact').value = p.contact||'';
+  document.getElementById('zc-phone').value = p.phone||'';
+  document.getElementById('zc-email').value = p.email||'';
+  document.getElementById('zc-status').value = p.status||'active';
+  document.getElementById('zc-contract').value = p.contract||'';
+  document.getElementById('zc-start').value = p.start||'';
+  document.getElementById('zc-expiry').value = p.expiry||'';
+  document.getElementById('zc-products').value = p.products||'';
+  document.getElementById('zc-members').value = p.members||'';
+  document.getElementById('zc-followup').value = p.followup||'';
+  document.getElementById('zc-note').value = '';
+  document.getElementById('zc-delete-btn').style.display = 'block';
+  openModal('m-zc');
+}
+
+async function saveZC() {
+  const name = document.getElementById('zc-name').value.trim();
+  if (!name) { document.getElementById('zc-name').focus(); return; }
+  const noteText = document.getElementById('zc-note').value.trim();
+  const existing = editingZCUid ? findZC(editingZCUid) : null;
+  const notes = existing?.notes ? [...existing.notes] : [];
+  if (noteText) notes.push({ date: new Date().toISOString().slice(0,10), text: noteText });
+  const obj = {
+    uid: editingZCUid || ('zc'+Date.now()),
+    _dbid: existing?._dbid,
+    name,
+    address: document.getElementById('zc-address').value.trim(),
+    web: document.getElementById('zc-web').value.trim(),
+    contact: document.getElementById('zc-contact').value.trim(),
+    phone: document.getElementById('zc-phone').value.trim(),
+    email: document.getElementById('zc-email').value.trim(),
+    status: document.getElementById('zc-status').value,
+    contract: document.getElementById('zc-contract').value.trim(),
+    start: document.getElementById('zc-start').value,
+    expiry: document.getElementById('zc-expiry').value,
+    products: document.getElementById('zc-products').value.trim(),
+    members: document.getElementById('zc-members').value.trim(),
+    followup: document.getElementById('zc-followup').value,
+    notes,
+    reminders: existing?.reminders||[],
+    attachments: existing?.attachments||[]
+  };
+  if (editingZCUid) {
+    const idx = zcPartners.findIndex(p=>(p._dbid||p.uid)===editingZCUid);
+    if (idx>-1) zcPartners[idx] = obj;
+  } else {
+    zcPartners.push(obj);
+  }
+  await saveZCToDB(obj);
+  renderZC();
+  resetZCForm();
+  closeModal('m-zc');
+  toast(editingZCUid ? 'Partner updated' : 'Partner added');
+}
+
+async function deleteZC() {
+  if (!confirm('Delete this partner and all their data?')) return;
+  const p = findZC(editingZCUid); if (!p) return;
+  zcPartners = zcPartners.filter(x=>(x._dbid||x.uid)!==editingZCUid);
+  await deleteZCFromDB(p);
+  renderZC();
+  resetZCForm();
+  closeModal('m-zc');
+  toast('Partner deleted');
+}
+
+async function deleteZCDirect(uid) {
+  if (!confirm('Delete this partner?')) return;
+  const p = findZC(uid); if (!p) return;
+  zcPartners = zcPartners.filter(x=>(x._dbid||x.uid)!==uid);
+  await deleteZCFromDB(p);
+  renderZC();
+  toast('Partner deleted');
+}
+
+function resetZCForm() {
+  editingZCUid = null;
+  document.getElementById('m-zc-title').textContent = 'Add partner';
+  document.getElementById('zc-delete-btn').style.display = 'none';
+  ['zc-name','zc-address','zc-web','zc-contact','zc-phone','zc-email',
+   'zc-contract','zc-start','zc-expiry','zc-products','zc-members','zc-note'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('zc-followup').value='';
+  document.getElementById('zc-status').value='active';
+}
+
+/* load Zone C from DB */
+async function loadZCFromDB() {
+  try {
+    const {data,error} = await db.from('zone_c_partners').select('*').order('created_at');
+    if (error) throw error;
+    zcPartners = data.map(r=>({...r.data, _dbid:r.id}));
+  } catch(e) { console.error('ZC load error',e); }
+}
+
 </script>
 </body>
 </html>
