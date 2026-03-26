@@ -222,6 +222,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
     <button class="btn" onclick="openModal('m-trip')">+ Trip</button>
     <button class="btn" onclick="openModal('m-event')">+ Event</button>
     <button class="btn" onclick="openModal('m-ptask')">+ Partner task</button>
+    <span id="sync-status" style="font-size:11px;font-family:var(--mono);color:#a09f9a;padding:0 4px">Connecting…</span>
     <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
   </div>
 </div>
@@ -489,7 +490,70 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+/* ════════════════════════════════════════
+   SUPABASE CONFIG — paste your two keys here
+   ════════════════════════════════════════ */
+const SUPABASE_URL = 'https://yqoevfohdcycbhxysqgv.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_WyZNXE759hw6kFWipiE_Sw_UWNNVYVB';
+
+const db = (SUPABASE_URL.startsWith('http'))
+  ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  : null;
+
+/* ── DB helpers ── */
+async function dbLoad(table){
+  if(!db) return null;
+  const {data,error}=await db.from(table).select('*').order('created_at');
+  if(error){console.warn('load error',table,error);return null;}
+  return data.map(r=>({...r.data, _dbid:r.id}));
+}
+async function dbSave(table,obj){
+  if(!db) return;
+  setSyncStatus('saving');
+  try{
+    if(obj._dbid){
+      const {_dbid,...data}=obj;
+      await db.from(table).update({data}).eq('id',_dbid);
+    } else {
+      const {data:rows}=await db.from(table).insert({data:obj}).select();
+      if(rows&&rows[0]) obj._dbid=rows[0].id;
+    }
+    setSyncStatus('ok');
+  }catch(e){setSyncStatus('error');console.error(e);}
+}
+async function dbDelete(table,obj){
+  if(!db||!obj._dbid) return;
+  await db.from(table).delete().eq('id',obj._dbid);
+}
+
+/* ── sync status indicator ── */
+function setSyncStatus(state){
+  const el=document.getElementById('sync-status');if(!el)return;
+  const map={ok:'Synced ✓',saving:'Saving…',offline:'Offline (no DB keys)',error:'Sync error!'};
+  const col={ok:'#1d9e75',saving:'#ba7517',offline:'#a09f9a',error:'#e24b4a'};
+  el.textContent=map[state]||state; el.style.color=col[state]||'#a09f9a';
+}
+
+async function loadAllFromDB(){
+  if(!db){setSyncStatus('offline');return false;}
+  setSyncStatus('saving');
+  try{
+    const [dt,kt,tr,ev,pt,rm]=await Promise.all([
+      dbLoad('daily_tasks'),dbLoad('kanban_tasks'),dbLoad('trips'),
+      dbLoad('events'),dbLoad('partners'),dbLoad('reminders')
+    ]);
+    if(dt&&dt.length) dailyTasks=dt;
+    if(kt&&kt.length) kanbanTasks=kt;
+    if(tr&&tr.length) trips=tr;
+    if(ev&&ev.length) events=ev;
+    if(pt&&pt.length) partners=pt;
+    if(rm&&rm.length) reminders=rm;
+    setSyncStatus('ok');return true;
+  }catch(e){console.error(e);setSyncStatus('error');return false;}
+}
+
 /* ── helpers ── */
 let uid=0;
 const id=()=>'i'+(++uid);
@@ -1009,12 +1073,76 @@ let reminders=[
 ];
 
 /* ── initial render ── */
-renderDailyTasks();
-renderKanban();
-renderTrips();
-renderEvents();
-renderPartners();
-renderReminders();
+function renderAll(){
+  renderDailyTasks();
+  renderKanban();
+  renderTrips();
+  renderEvents();
+  renderPartners();
+  renderReminders();
+}
+
+/* ── boot: try DB first, fall back to seed data ── */
+(async()=>{
+  const loaded = await loadAllFromDB();
+  renderAll();
+  if(!loaded) setSyncStatus('offline');
+})();
+
+/* ── patch save/delete to also sync DB ── */
+const _saveDT=saveDailyTask;
+saveDailyTask=async function(){
+  const prev=editingDailyUid;
+  _saveDT();
+  const obj=dailyTasks.find(x=>x.uid===(prev||dailyTasks[dailyTasks.length-1].uid));
+  if(obj) await dbSave('daily_tasks',obj);
+};
+const _savePT=savePTask;
+savePTask=async function(){
+  const prev=editingPTaskUid;
+  _savePT();
+  const obj=kanbanTasks.find(x=>x.uid===(prev||kanbanTasks[kanbanTasks.length-1].uid));
+  if(obj) await dbSave('kanban_tasks',obj);
+};
+const _saveTr=saveTrip;
+saveTrip=async function(){
+  const prev=editingTripUid;
+  _saveTr();
+  const obj=trips.find(x=>x.uid===(prev||trips[trips.length-1].uid));
+  if(obj) await dbSave('trips',obj);
+};
+const _saveEv=saveEvent;
+saveEvent=async function(){
+  const prev=editingEventUid;
+  _saveEv();
+  const obj=events.find(x=>x.uid===(prev||events[events.length-1].uid));
+  if(obj) await dbSave('events',obj);
+};
+const _savePn=savePartner;
+savePartner=async function(){
+  const prev=editingPartnerUid;
+  _savePn();
+  const obj=partners.find(x=>x.uid===(prev||partners[partners.length-1].uid));
+  if(obj) await dbSave('partners',obj);
+};
+const _saveRm=saveReminder;
+saveReminder=async function(){
+  const prev=editingReminderUid;
+  _saveRm();
+  const obj=reminders.find(x=>x.uid===(prev||reminders[reminders.length-1].uid));
+  if(obj) await dbSave('reminders',obj);
+};
+
+/* patch deleteEditingItem to also remove from DB */
+const _delItem=deleteEditingItem;
+deleteEditingItem=async function(type){
+  const tableMap={daily:'daily_tasks',ptask:'kanban_tasks',trip:'trips',event:'events',partner:'partners',reminder:'reminders'};
+  const arrMap={daily:dailyTasks,ptask:kanbanTasks,trip:trips,event:events,partner:partners,reminder:reminders};
+  const uidMap={daily:editingDailyUid,ptask:editingPTaskUid,trip:editingTripUid,event:editingEventUid,partner:editingPartnerUid,reminder:editingReminderUid};
+  const obj=arrMap[type]?.find(x=>x.uid===uidMap[type]);
+  _delItem(type);
+  if(obj) await dbDelete(tableMap[type],obj);
+};
 </script>
 </body>
 </html>
