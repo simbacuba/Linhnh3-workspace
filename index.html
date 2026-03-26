@@ -1359,7 +1359,7 @@ function renderZC() {
   document.getElementById('zc-count').textContent = zcPartners.length + ' partner' + (zcPartners.length !== 1 ? 's' : '');
   const tbody = document.getElementById('zc-tbody');
   if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-3);padding:2rem;font-size:13px">No partners yet. Add your first partner above.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-3);padding:2rem;font-size:13px">No partners yet. Click \"+ Add partner\" to get started.</td></tr>';
     return;
   }
   tbody.innerHTML = filtered.map((p, i) => {
@@ -1666,9 +1666,16 @@ function resetZCForm() {
 async function loadZCFromDB() {
   try {
     const {data,error} = await db.from('zone_c_partners').select('*').order('created_at');
-    if (error) throw error;
+    if (error) {
+      console.warn('ZC load error (table may not exist yet):', error.message);
+      zcPartners = [];
+      return;
+    }
     zcPartners = data.map(r=>({...r.data, _dbid:r.id}));
-  } catch(e) { console.error('ZC load error',e); }
+  } catch(e) {
+    console.warn('ZC load error:', e);
+    zcPartners = [];
+  }
 }
 
 </script>
