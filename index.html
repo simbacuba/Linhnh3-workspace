@@ -424,48 +424,56 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 
 <!-- Zone C modal -->
 <div class="modal-overlay" id="m-zc" onclick="closeIfBg(event,'m-zc')">
-  <div class="modal" style="width:520px;max-height:90vh;overflow-y:auto">
+  <div class="modal" style="width:540px;max-height:90vh;overflow-y:auto">
     <h3 id="m-zc-title">Add partner</h3>
     <input type="hidden" id="zc-edit-id">
 
     <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px">Company info</div>
-    <div class="form-group"><label>Company name</label><input type="text" id="zc-name" placeholder="e.g. TechVN Corp"></div>
+    <div class="form-group"><label>Partner name</label><input type="text" id="zc-name" placeholder="e.g. Chengdu GuangYun Technology"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group"><label>Address</label><input type="text" id="zc-address" placeholder="e.g. Hanoi, Vietnam"></div>
-      <div class="form-group"><label>Website</label><input type="text" id="zc-web" placeholder="e.g. techvn.com"></div>
+      <div class="form-group"><label>Country</label><input type="text" id="zc-country" placeholder="e.g. China, LATAM, Vietnam"></div>
+      <div class="form-group"><label>Statement</label>
+        <select id="zc-statement"><option value="">—</option><option value="New">New</option><option value="Existing">Existing</option></select>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label>Business type (comma separated)</label><input type="text" id="zc-biztypes" placeholder="e.g. Co-Dev, Art Outsourcing"></div>
+      <div class="form-group"><label>Specialization</label><input type="text" id="zc-specialization" placeholder="e.g. RPG, SLG, CBG"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div class="form-group"><label>Core tech</label><input type="text" id="zc-coreTech" placeholder="e.g. Unity, Unreal"></div>
+      <div class="form-group"><label>Team size</label><input type="text" id="zc-teamSize" placeholder="e.g. 20, 400-500"></div>
+      <div class="form-group"><label>Matching studio</label><input type="text" id="zc-matchingStudio" placeholder="e.g. Co-Dev Studio"></div>
     </div>
 
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Primary contact</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group"><label>Contact name</label><input type="text" id="zc-contact" placeholder="e.g. Mr. Minh"></div>
-      <div class="form-group"><label>Phone</label><input type="text" id="zc-phone" placeholder="e.g. 0912 345 678"></div>
-    </div>
-    <div class="form-group"><label>Email</label><input type="text" id="zc-email" placeholder="e.g. minh@techvn.com"></div>
-
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Status & contract</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group"><label>Status</label>
-        <select id="zc-status">
-          <option value="active">Active</option>
-          <option value="negotiating">Negotiating</option>
-          <option value="prospect">Prospect</option>
-          <option value="paused">Paused</option>
-          <option value="ended">Ended</option>
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 8px">Status & scoring</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div class="form-group"><label>Relationship stage</label>
+        <select id="zc-stage">
+          <option value="Active">Active</option>
+          <option value="Paused">Paused</option>
+          <option value="Archived">Archived</option>
         </select>
       </div>
-      <div class="form-group"><label>Contract name</label><input type="text" id="zc-contract" placeholder="e.g. Partnership MOU 2025"></div>
+      <div class="form-group"><label>Strategic fit</label>
+        <select id="zc-strategicFit">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Avg score</label><input type="text" id="zc-avgScore" placeholder="e.g. 8.85"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group"><label>Contract start</label><input type="date" id="zc-start"></div>
-      <div class="form-group"><label>Contract expiry</label><input type="date" id="zc-expiry"></div>
+      <div class="form-group"><label>Tier</label><input type="text" id="zc-tier" placeholder="e.g. A - Strategic"></div>
+      <div class="form-group"><label>Last interaction date</label><input type="text" id="zc-lastInteraction" placeholder="e.g. 23-Oct-2025"></div>
     </div>
 
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Products & members</div>
-    <div class="form-group"><label>Representative products / services (one per line)</label><textarea id="zc-products" rows="3" placeholder="e.g. ERP Software&#10;Cloud Hosting&#10;IT Consulting"></textarea></div>
-    <div class="form-group"><label>Key members (name — role, one per line)</label><textarea id="zc-members" rows="3" placeholder="e.g. Nguyen Van A — CEO&#10;Tran Thi B — Sales Manager"></textarea></div>
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 8px">Contact & projects</div>
+    <div class="form-group"><label>Main contact</label><input type="text" id="zc-contact" placeholder="e.g. LiuXi, CEO: Eric"></div>
+    <div class="form-group"><label>Reference projects (comma separated)</label><input type="text" id="zc-refProjects" placeholder="e.g. X5, Tanks War, Aurora"></div>
 
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Notes & follow-up</div>
-    <div class="form-group"><label>Follow-up date</label><input type="date" id="zc-followup"></div>
+    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 8px">Note</div>
     <div class="form-group"><label>Note</label><textarea id="zc-note" rows="3" placeholder="Important info, updates, things to remember…"></textarea></div>
 
     <div class="modal-actions">
@@ -1556,18 +1564,20 @@ function editZC(uid) {
   editingZCUid = uid;
   document.getElementById('m-zc-title').textContent = 'Edit partner';
   document.getElementById('zc-name').value = p.name||'';
-  document.getElementById('zc-address').value = p.address||'';
-  document.getElementById('zc-web').value = p.web||'';
+  document.getElementById('zc-country').value = p.country||'';
+  document.getElementById('zc-statement').value = p.statement||'';
+  document.getElementById('zc-biztypes').value = Array.isArray(p.bizTypes) ? p.bizTypes.join(', ') : (p.bizTypes||'');
+  document.getElementById('zc-specialization').value = p.specialization||'';
+  document.getElementById('zc-coreTech').value = p.coreTech||'';
+  document.getElementById('zc-teamSize').value = p.teamSize||'';
+  document.getElementById('zc-matchingStudio').value = p.matchingStudio||'';
+  document.getElementById('zc-stage').value = p.stage||'Active';
+  document.getElementById('zc-strategicFit').value = p.strategicFit||'Medium';
+  document.getElementById('zc-avgScore').value = p.avgScore||'';
+  document.getElementById('zc-tier').value = p.tier||'';
+  document.getElementById('zc-lastInteraction').value = p.lastInteraction||'';
   document.getElementById('zc-contact').value = p.contact||'';
-  document.getElementById('zc-phone').value = p.phone||'';
-  document.getElementById('zc-email').value = p.email||'';
-  document.getElementById('zc-status').value = p.status||'active';
-  document.getElementById('zc-contract').value = p.contract||'';
-  document.getElementById('zc-start').value = p.start||'';
-  document.getElementById('zc-expiry').value = p.expiry||'';
-  document.getElementById('zc-products').value = p.products||'';
-  document.getElementById('zc-members').value = p.members||'';
-  document.getElementById('zc-followup').value = p.followup||'';
+  document.getElementById('zc-refProjects').value = p.refProjects||'';
   document.getElementById('zc-note').value = '';
   document.getElementById('zc-delete-btn').style.display = 'block';
   openModal('m-zc');
@@ -1580,22 +1590,26 @@ async function saveZC() {
   const existing = editingZCUid ? findZC(editingZCUid) : null;
   const notes = existing?.notes ? [...existing.notes] : [];
   if (noteText) notes.push({ date: new Date().toISOString().slice(0,10), text: noteText });
+  const bizRaw = document.getElementById('zc-biztypes').value;
+  const bizTypes = bizRaw ? bizRaw.split(',').map(x=>x.trim()).filter(Boolean) : [];
   const obj = {
     uid: editingZCUid || ('zc'+Date.now()),
     _dbid: existing?._dbid,
     name,
-    address: document.getElementById('zc-address').value.trim(),
-    web: document.getElementById('zc-web').value.trim(),
+    country: document.getElementById('zc-country').value.trim(),
+    statement: document.getElementById('zc-statement').value,
+    bizTypes,
+    specialization: document.getElementById('zc-specialization').value.trim(),
+    coreTech: document.getElementById('zc-coreTech').value.trim(),
+    teamSize: document.getElementById('zc-teamSize').value.trim(),
+    matchingStudio: document.getElementById('zc-matchingStudio').value.trim(),
+    stage: document.getElementById('zc-stage').value,
+    strategicFit: document.getElementById('zc-strategicFit').value,
+    avgScore: document.getElementById('zc-avgScore').value.trim(),
+    tier: document.getElementById('zc-tier').value.trim(),
+    lastInteraction: document.getElementById('zc-lastInteraction').value.trim(),
     contact: document.getElementById('zc-contact').value.trim(),
-    phone: document.getElementById('zc-phone').value.trim(),
-    email: document.getElementById('zc-email').value.trim(),
-    status: document.getElementById('zc-status').value,
-    contract: document.getElementById('zc-contract').value.trim(),
-    start: document.getElementById('zc-start').value,
-    expiry: document.getElementById('zc-expiry').value,
-    products: document.getElementById('zc-products').value.trim(),
-    members: document.getElementById('zc-members').value.trim(),
-    followup: document.getElementById('zc-followup').value,
+    refProjects: document.getElementById('zc-refProjects').value.trim(),
     notes,
     reminders: existing?.reminders||[],
     attachments: existing?.attachments||[]
@@ -1637,12 +1651,14 @@ function resetZCForm() {
   editingZCUid = null;
   document.getElementById('m-zc-title').textContent = 'Add partner';
   document.getElementById('zc-delete-btn').style.display = 'none';
-  ['zc-name','zc-address','zc-web','zc-contact','zc-phone','zc-email',
-   'zc-contract','zc-start','zc-expiry','zc-products','zc-members','zc-note'].forEach(id=>{
+  ['zc-name','zc-country','zc-biztypes','zc-specialization','zc-coreTech',
+   'zc-teamSize','zc-matchingStudio','zc-avgScore','zc-tier',
+   'zc-lastInteraction','zc-contact','zc-refProjects','zc-note'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
-  document.getElementById('zc-followup').value='';
-  document.getElementById('zc-status').value='active';
+  const stEl=document.getElementById('zc-statement'); if(stEl) stEl.value='';
+  document.getElementById('zc-stage').value='Active';
+  document.getElementById('zc-strategicFit').value='Medium';
 }
 
 /* load Zone C from DB */
