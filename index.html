@@ -1342,7 +1342,7 @@ function zcExpiryLabel(days, dateStr) {
 function renderZC() {
   const filtered = zcFilter === 'all'
     ? zcPartners
-    : zcPartners.filter(p => p.status === zcFilter);
+    : zcPartners.filter(p => (p.stage||'').toLowerCase() === zcFilter);
   document.getElementById('zc-count').textContent = zcPartners.length + ' partner' + (zcPartners.length !== 1 ? 's' : '');
   const mzc = document.getElementById('m-zc-partners'); if(mzc) mzc.textContent = zcPartners.length;
   const tbody = document.getElementById('zc-tbody');
