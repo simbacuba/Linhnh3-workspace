@@ -202,7 +202,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .smart-select .custom-input.visible~.custom-hint{display:block}
 
 
-/* ════ ZONE C — Partner CRM ════ */
 .zone-c-table{width:100%;border-collapse:collapse;font-size:12px}
 .zone-c-table th{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface2)}
 .zone-c-table td{padding:0;vertical-align:top;border-bottom:1px solid var(--border)}
@@ -312,1823 +311,18 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
   <div class="panel">
     <div class="panel-head">
       <span class="panel-title">Daily checklist</span>
-      <div class="cat-tabs">
-        <div class="ctab on" onclick="filterDaily(this,'all')">All</div>
-        <div class="ctab" onclick="filterDaily(this,'adm')">Admin</div>
-        <div class="ctab" onclick="filterDaily(this,'rep')">Report</div>
-        <div class="ctab" onclick="filterDaily(this,'trv')">Travel</div>
-        <div class="ctab" onclick="filterDaily(this,'evt')">Event</div>
-      </div>
-    </div>
-    <div id="daily-list" style="display:flex;flex-direction:column;gap:5px">
-      <!-- tasks injected by JS -->
-    </div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-daily')">+ Add task</button></div>
-  </div>
-
-  <!-- TRIP TRACKER -->
-  <div class="panel">
-    <div class="panel-head"><span class="panel-title">Business trip tracker</span><span class="pill-count" id="trip-count">3 trips</span></div>
-    <div id="trip-list"></div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-trip')">+ New trip</button></div>
-  </div>
-
-  <!-- EVENT TRACKER -->
-  <div class="panel">
-    <div class="panel-head"><span class="panel-title">Event & teambuilding tracker</span><span class="pill-count" id="event-count">3 events</span></div>
-    <div id="event-list"></div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-event')">+ New event</button></div>
-  </div>
-
-</div>
-
-<div class="zone-divider">
-  <div class="zone-line"></div>
-  <div class="zone-label"><span class="zone-dot purple"></span>Zone B — Partnership & strategy</div>
-  <div class="zone-line"></div>
-</div>
-
-<div class="zone-b">
-
-  <!-- KANBAN -->
-  <div class="panel">
-    <div class="panel-head">
-      <span class="panel-title">Partnership task board</span>
-      <div class="cat-tabs">
-        <div class="ctab on" onclick="filterKanban(this,'all')">All</div>
-        <div class="ctab" onclick="filterKanban(this,'par')">Partnership</div>
-        <div class="ctab" onclick="filterKanban(this,'fup')">Follow-up</div>
-        <div class="ctab" onclick="filterKanban(this,'int')">Internal</div>
-      </div>
-    </div>
-    <div class="kanban">
-      <div class="kcol"><div class="kcol-head"><span class="kcol-title">To do</span><span class="pill-count" id="k-todo-count">4</span></div><div id="k-todo"></div></div>
-      <div class="kcol"><div class="kcol-head"><span class="kcol-title">In progress</span><span class="pill-count" id="k-prog-count">3</span></div><div id="k-prog"></div></div>
-      <div class="kcol"><div class="kcol-head"><span class="kcol-title">Done this week</span><span class="pill-count">4</span></div><div id="k-done"></div></div>
-    </div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-ptask')">+ Add task</button></div>
-  </div>
-
-
-</div>
-
-
-<div class="zone-divider" style="margin-top:4px">
-  <div class="zone-line"></div>
-  <div class="zone-label"><span class="zone-dot" style="background:#d85a30"></span>Zone C — Partner & contract management</div>
-  <div class="zone-line"></div>
-</div>
-
-<div class="panel">
-  <div class="panel-head">
-    <span class="panel-title">Partner directory</span>
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-      <span class="pill-count" id="zc-count">0 partners</span>
-      <div class="cat-tabs">
-        <div class="ctab on" onclick="filterZC(this,'all')">All</div>
-        <div class="ctab" onclick="filterZC(this,'active')">Active</div>
-        <div class="ctab" onclick="filterZC(this,'paused')">Paused</div>
-        <div class="ctab" onclick="filterZC(this,'archived')">Archived</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="zone-c-wrap">
-    <table class="zone-c-table">
-      <thead>
-        <tr>
-          <th style="min-width:200px">Partner name</th>
-          <th style="min-width:100px">Country</th>
-          <th style="min-width:160px">Business type</th>
-          <th style="min-width:130px">Relationship stage</th>
-          <th style="min-width:110px">Strategic fit</th>
-          <th style="min-width:140px">Main contact</th>
-          <th style="min-width:130px">Last interaction</th>
-          <th style="min-width:80px">Score / Tier</th>
-          <th style="width:60px"></th>
-        </tr>
-      </thead>
-      <tbody id="zc-tbody"></tbody>
-    </table>
-  </div>
-  <div class="add-row" style="margin-top:6px">
-    <button class="add-btn" onclick="openModal('m-zc')">+ Add partner</button>
-  </div>
-</div>
-
-<!-- Zone C modal -->
-<div class="modal-overlay" id="m-zc" onclick="closeIfBg(event,'m-zc')">
-  <div class="modal" style="width:520px;max-height:90vh;overflow-y:auto">
-    <h3 id="m-zc-title">Add partner</h3>
-    <input type="hidden" id="zc-edit-id">
-
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px">Company info</div>
-    <div class="form-group"><label>Partner name</label><input type="text" id="zc-name" placeholder="e.g. Chengdu GuangYun Technology"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group"><label>Country</label><input type="text" id="zc-country" placeholder="e.g. China, LATAM, Vietnam"></div>
-      <div class="form-group"><label>Statement</label>
-        <select id="zc-statement"><option value="">—</option><option value="New">New</option><option value="Existing">Existing</option></select>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group"><label>Business type (comma separated)</label><input type="text" id="zc-biztypes" placeholder="e.g. Co-Dev, Art Outsourcing"></div>
-      <div class="form-group"><label>Specialization</label><input type="text" id="zc-specialization" placeholder="e.g. RPG, SLG, CBG"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-      <div class="form-group"><label>Core tech</label><input type="text" id="zc-coreTech" placeholder="e.g. Unity, Unreal"></div>
-      <div class="form-group"><label>Team size</label><input type="text" id="zc-teamSize" placeholder="e.g. 20, 400-500"></div>
-      <div class="form-group"><label>Matching studio</label><input type="text" id="zc-matchingStudio" placeholder="e.g. Co-Dev Studio"></div>
-    </div>
-
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Status & scoring</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-      <div class="form-group"><label>Relationship stage</label>
-        <select id="zc-stage">
-          <option value="Active">Active</option>
-          <option value="Paused">Paused</option>
-          <option value="Archived">Archived</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Strategic fit</label>
-        <select id="zc-strategicFit">
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Avg score</label><input type="text" id="zc-avgScore" placeholder="e.g. 8.85"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group"><label>Tier</label><input type="text" id="zc-tier" placeholder="e.g. A - Strategic"></div>
-      <div class="form-group"><label>Last interaction date</label><input type="text" id="zc-lastInteraction" placeholder="e.g. 23-Oct-2025"></div>
-    </div>
-
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Contact & projects</div>
-    <div class="form-group"><label>Main contact</label><input type="text" id="zc-contact" placeholder="e.g. LiuXi, CEO: Eric"></div>
-    <div class="form-group"><label>Reference projects (comma separated)</label><input type="text" id="zc-refProjects" placeholder="e.g. X5, Tanks War, Aurora"></div>
-
-    <div style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 8px">Note</div>
-    <div class="form-group"><label>Note</label><textarea id="zc-note" rows="3" placeholder="Important info, updates, things to remember…"></textarea></div>
-
-    <div class="modal-actions">
-      <button class="btn btn-danger" id="zc-delete-btn" style="display:none" onclick="deleteZC()">Delete</button>
-      <div class="modal-actions-right">
-        <button class="btn" onclick="closeModal('m-zc');resetZCForm()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveZC()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="footer">My Workspace · Assistant & Partnership Manager · <span id="footer-date"></span></div>
-</div><!-- /page -->
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- ═══════════════ MODALS ═══════════════ -->
-
-<!-- Daily task modal -->
-<div class="modal-overlay" id="m-daily" onclick="closeIfBg(event,'m-daily')">
-  <div class="modal">
-    <h3 id="m-daily-title">Add daily task</h3>
-    <input type="hidden" id="dt-edit-id">
-    <div class="form-group"><label>Task name</label><input type="text" id="dt-name" placeholder="e.g. Submit monthly eForm"></div>
-    <div class="form-group"><label>Category</label>
-      <div class="smart-select">
-        <select id="dt-cat" onchange="toggleCustom('dt-cat','dt-cat-custom')">
-          <option value="adm">Admin</option><option value="rep">Report</option>
-          <option value="trv">Travel</option><option value="evt">Event</option>
-          <option value="__other__">Other…</option>
-        </select>
-        <input class="custom-input" type="text" id="dt-cat-custom" placeholder="Type your category, e.g. Private, Finance…">
-        <span class="custom-hint">This will appear as a custom badge on the card</span>
-      </div></div>
-    <div class="form-group"><label>Priority</label>
-      <select id="dt-pri"><option value="h">Urgent</option><option value="m">Medium</option><option value="l">Normal</option></select></div>
-    <div class="form-group"><label>Due</label><input type="text" id="dt-due" placeholder="e.g. Today, Thu, Next week"></div>
-    <div class="form-group"><label>Status</label>
-      <div class="smart-select">
-        <select id="dt-status" onchange="toggleCustom('dt-status','dt-status-custom')">
-          <option value="new">New</option><option value="progress">In progress</option>
-          <option value="done">Done</option><option value="cancelled">Cancelled</option>
-          <option value="__other__">Other…</option>
-        </select>
-        <input class="custom-input" type="text" id="dt-status-custom" placeholder="Type your status, e.g. Paid, Unpaid, On hold…">
-        <span class="custom-hint">This will appear as a badge on the card</span>
-      </div></div>
-    <div class="form-group"><label>Note (optional)</label><textarea id="dt-note" placeholder="Context, blockers, or next steps…"></textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-danger" id="dt-delete-btn" style="display:none" onclick="deleteEditingItem('daily')">Delete task</button>
-      <div class="modal-actions-right">
-        <button class="btn" onclick="closeModal('m-daily')">Cancel</button>
-        <button class="btn btn-primary" onclick="saveDailyTask()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Kanban task modal -->
-<div class="modal-overlay" id="m-ptask" onclick="closeIfBg(event,'m-ptask')">
-  <div class="modal">
-    <h3 id="m-ptask-title">Add partnership task</h3>
-    <input type="hidden" id="pt-edit-id">
-    <input type="hidden" id="pt-edit-col">
-    <div class="form-group"><label>Task name</label><input type="text" id="pt-name" placeholder="e.g. Draft MOU with XYZ Corp"></div>
-    <div class="form-group"><label>Column</label>
-      <select id="pt-col"><option value="k-todo">To do</option><option value="k-prog">In progress</option><option value="k-done">Done this week</option></select></div>
-    <div class="form-group"><label>Type</label>
-      <div class="smart-select">
-        <select id="pt-cat" onchange="toggleCustom('pt-cat','pt-cat-custom')">
-          <option value="par">Partnership</option><option value="fup">Follow-up</option>
-          <option value="int">Internal</option><option value="__other__">Other…</option>
-        </select>
-        <input class="custom-input" type="text" id="pt-cat-custom" placeholder="Type your category, e.g. Legal, Finance…">
-        <span class="custom-hint">This will appear as a custom badge on the card</span>
-      </div></div>
-    <div class="form-group"><label>Priority</label>
-      <select id="pt-pri"><option value="h">High</option><option value="m">Medium</option><option value="l">Low</option></select></div>
-    <div class="form-group"><label>Due</label><input type="text" id="pt-due" placeholder="e.g. Today, Thu, Next week"></div>
-    <div class="form-group"><label>Status</label>
-      <div class="smart-select">
-        <select id="pt-status" onchange="toggleCustom('pt-status','pt-status-custom')">
-          <option value="new">New</option><option value="progress">In progress</option>
-          <option value="done">Done</option><option value="cancelled">Cancelled</option>
-          <option value="__other__">Other…</option>
-        </select>
-        <input class="custom-input" type="text" id="pt-status-custom" placeholder="Type your status, e.g. Paid, Unpaid, Pending approval…">
-        <span class="custom-hint">This will appear as a badge on the card</span>
-      </div></div>
-    <div class="form-group"><label>Note (optional)</label><textarea id="pt-note" placeholder="Context, blockers, next steps…"></textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-danger" id="pt-delete-btn" style="display:none" onclick="deleteEditingItem('ptask')">Delete task</button>
-      <div class="modal-actions-right">
-        <button class="btn" onclick="closeModal('m-ptask')">Cancel</button>
-        <button class="btn btn-primary" onclick="savePTask()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Trip modal -->
-<div class="modal-overlay" id="m-trip" onclick="closeIfBg(event,'m-trip')">
-  <div class="modal">
-    <h3 id="m-trip-title">Add business trip</h3>
-    <input type="hidden" id="tr-edit-id">
-    <div class="form-group"><label>Trip name</label><input type="text" id="tr-name" placeholder="e.g. Hanoi — partner summit"></div>
-    <div class="form-group"><label>Dates</label><input type="text" id="tr-date" placeholder="e.g. Apr 3–5"></div>
-    <div class="form-group"><label>Note</label><input type="text" id="tr-note" placeholder="e.g. 3 steps remaining"></div>
-    <div class="form-group"><label>Status</label>
-      <select id="tr-status"><option value="ts-plan">Planning</option><option value="ts-book">Booking</option><option value="ts-ok">Confirmed</option></select></div>
-    <div class="form-group"><label>Progress (%)</label><input type="number" id="tr-pct" min="0" max="100" placeholder="e.g. 33"></div>
-    <div class="modal-actions">
-      <button class="btn btn-danger" id="tr-delete-btn" style="display:none" onclick="deleteEditingItem('trip')">Delete trip</button>
-      <div class="modal-actions-right">
-        <button class="btn" onclick="closeModal('m-trip')">Cancel</button>
-        <button class="btn btn-primary" onclick="saveTrip()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Event modal -->
-<div class="modal-overlay" id="m-event" onclick="closeIfBg(event,'m-event')">
-  <div class="modal">
-    <h3 id="m-event-title">Add event</h3>
-    <input type="hidden" id="ev-edit-id">
-    <div class="form-group"><label>Event name</label><input type="text" id="ev-name" placeholder="e.g. Q3 teambuilding offsite"></div>
-    <div class="form-group"><label>Date / attendees</label><input type="text" id="ev-sub" placeholder="e.g. Jun 15 · 20 attendees"></div>
-    <div class="form-group"><label>Status</label>
-      <select id="ev-status"><option value="ts-plan">Planning</option><option value="ts-book">Booking</option><option value="ts-ok">Confirmed</option></select></div>
-    <div class="form-group"><label>Progress (%)</label><input type="number" id="ev-pct" min="0" max="100" placeholder="e.g. 45"></div>
-    <div class="modal-actions">
-      <button class="btn btn-danger" id="ev-delete-btn" style="display:none" onclick="deleteEditingItem('event')">Delete event</button>
-      <div class="modal-actions-right">
-        <button class="btn" onclick="closeModal('m-event')">Cancel</button>
-        <button class="btn btn-primary" onclick="saveEvent()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Partner modal -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-/* ════════════════════════════════════════
-   SUPABASE CONFIG — paste your two keys here
-   ════════════════════════════════════════ */
-const SUPABASE_URL = 'https://yqoevfohdcycbhxysqgv.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_WyZNXE759hw6kFWipiE_Sw_UWNNVYVB';
-
-const db = (SUPABASE_URL.startsWith('http'))
-  ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-  : null;
-
-/* ── DB helpers ── */
-async function dbLoad(table){
-  if(!db) return null;
-  const {data,error}=await db.from(table).select('*').order('created_at');
-  if(error){console.warn('load error',table,error);return null;}
-  return data.map(r=>({...r.data, _dbid:r.id}));
-}
-async function dbSave(table,obj){
-  if(!db) return;
-  setSyncStatus('saving');
-  try{
-    if(obj._dbid){
-      const {_dbid,...data}=obj;
-      await db.from(table).update({data}).eq('id',_dbid);
-    } else {
-      const {data:rows}=await db.from(table).insert({data:obj}).select();
-      if(rows&&rows[0]) obj._dbid=rows[0].id;
-    }
-    setSyncStatus('ok');
-  }catch(e){setSyncStatus('error');console.error(e);}
-}
-async function dbDelete(table,obj){
-  if(!db||!obj._dbid) return;
-  await db.from(table).delete().eq('id',obj._dbid);
-}
-
-/* ── sync status indicator ── */
-function setSyncStatus(state){
-  const el=document.getElementById('sync-status');if(!el)return;
-  const map={ok:'Synced ✓',saving:'Saving…',offline:'Offline (no DB keys)',error:'Sync error!'};
-  const col={ok:'#1d9e75',saving:'#ba7517',offline:'#a09f9a',error:'#e24b4a'};
-  el.textContent=map[state]||state; el.style.color=col[state]||'#a09f9a';
-}
-
-async function loadAllFromDB(){
-  if(!db){setSyncStatus('offline');return false;}
-  setSyncStatus('saving');
-  try{
-    const [dt,kt,tr,ev,pt,rm]=await Promise.all([
-      dbLoad('daily_tasks'),dbLoad('kanban_tasks'),dbLoad('trips'),
-      dbLoad('events'),dbLoad('partners'),dbLoad('reminders')
-    ]);
-    if(dt&&dt.length) dailyTasks=dt;
-    if(kt&&kt.length) kanbanTasks=kt;
-    if(tr&&tr.length) trips=tr;
-    if(ev&&ev.length) events=ev;
-    if(pt&&pt.length) partners=pt;
-    if(rm&&rm.length) reminders=rm;
-    setSyncStatus('ok');return true;
-  }catch(e){console.error(e);setSyncStatus('error');return false;}
-}
-
-/* ── helpers ── */
-let uid=0;
-const id=()=>'i'+(++uid);
-function setDate(){const d=new Date(),s=d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});document.getElementById('live-date').textContent=s;document.getElementById('footer-date').textContent=s}
-setDate();
-
-function openModal(mid){document.getElementById(mid).classList.add('open')}
-function closeModal(mid){document.getElementById(mid).classList.remove('open')}
-function closeIfBg(e,mid){if(e.target===e.currentTarget)closeModal(mid)}
-
-let toastTimer;
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2000)}
-
-
-/* ── file upload for Zone C ── */
-async function uploadFile(file, context){
-  const BUCKET='zone-c-attachments';
-  const ext=file.name.split('.').pop();
-  const path=`${context}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-  setSyncStatus('uploading');
-  const {data,error}=await db.storage.from(BUCKET).upload(path,file,{cacheControl:'3600',upsert:false});
-  if(error){setSyncStatus('error');console.error(error);return null;}
-  const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
-  setSyncStatus('ok');
-  return {url:urlData.publicUrl,name:file.name,path};
-}
-
-/* ── smart-select helpers ── */
-function toggleCustom(selId, inputId){
-  const sel=document.getElementById(selId);
-  const inp=document.getElementById(inputId);
-  const show=sel.value==='__other__';
-  inp.classList.toggle('visible',show);
-  if(show)setTimeout(()=>inp.focus(),50);
-}
-
-// Read the effective value from a smart-select pair
-function readSmart(selId, inputId){
-  const sel=document.getElementById(selId);
-  if(sel.value==='__other__'){
-    const v=document.getElementById(inputId).value.trim();
-    return v||'Other';
-  }
-  return sel.value;
-}
-
-// Set a smart-select pair to a value (handles custom values)
-function setSmart(selId, inputId, value){
-  const sel=document.getElementById(selId);
-  const inp=document.getElementById(inputId);
-  // Check if value matches one of the fixed options
-  const exists=[...sel.options].some(o=>o.value===value&&o.value!=='__other__');
-  if(exists){
-    sel.value=value;inp.classList.remove('visible');inp.value='';
-  } else {
-    sel.value='__other__';inp.value=value;inp.classList.add('visible');
-  }
-}
-
-/* ── status helpers ── */
-// Built-in status key → css class
-const builtinStClass={new:'st-new',progress:'st-progress',done:'st-done',cancelled:'st-cancelled'};
-const builtinStLabel={new:'New',progress:'In progress',done:'Done',cancelled:'Cancelled'};
-
-function stClassFor(key){return builtinStClass[key]||'st-custom';}
-function stLabelFor(key){return builtinStLabel[key]||key;}
-
-// For custom statuses, use a neutral pill style
-const stClass={new:'st-new',progress:'st-progress',done:'st-done',cancelled:'st-cancelled'};
-const stLabel={new:'New',progress:'In progress',done:'Done',cancelled:'Cancelled'};
-
-const statusCycle={
-  'st-new':{next:'st-progress',label:'In progress',key:'progress'},
-  'st-progress':{next:'st-done',label:'Done',key:'done'},
-  'st-done':{next:'st-cancelled',label:'Cancelled',key:'cancelled'},
-  'st-cancelled':{next:'st-new',label:'New',key:'new'}
-};
-
-function stClassFor(key){return builtinStClass[key]||'st-custom';}
-function stLabelFor(key){return builtinStLabel[key]||key;}
-function cycleStatus(el){
-  const cur=Object.keys(statusCycle).find(k=>el.classList.contains(k));if(!cur)return;
-  const nx=statusCycle[cur];
-  el.classList.remove(cur);el.classList.add(nx.next);el.textContent=nx.label;
-  const card=el.closest('.task-item,.kcard');
-  if(card){
-    card.dataset.status=nx.key;
-    card.classList.remove('done-item','cancelled-item','done-card','cancelled-card');
-    if(nx.key==='done'){card.classList.add(card.classList.contains('task-item')?'done-item':'done-card');const chk=card.querySelector('.chk');if(chk)chk.classList.add('ticked')}
-    if(nx.key==='cancelled')card.classList.add(card.classList.contains('task-item')?'cancelled-item':'cancelled-card');
-  }
-  updateMetrics();
-}
-
-/* ── metrics ── */
-function updateMetrics(){
-  const items=document.querySelectorAll('#daily-list .task-item');
-  let prog=0,done=0,can=0;
-  items.forEach(i=>{
-    const s=i.dataset.status;
-    if(s==='progress')prog++;
-    else if(s==='done')done++;
-    else if(s==='cancelled')can++;
-  });
-  document.getElementById('m-total').textContent=items.length;
-  document.getElementById('m-prog').textContent=prog;
-  document.getElementById('m-done').textContent=done;
-  document.getElementById('m-cancel').textContent=can;
-}
-
-/* ── checkbox tick ── */
-function tickDaily(chk){
-  chk.classList.toggle('ticked');
-  const item=chk.closest('.task-item');
-  const isDone=chk.classList.contains('ticked');
-  item.classList.toggle('done-item',isDone);
-  item.classList.remove('cancelled-item');
-  const sb=item.querySelector('.st-badge');
-  if(sb){
-    ['st-new','st-progress','st-done','st-cancelled'].forEach(c=>sb.classList.remove(c));
-    const key=isDone?'done':'new';
-    sb.classList.add(stClass[key]);sb.textContent=stLabel[key];item.dataset.status=key;
-  }
-  updateMetrics();
-}
-
-/* ── filter ── */
-function filterDaily(el,cat){
-  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
-  document.querySelectorAll('#daily-list .task-item').forEach(t=>{t.style.display=(cat==='all'||t.dataset.cat===cat)?'flex':'none'});
-}
-function filterKanban(el,cat){
-  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
-  document.querySelectorAll('.kcard').forEach(c=>{c.style.display=(cat==='all'||c.dataset.kcat===cat)?'block':'none'});
-}
-
-/* ── action buttons SVG ── */
-const editSVG=`<svg viewBox="0 0 16 16"><path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z"/></svg>`;
-const delSVG=`<svg viewBox="0 0 16 16"><path d="M3 5h10M6 5V3h4v2M6 8v4M10 8v4"/></svg>`;
-
-function makeActions(editFn,delFn){
-  const wrap=document.createElement('div');wrap.className='card-actions';
-  const eb=document.createElement('div');eb.className='ca-btn';eb.innerHTML=editSVG;eb.title='Edit';eb.onclick=e=>{e.stopPropagation();editFn()};
-  const db=document.createElement('div');db.className='ca-btn del';db.innerHTML=delSVG;db.title='Delete';
-  db.onclick=e=>{e.stopPropagation();if(confirm('Delete this item?'))delFn()};
-  wrap.append(eb,db);return wrap;
-}
-
-/* ══════════════════════════════════════
-   DAILY TASKS
-══════════════════════════════════════ */
-const catBadge={adm:'b-adm',rep:'b-rep',trv:'b-trv',evt:'b-evt'};
-const catLabel={adm:'Admin',rep:'Report',trv:'Travel',evt:'Event'};
-const priDot={h:'ph',m:'pm',l:'pl'};
-const priLabel={h:'Urgent',m:'Medium',l:'Normal'};
-
-function badgeClassFor(cat){return catBadge[cat]||'b-custom';}
-function labelFor(cat){return catLabel[cat]||cat;}
-
-function buildDailyTask(d){
-  const wrap=document.createElement('div');
-  wrap.className='task-item';wrap.dataset.cat=d.cat;wrap.dataset.status=d.status;wrap.dataset.uid=d.uid;
-  if(d.status==='done')wrap.classList.add('done-item');
-  if(d.status==='cancelled')wrap.classList.add('cancelled-item');
-  const top=document.createElement('div');top.className='task-top';
-  const chk=document.createElement('div');chk.className='chk';if(d.status==='done')chk.classList.add('ticked');
-  chk.onclick=()=>tickDaily(chk);
-  const body=document.createElement('div');body.className='task-body';
-  const sc=stClassFor(d.status);
-  const sl=stLabelFor(d.status);
-  body.innerHTML=`<div class="task-name">${d.name}</div><div class="task-meta"><span class="pdot ${priDot[d.pri]||'pl'}"></span>${priLabel[d.pri]||d.pri} · ${d.due}<span class="badge ${badgeClassFor(d.cat)}">${labelFor(d.cat)}</span><span class="st-badge ${sc}" onclick="cycleStatus(this)">${sl}</span></div>`;
-  const acts=makeActions(()=>editDailyTask(d.uid),()=>{wrap.remove();dailyTasks=dailyTasks.filter(x=>x.uid!==d.uid);updateMetrics();toast('Task deleted')});
-  top.append(chk,body,acts);
-  const note=document.createElement('div');note.className='task-note';note.textContent=d.note||'';
-  wrap.append(top,note);
-  return wrap;
-}
-
-function renderDailyTasks(){
-  const list=document.getElementById('daily-list');list.innerHTML='';
-  dailyTasks.forEach(d=>list.appendChild(buildDailyTask(d)));
-  updateMetrics();
-}
-
-let editingDailyUid=null;
-function editDailyTask(uid){
-  const d=dailyTasks.find(x=>x.uid===uid);if(!d)return;
-  editingDailyUid=uid;
-  document.getElementById('m-daily-title').textContent='Edit daily task';
-  document.getElementById('dt-edit-id').value=uid;
-  document.getElementById('dt-name').value=d.name;
-  setSmart('dt-cat','dt-cat-custom',d.cat);
-  document.getElementById('dt-pri').value=d.pri;
-  document.getElementById('dt-due').value=d.due;
-  setSmart('dt-status','dt-status-custom',d.status);
-  document.getElementById('dt-note').value=d.note||'';
-  document.getElementById('dt-delete-btn').style.display='block';
-  openModal('m-daily');
-}
-
-function saveDailyTask(){
-  const name=document.getElementById('dt-name').value.trim();if(!name)return;
-  const obj={
-    uid:editingDailyUid||id(),
-    name,
-    cat:readSmart('dt-cat','dt-cat-custom'),
-    pri:document.getElementById('dt-pri').value,
-    due:document.getElementById('dt-due').value||'This week',
-    status:readSmart('dt-status','dt-status-custom'),
-    note:document.getElementById('dt-note').value.trim()
-  };
-  if(editingDailyUid){const idx=dailyTasks.findIndex(x=>x.uid===editingDailyUid);if(idx>-1)dailyTasks[idx]=obj;}
-  else dailyTasks.push(obj);
-  renderDailyTasks();resetDailyForm();closeModal('m-daily');toast(editingDailyUid?'Task updated':'Task added');
-}
-
-function resetDailyForm(){
-  editingDailyUid=null;
-  document.getElementById('m-daily-title').textContent='Add daily task';
-  document.getElementById('dt-delete-btn').style.display='none';
-  ['dt-name','dt-due','dt-note','dt-cat-custom','dt-status-custom'].forEach(x=>document.getElementById(x).value='');
-  document.getElementById('dt-status').value='new';
-  document.getElementById('dt-cat').value='adm';
-  ['dt-cat-custom','dt-status-custom'].forEach(x=>document.getElementById(x).classList.remove('visible'));
-}
-
-/* ══════════════════════════════════════
-   KANBAN TASKS
-══════════════════════════════════════ */
-const ptCatBadge={par:'b-par',fup:'b-fup',int:'b-int'};
-const ptCatLabel={par:'Partnership',fup:'Follow-up',int:'Internal'};
-const ptPriClass={h:'pri-h',m:'pri-m',l:'pri-l'};
-const ptPriLabel={h:'High',m:'Medium',l:'Low'};
-
-function ptBadgeClass(cat){return ptCatBadge[cat]||'b-custom';}
-function ptLabel(cat){return ptCatLabel[cat]||cat;}
-
-function buildKCard(d){
-  const wrap=document.createElement('div');
-  wrap.className='kcard';wrap.dataset.kcat=d.cat;wrap.dataset.uid=d.uid;
-  if(d.status==='done')wrap.classList.add('done-card');
-  if(d.status==='cancelled')wrap.classList.add('cancelled-card');
-  const top=document.createElement('div');top.className='kcard-top';
-  const row=document.createElement('div');row.className='kcard-row';
-  const meta=document.createElement('div');meta.className='kcard-meta';
-  const sc=stClassFor(d.status);
-  const sl=stLabelFor(d.status);
-  meta.innerHTML=`<span class="pri ${ptPriClass[d.pri]||'pri-l'}">${ptPriLabel[d.pri]||d.pri}</span><span class="${d.due.toLowerCase().includes('today')?'due due-hot':'due'}">${d.due}</span><span class="badge ${ptBadgeClass(d.cat)}">${ptLabel(d.cat)}</span><span class="st-badge ${sc}" onclick="cycleStatus(this)">${sl}</span>`;
-  const acts=makeActions(()=>editKCard(d.uid,d.col),()=>{wrap.remove();kanbanTasks=kanbanTasks.filter(x=>x.uid!==d.uid);toast('Task deleted')});
-  row.append(meta,acts);
-  top.innerHTML=`<div class="kcard-title">${d.name}</div>`;top.appendChild(row);
-  const note=document.createElement('div');note.className='kcard-note';note.textContent=d.note||'';
-  wrap.append(top,note);return wrap;
-}
-
-function renderKanban(){
-  ['k-todo','k-prog','k-done'].forEach(col=>{
-    const el=document.getElementById(col);el.innerHTML='';
-    kanbanTasks.filter(t=>t.col===col).forEach(t=>el.appendChild(buildKCard(t)));
-  });
-}
-
-let editingPTaskUid=null;
-function editKCard(uid,col){
-  const d=kanbanTasks.find(x=>x.uid===uid);if(!d)return;
-  editingPTaskUid=uid;
-  document.getElementById('m-ptask-title').textContent='Edit task';
-  document.getElementById('pt-edit-id').value=uid;
-  document.getElementById('pt-edit-col').value=col;
-  document.getElementById('pt-name').value=d.name;
-  document.getElementById('pt-col').value=d.col;
-  setSmart('pt-cat','pt-cat-custom',d.cat);
-  document.getElementById('pt-pri').value=d.pri;
-  document.getElementById('pt-due').value=d.due;
-  setSmart('pt-status','pt-status-custom',d.status);
-  document.getElementById('pt-note').value=d.note||'';
-  document.getElementById('pt-delete-btn').style.display='block';
-  openModal('m-ptask');
-}
-
-function savePTask(){
-  const name=document.getElementById('pt-name').value.trim();if(!name)return;
-  const obj={
-    uid:editingPTaskUid||id(),
-    name,col:document.getElementById('pt-col').value,
-    cat:readSmart('pt-cat','pt-cat-custom'),
-    pri:document.getElementById('pt-pri').value,
-    due:document.getElementById('pt-due').value||'This week',
-    status:readSmart('pt-status','pt-status-custom'),
-    note:document.getElementById('pt-note').value.trim()
-  };
-  if(editingPTaskUid){const idx=kanbanTasks.findIndex(x=>x.uid===editingPTaskUid);if(idx>-1)kanbanTasks[idx]=obj;}
-  else kanbanTasks.push(obj);
-  renderKanban();resetPTaskForm();closeModal('m-ptask');toast(editingPTaskUid?'Task updated':'Task added');
-}
-
-function resetPTaskForm(){
-  editingPTaskUid=null;
-  document.getElementById('m-ptask-title').textContent='Add partnership task';
-  document.getElementById('pt-delete-btn').style.display='none';
-  ['pt-name','pt-due','pt-note','pt-cat-custom','pt-status-custom'].forEach(x=>document.getElementById(x).value='');
-  document.getElementById('pt-status').value='new';document.getElementById('pt-col').value='k-todo';
-  document.getElementById('pt-cat').value='par';
-  ['pt-cat-custom','pt-status-custom'].forEach(x=>document.getElementById(x).classList.remove('visible'));
-}
-
-/* ══════════════════════════════════════
-   TRIPS
-══════════════════════════════════════ */
-const tsLabel={'ts-plan':'Planning','ts-book':'Booking','ts-ok':'Confirmed'};
-
-function buildTripCard(d){
-  const wrap=document.createElement('div');wrap.className='trip-card';wrap.dataset.uid=d.uid;
-  const pct=Math.min(100,Math.max(0,parseInt(d.pct)||0));
-  wrap.innerHTML=`<div class="trip-top"><span class="trip-name">${d.name}</span><span class="tstatus ${d.status}">${tsLabel[d.status]}</span></div><div class="steps">${d.steps.map((s,i)=>`<span class="step${s==='done'?' s-done':s==='curr'?' s-curr':''}">${['Approval','Flight','Hotel','eForm','Briefing'][i]||s}</span>`).join('')}</div><div class="pbar"><div class="pfill" style="width:${pct}%"></div></div><div class="trip-sub">${d.date}${d.note?' · '+d.note:''}</div>`;
-  wrap.appendChild(makeActions(()=>editTrip(d.uid),()=>{wrap.remove();trips=trips.filter(x=>x.uid!==d.uid);document.getElementById('trip-count').textContent=trips.length+' trips';toast('Trip deleted')}));
-  return wrap;
-}
-
-function renderTrips(){
-  const list=document.getElementById('trip-list');list.innerHTML='';
-  trips.forEach(d=>list.appendChild(buildTripCard(d)));
-  document.getElementById('trip-count').textContent=trips.length+' trips';
-}
-
-let editingTripUid=null;
-function editTrip(uid){
-  const d=trips.find(x=>x.uid===uid);if(!d)return;
-  editingTripUid=uid;
-  document.getElementById('m-trip-title').textContent='Edit trip';
-  document.getElementById('tr-name').value=d.name;document.getElementById('tr-date').value=d.date;
-  document.getElementById('tr-note').value=d.note||'';document.getElementById('tr-status').value=d.status;
-  document.getElementById('tr-pct').value=d.pct||'';
-  document.getElementById('tr-delete-btn').style.display='block';
-  openModal('m-trip');
-}
-
-function saveTrip(){
-  const name=document.getElementById('tr-name').value.trim();if(!name)return;
-  const pct=parseInt(document.getElementById('tr-pct').value)||0;
-  const steps=pct>=100?['done','done','done','done','done']:pct>=60?['done','done','done','curr','']:pct>=40?['done','done','curr','','']:pct>=20?['done','curr','','','']:['curr','','','',''];
-  const obj={uid:editingTripUid||id(),name,date:document.getElementById('tr-date').value||'TBD',note:document.getElementById('tr-note').value.trim(),status:document.getElementById('tr-status').value,pct,steps};
-  if(editingTripUid){const idx=trips.findIndex(x=>x.uid===editingTripUid);if(idx>-1)trips[idx]=obj;}else trips.push(obj);
-  renderTrips();resetTripForm();closeModal('m-trip');toast(editingTripUid?'Trip updated':'Trip added');
-}
-
-function resetTripForm(){editingTripUid=null;document.getElementById('m-trip-title').textContent='Add business trip';document.getElementById('tr-delete-btn').style.display='none';['tr-name','tr-date','tr-note','tr-pct'].forEach(x=>document.getElementById(x).value='')}
-
-/* ══════════════════════════════════════
-   EVENTS
-══════════════════════════════════════ */
-const evSteps=['Concept','Budget','Venue','Activities','Comms'];
-
-function buildEventCard(d){
-  const wrap=document.createElement('div');wrap.className='trip-card';wrap.dataset.uid=d.uid;
-  const pct=Math.min(100,Math.max(0,parseInt(d.pct)||0));
-  const si=Math.round(pct/20);
-  const steps=evSteps.map((s,i)=>`<span class="step${i<si?' s-done':i===si?' s-curr':''}">${s}</span>`).join('');
-  wrap.innerHTML=`<div class="trip-top"><span class="trip-name">${d.name}</span><span class="tstatus ${d.status}">${tsLabel[d.status]}</span></div><div class="steps">${steps}</div><div class="pbar"><div class="pfill" style="width:${pct}%"></div></div><div class="trip-sub">${d.sub}</div>`;
-  wrap.appendChild(makeActions(()=>editEvent(d.uid),()=>{wrap.remove();events=events.filter(x=>x.uid!==d.uid);document.getElementById('event-count').textContent=events.length+' events';toast('Event deleted')}));
-  return wrap;
-}
-
-function renderEvents(){
-  const list=document.getElementById('event-list');list.innerHTML='';
-  events.forEach(d=>list.appendChild(buildEventCard(d)));
-  document.getElementById('event-count').textContent=events.length+' events';
-}
-
-let editingEventUid=null;
-function editEvent(uid){
-  const d=events.find(x=>x.uid===uid);if(!d)return;
-  editingEventUid=uid;
-  document.getElementById('m-event-title').textContent='Edit event';
-  document.getElementById('ev-name').value=d.name;document.getElementById('ev-sub').value=d.sub;
-  document.getElementById('ev-status').value=d.status;document.getElementById('ev-pct').value=d.pct||'';
-  document.getElementById('ev-delete-btn').style.display='block';
-  openModal('m-event');
-}
-
-function saveEvent(){
-  const name=document.getElementById('ev-name').value.trim();if(!name)return;
-  const obj={uid:editingEventUid||id(),name,sub:document.getElementById('ev-sub').value||'TBD',status:document.getElementById('ev-status').value,pct:parseInt(document.getElementById('ev-pct').value)||0};
-  if(editingEventUid){const idx=events.findIndex(x=>x.uid===editingEventUid);if(idx>-1)events[idx]=obj;}else events.push(obj);
-  renderEvents();resetEventForm();closeModal('m-event');toast(editingEventUid?'Event updated':'Event added');
-}
-
-function resetEventForm(){editingEventUid=null;document.getElementById('m-event-title').textContent='Add event';document.getElementById('ev-delete-btn').style.display='none';['ev-name','ev-sub','ev-pct'].forEach(x=>document.getElementById(x).value='')}
-
-/* ══════════════════════════════════════
-   PARTNERS
-══════════════════════════════════════ */
-const avColors=['av-p','av-t','av-b','av-c','av-g'];let avIdx=0;
-const pStatClass={'ps-act':'ps-act','ps-warm':'ps-warm','ps-pend':'ps-pend'};
-const pStatLabel={'ps-act':'Active','ps-warm':'Warm','ps-pend':'Awaiting'};
-
-function buildPartnerRow(d){
-  const wrap=document.createElement('div');wrap.className='partner-row';wrap.dataset.uid=d.uid;
-  const initials=d.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  wrap.innerHTML=`<div class="av ${d.color}">${initials}</div><div style="flex:1"><div class="p-name">${d.name}</div><div class="p-sub">${d.sub}</div></div><span class="pstat ${pStatClass[d.status]}">${pStatLabel[d.status]}</span>`;
-  wrap.appendChild(makeActions(()=>editPartner(d.uid),()=>{wrap.remove();partners=partners.filter(x=>x.uid!==d.uid);toast('Partner removed')}));
-  return wrap;
-}
-
-function renderPartners(){const list=document.getElementById('partner-list');if(!list)return;list.innerHTML='';partners.forEach(d=>list.appendChild(buildPartnerRow(d)))}
-
-let editingPartnerUid=null;
-function editPartner(uid){
-  const d=partners.find(x=>x.uid===uid);if(!d)return;
-  editingPartnerUid=uid;
-  document.getElementById('m-partner-title').textContent='Edit partner';
-  document.getElementById('pn-name').value=d.name;document.getElementById('pn-sub').value=d.sub;
-  document.getElementById('pn-status').value=d.status;
-  document.getElementById('pn-delete-btn').style.display='block';
-  openModal('m-partner');
-}
-
-function savePartner(){
-  const name=document.getElementById('pn-name').value.trim();if(!name)return;
-  const obj={uid:editingPartnerUid||id(),name,sub:document.getElementById('pn-sub').value||'Just added',status:document.getElementById('pn-status').value,color:editingPartnerUid?partners.find(x=>x.uid===editingPartnerUid)?.color||avColors[avIdx++%avColors.length]:avColors[avIdx++%avColors.length]};
-  if(editingPartnerUid){const idx=partners.findIndex(x=>x.uid===editingPartnerUid);if(idx>-1)partners[idx]=obj;}else partners.push(obj);
-  renderPartners();resetPartnerForm();closeModal('m-partner');toast(editingPartnerUid?'Partner updated':'Partner added');
-}
-
-function resetPartnerForm(){editingPartnerUid=null;document.getElementById('m-partner-title').textContent='Add partner';document.getElementById('pn-delete-btn').style.display='none';['pn-name','pn-sub'].forEach(x=>document.getElementById(x).value='')}
-
-/* ══════════════════════════════════════
-   REMINDERS
-══════════════════════════════════════ */
-const riLabel={'ri-urg':'Urgent','ri-mid':'Medium','ri-norm':'Normal'};
-
-function buildReminderRow(d){
-  const wrap=document.createElement('div');wrap.className='remind-item';wrap.dataset.uid=d.uid;
-  wrap.innerHTML=`<div class="ri-dot ${d.urg}"></div><div style="flex:1"><div class="ri-text">${d.text}</div><div class="ri-time">${d.time}</div></div>`;
-  wrap.appendChild(makeActions(()=>editReminder(d.uid),()=>{wrap.remove();reminders=reminders.filter(x=>x.uid!==d.uid);toast('Reminder deleted')}));
-  return wrap;
-}
-
-function renderReminders(){const list=document.getElementById('reminder-list');if(!list)return;list.innerHTML='';reminders.forEach(d=>list.appendChild(buildReminderRow(d)))}
-
-let editingReminderUid=null;
-function editReminder(uid){
-  const d=reminders.find(x=>x.uid===uid);if(!d)return;
-  editingReminderUid=uid;
-  document.getElementById('m-reminder-title').textContent='Edit reminder';
-  document.getElementById('rm-text').value=d.text;document.getElementById('rm-time').value=d.time;
-  document.getElementById('rm-urg').value=d.urg;
-  document.getElementById('rm-delete-btn').style.display='block';
-  openModal('m-reminder');
-}
-
-function saveReminder(){
-  const text=document.getElementById('rm-text').value.trim();if(!text)return;
-  const obj={uid:editingReminderUid||id(),text,time:document.getElementById('rm-time').value||'Today',urg:document.getElementById('rm-urg').value};
-  if(editingReminderUid){const idx=reminders.findIndex(x=>x.uid===editingReminderUid);if(idx>-1)reminders[idx]=obj;}else reminders.push(obj);
-  renderReminders();resetReminderForm();closeModal('m-reminder');toast(editingReminderUid?'Reminder updated':'Reminder added');
-}
-
-function resetReminderForm(){editingReminderUid=null;document.getElementById('m-reminder-title').textContent='Add reminder';document.getElementById('rm-delete-btn').style.display='none';['rm-text','rm-time'].forEach(x=>document.getElementById(x).value='')}
-
-/* ══════════════════════════════════════
-   GENERIC DELETE FROM EDIT MODAL
-══════════════════════════════════════ */
-function deleteEditingItem(type){
-  if(!confirm('Delete this item?'))return;
-  if(type==='daily'){dailyTasks=dailyTasks.filter(x=>x.uid!==editingDailyUid);renderDailyTasks();resetDailyForm();closeModal('m-daily');toast('Task deleted')}
-  else if(type==='ptask'){kanbanTasks=kanbanTasks.filter(x=>x.uid!==editingPTaskUid);renderKanban();resetPTaskForm();closeModal('m-ptask');toast('Task deleted')}
-  else if(type==='trip'){trips=trips.filter(x=>x.uid!==editingTripUid);renderTrips();resetTripForm();closeModal('m-trip');toast('Trip deleted')}
-  else if(type==='event'){events=events.filter(x=>x.uid!==editingEventUid);renderEvents();resetEventForm();closeModal('m-event');toast('Event deleted')}
-  else if(type==='partner'){partners=partners.filter(x=>x.uid!==editingPartnerUid);renderPartners();resetPartnerForm();closeModal('m-partner');toast('Partner removed')}
-  else if(type==='reminder'){reminders=reminders.filter(x=>x.uid!==editingReminderUid);renderReminders();resetReminderForm();closeModal('m-reminder');toast('Reminder deleted')}
-}
-
-/* ══════════════════════════════════════
-   SEED DATA
-══════════════════════════════════════ */
-let dailyTasks=[
-  {uid:id(),name:'Submit eForm — expense claim',cat:'adm',pri:'h',due:'Today',status:'new',note:''},
-  {uid:id(),name:'Weekly partnership activity report',cat:'rep',pri:'h',due:'Today',status:'new',note:''},
-  {uid:id(),name:'Book flight HAN–SGN (Apr 3)',cat:'trv',pri:'h',due:'Today',status:'progress',note:'Checking Vietnam Airlines & Bamboo for best fare'},
-  {uid:id(),name:'Submit leave request eForm Apr 7',cat:'adm',pri:'m',due:'Thu',status:'new',note:''},
-  {uid:id(),name:'Book hotel Hanoi (Apr 3–5)',cat:'trv',pri:'m',due:'Thu',status:'new',note:''},
-  {uid:id(),name:'Compile Q1 partnership summary',cat:'rep',pri:'m',due:'Fri',status:'progress',note:'Draft outline done, pending data from TechVN & NovaCorp'},
-  {uid:id(),name:'Confirm teambuilding venue Q2',cat:'evt',pri:'m',due:'Fri',status:'new',note:''},
-  {uid:id(),name:'Draft teambuilding activity schedule',cat:'evt',pri:'l',due:'Next week',status:'new',note:''},
-  {uid:id(),name:'Update internal contact list Q2',cat:'adm',pri:'l',due:'Next week',status:'new',note:''},
-  {uid:id(),name:'Business travel report – Linhnh3 – ZhuHai–BeiJing – Mar 15',cat:'adm',pri:'l',due:'Today',status:'progress',note:'Receipts collected, waiting for hotel invoice from finance'},
-];
-
-let kanbanTasks=[
-  {uid:id(),col:'k-todo',name:'Draft Q2 proposal — TechVN',cat:'par',pri:'h',due:'Today',status:'new',note:''},
-  {uid:id(),col:'k-todo',name:'Follow up GreenBridge MOU status',cat:'fup',pri:'h',due:'Today',status:'new',note:''},
-  {uid:id(),col:'k-todo',name:'Prepare weekly exec briefing slides',cat:'int',pri:'m',due:'Due Thu',status:'progress',note:'Slide deck 60% done — need Q1 numbers from finance'},
-  {uid:id(),col:'k-todo',name:'Review co-marketing agreement draft',cat:'par',pri:'m',due:'Due Fri',status:'new',note:''},
-  {uid:id(),col:'k-prog',name:'Negotiate terms with NovaCorp',cat:'par',pri:'h',due:'Today',status:'progress',note:'Call at 3PM — align on revenue share clause'},
-  {uid:id(),col:'k-prog',name:'Schedule kickoff call — BluePeak',cat:'fup',pri:'m',due:'Due Thu',status:'progress',note:'Awaiting 2 time slot confirmations from their side'},
-  {uid:id(),col:'k-prog',name:'Build Q1 partnership performance report',cat:'int',pri:'m',due:'Due Fri',status:'new',note:''},
-  {uid:id(),col:'k-done',name:'Onboard EcoLink as strategic partner',cat:'par',pri:'h',due:'Mon',status:'done',note:''},
-  {uid:id(),col:'k-done',name:'Send recap email post-summit',cat:'fup',pri:'m',due:'Tue',status:'done',note:''},
-  {uid:id(),col:'k-done',name:'Internal team sync — Q2 priorities',cat:'int',pri:'l',due:'Tue',status:'done',note:''},
-  {uid:id(),col:'k-done',name:'Review & sign StellarPath NDA',cat:'par',pri:'h',due:'Wed',status:'done',note:''},
-];
-
-let trips=[
-  {uid:id(),name:'Hanoi — partner summit',date:'Apr 3–5',note:'3 steps remaining',status:'ts-book',pct:33,steps:['done','curr','','','']},
-  {uid:id(),name:'HCMC — client visit',date:'Apr 14–15',note:'Awaiting approval',status:'ts-plan',pct:10,steps:['curr','','','','']},
-  {uid:id(),name:'Da Nang — annual offsite',date:'May 8–10',note:'All set',status:'ts-ok',pct:100,steps:['done','done','done','done','done']},
-];
-
-let events=[
-  {uid:id(),name:'Q2 teambuilding offsite',sub:'Target May 20 · 18 attendees',status:'ts-plan',pct:45},
-  {uid:id(),name:'Partner appreciation dinner',sub:'Apr 18 · 12 partners invited',status:'ts-book',pct:70},
-  {uid:id(),name:'Q1 team lunch',sub:'Mar 10 · 22 attendees · Completed',status:'ts-ok',pct:100},
-];
-
-let partners=[
-  {uid:id(),name:'TechVN',sub:'2 open tasks · 2d ago',status:'ps-act',color:'av-p'},
-  {uid:id(),name:'GreenBridge',sub:'MOU in review · 5d ago',status:'ps-pend',color:'av-t'},
-  {uid:id(),name:'NovaCorp',sub:'Negotiation · today',status:'ps-act',color:'av-b'},
-  {uid:id(),name:'BluePeak Alliance',sub:'Kickoff pending · 3d ago',status:'ps-warm',color:'av-c'},
-  {uid:id(),name:'EcoLink',sub:'Onboarded · today',status:'ps-act',color:'av-g'},
-  {uid:id(),name:'StellarPath',sub:'NDA signed · today',status:'ps-act',color:'av-p'},
-];
-
-let reminders=[
-  {uid:id(),text:'Call GreenBridge re: MOU deadline',time:'9:30 AM · Overdue',urg:'ri-urg'},
-  {uid:id(),text:'Send TechVN proposal for review',time:'12:00 PM · Due soon',urg:'ri-mid'},
-  {uid:id(),text:'Prep agenda for NovaCorp call',time:'3:00 PM · Today',urg:'ri-mid'},
-  {uid:id(),text:'Check BluePeak call availability',time:'EOD · Today',urg:'ri-norm'},
-  {uid:id(),text:'Submit expense eForm before COB',time:'COB · Today',urg:'ri-norm'},
-];
-
-/* ── initial render ── */
-function renderAll(){
-  renderDailyTasks();
-  renderKanban();
-  renderTrips();
-  renderEvents();
-}
-
-/* ── boot: try DB first, fall back to seed data ── */
-(async()=>{
-  const loaded = await loadAllFromDB();
-  await loadZCFromDB();
-  renderAll();
-  renderZC();
-  if(!loaded) setSyncStatus('offline');
-})();
-
-/* ── patch save/delete to also sync DB ── */
-const _saveDT=saveDailyTask;
-saveDailyTask=async function(){
-  const prev=editingDailyUid;
-  _saveDT();
-  const obj=dailyTasks.find(x=>x.uid===(prev||dailyTasks[dailyTasks.length-1].uid));
-  if(obj) await dbSave('daily_tasks',obj);
-};
-const _savePT=savePTask;
-savePTask=async function(){
-  const prev=editingPTaskUid;
-  _savePT();
-  const obj=kanbanTasks.find(x=>x.uid===(prev||kanbanTasks[kanbanTasks.length-1].uid));
-  if(obj) await dbSave('kanban_tasks',obj);
-};
-const _saveTr=saveTrip;
-saveTrip=async function(){
-  const prev=editingTripUid;
-  _saveTr();
-  const obj=trips.find(x=>x.uid===(prev||trips[trips.length-1].uid));
-  if(obj) await dbSave('trips',obj);
-};
-const _saveEv=saveEvent;
-saveEvent=async function(){
-  const prev=editingEventUid;
-  _saveEv();
-  const obj=events.find(x=>x.uid===(prev||events[events.length-1].uid));
-  if(obj) await dbSave('events',obj);
-};
-const _savePn=savePartner;
-savePartner=async function(){
-  const prev=editingPartnerUid;
-  _savePn();
-  const obj=partners.find(x=>x.uid===(prev||partners[partners.length-1].uid));
-  if(obj) await dbSave('partners',obj);
-};
-const _saveRm=saveReminder;
-saveReminder=async function(){
-  const prev=editingReminderUid;
-  _saveRm();
-  const obj=reminders.find(x=>x.uid===(prev||reminders[reminders.length-1].uid));
-  if(obj) await dbSave('reminders',obj);
-};
-
-/* patch deleteEditingItem to also remove from DB */
-const _delItem=deleteEditingItem;
-deleteEditingItem=async function(type){
-  const tableMap={daily:'daily_tasks',ptask:'kanban_tasks',trip:'trips',event:'events',partner:'partners',reminder:'reminders'};
-  const arrMap={daily:dailyTasks,ptask:kanbanTasks,trip:trips,event:events,partner:partners,reminder:reminders};
-  const uidMap={daily:editingDailyUid,ptask:editingPTaskUid,trip:editingTripUid,event:editingEventUid,partner:editingPartnerUid,reminder:editingReminderUid};
-  const obj=arrMap[type]?.find(x=>x.uid===uidMap[type]);
-  _delItem(type);
-  if(obj) await dbDelete(tableMap[type],obj);
-};
-
-/* ════ ZONE C — Partner CRM ════ */
-let zcPartners = [];
-let editingZCUid = null;
-let zcFilter = 'all';
-const zcAvColors = 6;
-
-const zcStatusClass = {
-  active:'cs-active', negotiating:'cs-negotiating',
-  prospect:'cs-prospect', paused:'cs-paused', ended:'cs-ended'
-};
-const zcStatusLabel = {
-  active:'Active', negotiating:'Negotiating',
-  prospect:'Prospect', paused:'Paused', ended:'Ended'
-};
-
-function zcDaysLeft(dateStr) {
-  if (!dateStr) return null;
-  const diff = Math.round((new Date(dateStr) - new Date()) / 86400000);
-  return diff;
-}
-
-function zcExpiryClass(days) {
-  if (days === null) return '';
-  if (days < 0) return 'c-contract-exp';
-  if (days <= 30) return 'c-contract-warn';
-  return 'c-contract-ok';
-}
-
-function zcExpiryLabel(days, dateStr) {
-  if (!dateStr) return '—';
-  if (days < 0) return `Expired ${Math.abs(days)}d ago`;
-  if (days === 0) return 'Expires today!';
-  if (days <= 30) return `${days}d left`;
-  return dateStr;
-}
-
-function renderZC() {
-  const filtered = zcFilter === 'all'
-    ? zcPartners
-    : zcPartners.filter(p => p.status === zcFilter);
-  document.getElementById('zc-count').textContent = zcPartners.length + ' partner' + (zcPartners.length !== 1 ? 's' : '');
-  const mzc = document.getElementById('m-zc-partners'); if(mzc) mzc.textContent = zcPartners.length;
-  const tbody = document.getElementById('zc-tbody');
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-3);padding:2rem;font-size:13px">No partners yet. Click \"+ Add partner\" to get started.</td></tr>';
-    return;
-  }
-  tbody.innerHTML = filtered.map((p, i) => {
-    const days = zcDaysLeft(p.expiry);
-    const expClass = zcExpiryClass(days);
-    const expLabel = zcExpiryLabel(days, p.expiry);
-    const avIdx = i % zcAvColors;
-    const products = (p.products || '').split('\n').filter(Boolean);
-    const members = (p.members || '').split('\n').filter(Boolean);
-    const notes = p.notes || [];
-    const reminders = p.reminders || [];
-    const attachments = p.attachments || [];
-
-    const detailHtml = `
-      <div class="partner-expand-detail" id="zcd-${p._dbid||p.uid}">
-        <div class="detail-grid-c">
-          <div class="detail-box">
-            <h4>Products & services</h4>
-            ${products.length ? products.map(pr=>`<div class="product-item">${pr}</div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">None added</div>'}
-          </div>
-          <div class="detail-box">
-            <h4>Key members</h4>
-            ${members.length ? members.map(m=>{
-              const parts = m.split('—').map(x=>x.trim());
-              return `<div class="member-row"><span class="member-name">${parts[0]||m}</span><span class="member-role">${parts[1]||''}</span></div>`;
-            }).join('') : '<div style="font-size:12px;color:var(--text-3)">None added</div>'}
-          </div>
-          <div class="detail-box">
-            <h4>Notes & updates</h4>
-            ${notes.length ? notes.slice().reverse().map(n=>`<div class="note-item"><div class="note-date">${n.date}</div><div class="note-text">${n.text}</div></div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">No notes yet</div>'}
-            <div style="display:flex;gap:6px;margin-top:8px">
-              <input type="text" id="zc-new-note-${p._dbid||p.uid}" placeholder="Add a note…" style="flex:1;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-              <button class="btn btn-sm" onclick="addZCNote('${p._dbid||p.uid}')">Add</button>
-            </div>
-          </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div class="cat-tabs">
+          <div class="ctab on" onclick="filterDaily(this,'all')">All</div>
+          <div class="ctab" onclick="filterDaily(this,'adm')">Admin</div>
+          <div class="ctab" onclick="filterDaily(this,'rep')">Report</div>
+          <div class="ctab" onclick="filterDaily(this,'trv')">Travel</div>
+          <div class="ctab" onclick="filterDaily(this,'evt')">Event</div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
-          <div class="detail-box">
-            <h4>Follow-up reminders</h4>
-            ${reminders.length ? reminders.map((r,ri)=>`<div class="reminder-item-c"><span class="rc-dot ${zcDaysLeft(r.date)<0?'rc-hot':zcDaysLeft(r.date)<=3?'rc-mid':'rc-ok'}"></span><span style="flex:1;font-size:12px">${r.text}</span><span style="font-size:10px;color:var(--text-3);font-family:var(--mono)">${r.date}</span><button onclick="removeZCReminder('${p._dbid||p.uid}',${ri})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:11px;padding:0 3px">✕</button></div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">No reminders</div>'}
-            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-              <input type="text" id="zc-rm-text-${p._dbid||p.uid}" placeholder="Reminder…" style="flex:1;min-width:80px;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-              <input type="date" id="zc-rm-date-${p._dbid||p.uid}" style="height:28px;padding:0 6px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-              <button class="btn btn-sm" onclick="addZCReminder('${p._dbid||p.uid}')">Add</button>
-            </div>
-          </div>
-          <div class="detail-box">
-            <h4>Attachments</h4>
-            <div class="attach-list-c">${attachments.map((a,ai)=>`<a class="attach-chip" href="${a.url}" target="_blank" rel="noopener">${a.name}</a>`).join('')}</div>
-            <div class="c-upload-area" onclick="document.getElementById('zc-file-${p._dbid||p.uid}').click()">
-              📎 Attach contract / document
-              <input type="file" id="zc-file-${p._dbid||p.uid}" multiple onchange="uploadZCFile(event,'${p._dbid||p.uid}')">
-            </div>
-          </div>
-        </div>
-      </div>`;
-
-    return `<tr data-zcstatus="${p.status}" data-zcuid="${p._dbid||p.uid}">
-      <td>
-        <div class="partner-row-main" onclick="toggleZCD('${p._dbid||p.uid}')">
-          <div class="c-av c-av-${avIdx}">${(p.name||'?').slice(0,2).toUpperCase()}</div>
-          <div>
-            <div class="c-company">${p.name||'—'}</div>
-            <div class="c-subtext">${p.address||''}</div>
-          </div>
-        </div>
-        ${detailHtml}
-      </td>
-      <td>
-        <div class="partner-row-main">
-          <div class="c-contact-info">
-            <span style="font-weight:500">${p.contact||'—'}</span>
-            ${p.phone?`<a href="tel:${p.phone}">${p.phone}</a>`:''}
-            ${p.email?`<a href="mailto:${p.email}">${p.email}</a>`:''}
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main">
-          <span class="c-status-badge ${zcStatusClass[p.status]||'cs-paused'}">${zcStatusLabel[p.status]||p.status}</span>
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main" style="flex-direction:column;align-items:flex-start;gap:3px">
-          ${products.length
-            ? products.slice(0,2).map(pr=>`<span style="font-size:11px;background:var(--teal-bg);color:var(--teal);padding:1px 7px;border-radius:20px;white-space:nowrap;font-weight:500">${pr}</span>`).join('')
-            + (products.length>2 ? `<span style="font-size:10px;color:var(--text-3)">+${products.length-2} more</span>` : '')
-            : '<span style="font-size:12px;color:var(--text-3)">—</span>'
-          }
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main">
-          <div class="c-contract-cell">${p.contract||'—'}</div>
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main">
-          <div class="${expClass} c-contract-cell">
-            ${expLabel}
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main" style="font-size:11px;color:var(--text-3);font-family:var(--mono)">
-          ${p.followup||'—'}
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main" style="gap:4px;justify-content:flex-end">
-          <button class="ca-btn" onclick="editZC('${p._dbid||p.uid}')" title="Edit"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z"/></svg></button>
-          <button class="ca-btn del" onclick="deleteZCDirect('${p._dbid||p.uid}')" title="Delete"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--red-mid);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M3 5h10M6 5V3h4v2M6 8v4M10 8v4"/></svg></button>
-          <button class="exp-toggle" id="zct-${p._dbid||p.uid}" onclick="toggleZCD('${p._dbid||p.uid}')">▾</button>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-function toggleZCD(uid) {
-  const el = document.getElementById('zcd-'+uid);
-  const btn = document.getElementById('zct-'+uid);
-  if (el) { el.classList.toggle('open'); }
-  if (btn) { btn.classList.toggle('open'); }
-}
-
-function filterZC(el, val) {
-  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on');
-  zcFilter = val;
-  renderZC();
-}
-
-async function saveZCToDB(p) {
-  setSyncStatus('saving');
-  try {
-    const { _dbid, ...data } = p;
-    if (_dbid) {
-      await db.from('zone_c_partners').update({ data }).eq('id', _dbid);
-    } else {
-      const { data: rows } = await db.from('zone_c_partners').insert({ data }).select();
-      if (rows && rows[0]) p._dbid = rows[0].id;
-    }
-    setSyncStatus('ok');
-  } catch(e) { console.error(e); setSyncStatus('error'); }
-}
-
-async function deleteZCFromDB(p) {
-  if (!p._dbid) return;
-  await db.from('zone_c_partners').delete().eq('id', p._dbid);
-}
-
-function findZC(uid) {
-  return zcPartners.find(p => (p._dbid||p.uid) === uid);
-}
-
-async function addZCNote(uid) {
-  const p = findZC(uid); if (!p) return;
-  const inp = document.getElementById('zc-new-note-'+uid);
-  const text = inp?.value.trim(); if (!text) return;
-  if (!p.notes) p.notes = [];
-  p.notes.push({ date: new Date().toISOString().slice(0,10), text });
-  inp.value = '';
-  await saveZCToDB(p);
-  renderZC();
-  document.getElementById('zcd-'+uid)?.classList.add('open');
-  document.getElementById('zct-'+uid)?.classList.add('open');
-}
-
-async function addZCReminder(uid) {
-  const p = findZC(uid); if (!p) return;
-  const text = document.getElementById('zc-rm-text-'+uid)?.value.trim();
-  const date = document.getElementById('zc-rm-date-'+uid)?.value;
-  if (!text) return;
-  if (!p.reminders) p.reminders = [];
-  p.reminders.push({ text, date: date||'' });
-  document.getElementById('zc-rm-text-'+uid).value = '';
-  await saveZCToDB(p);
-  renderZC();
-  document.getElementById('zcd-'+uid)?.classList.add('open');
-  document.getElementById('zct-'+uid)?.classList.add('open');
-}
-
-async function removeZCReminder(uid, idx) {
-  const p = findZC(uid); if (!p) return;
-  p.reminders.splice(idx, 1);
-  await saveZCToDB(p);
-  renderZC();
-  document.getElementById('zcd-'+uid)?.classList.add('open');
-  document.getElementById('zct-'+uid)?.classList.add('open');
-}
-
-async function uploadZCFile(event, uid) {
-  const p = findZC(uid); if (!p) return;
-  const files = Array.from(event.target.files);
-  event.target.value = '';
-  if (!p.attachments) p.attachments = [];
-  setSyncStatus('uploading');
-  for (const file of files) {
-    const att = await uploadFile(file, 'zc/'+uid);
-    if (att) p.attachments.push(att);
-  }
-  await saveZCToDB(p);
-  renderZC();
-  document.getElementById('zcd-'+uid)?.classList.add('open');
-  document.getElementById('zct-'+uid)?.classList.add('open');
-}
-
-function editZC(uid) {
-  const p = findZC(uid); if (!p) return;
-  editingZCUid = uid;
-  document.getElementById('m-zc-title').textContent = 'Edit partner';
-  document.getElementById('zc-name').value = p.name||'';
-  document.getElementById('zc-country').value = p.country||'';
-  document.getElementById('zc-statement').value = p.statement||'';
-  document.getElementById('zc-biztypes').value = (p.bizTypes||[]).join(', ');
-  document.getElementById('zc-specialization').value = p.specialization||'';
-  document.getElementById('zc-coreTech').value = p.coreTech||'';
-  document.getElementById('zc-teamSize').value = p.teamSize||'';
-  document.getElementById('zc-matchingStudio').value = p.matchingStudio||'';
-  document.getElementById('zc-stage').value = p.stage||'Active';
-  document.getElementById('zc-strategicFit').value = p.strategicFit||'Medium';
-  document.getElementById('zc-avgScore').value = p.avgScore||'';
-  document.getElementById('zc-tier').value = p.tier||'';
-  document.getElementById('zc-lastInteraction').value = p.lastInteraction||'';
-  document.getElementById('zc-contact').value = p.contact||'';
-  document.getElementById('zc-refProjects').value = p.refProjects||'';
-  document.getElementById('zc-note').value = '';
-  document.getElementById('zc-delete-btn').style.display = 'block';
-  openModal('m-zc');
-}
-
-async function saveZC() {
-  const name = document.getElementById('zc-name').value.trim();
-  if (!name) { document.getElementById('zc-name').focus(); return; }
-  const noteText = document.getElementById('zc-note').value.trim();
-  const existing = editingZCUid ? findZC(editingZCUid) : null;
-  const notes = existing?.notes ? [...existing.notes] : [];
-  if (noteText) notes.push({ date: new Date().toISOString().slice(0,10), text: noteText });
-  const bizRaw = document.getElementById('zc-biztypes').value;
-  const bizTypes = bizRaw ? bizRaw.split(',').map(x=>x.trim()).filter(Boolean) : [];
-  const obj = {
-    uid: editingZCUid || ('zc'+Date.now()),
-    _dbid: existing?._dbid,
-    name,
-    country: document.getElementById('zc-country').value.trim(),
-    statement: document.getElementById('zc-statement').value,
-    bizTypes,
-    specialization: document.getElementById('zc-specialization').value.trim(),
-    coreTech: document.getElementById('zc-coreTech').value.trim(),
-    teamSize: document.getElementById('zc-teamSize').value.trim(),
-    matchingStudio: document.getElementById('zc-matchingStudio').value.trim(),
-    stage: document.getElementById('zc-stage').value,
-    strategicFit: document.getElementById('zc-strategicFit').value,
-    avgScore: document.getElementById('zc-avgScore').value.trim(),
-    tier: document.getElementById('zc-tier').value.trim(),
-    lastInteraction: document.getElementById('zc-lastInteraction').value.trim(),
-    contact: document.getElementById('zc-contact').value.trim(),
-    refProjects: document.getElementById('zc-refProjects').value.trim(),
-    notes,
-    reminders: existing?.reminders||[],
-    attachments: existing?.attachments||[]
-  };
-  if (editingZCUid) {
-    const idx = zcPartners.findIndex(p=>(p._dbid||p.uid)===editingZCUid);
-    if (idx>-1) zcPartners[idx] = obj;
-  } else {
-    zcPartners.push(obj);
-  }
-  await saveZCToDB(obj);
-  renderZC();
-  resetZCForm();
-  closeModal('m-zc');
-  toast(editingZCUid ? 'Partner updated' : 'Partner added');
-}
-
-async function deleteZC() {
-  if (!confirm('Delete this partner and all their data?')) return;
-  const p = findZC(editingZCUid); if (!p) return;
-  zcPartners = zcPartners.filter(x=>(x._dbid||x.uid)!==editingZCUid);
-  await deleteZCFromDB(p);
-  renderZC();
-  resetZCForm();
-  closeModal('m-zc');
-  toast('Partner deleted');
-}
-
-async function deleteZCDirect(uid) {
-  if (!confirm('Delete this partner?')) return;
-  const p = findZC(uid); if (!p) return;
-  zcPartners = zcPartners.filter(x=>(x._dbid||x.uid)!==uid);
-  await deleteZCFromDB(p);
-  renderZC();
-  toast('Partner deleted');
-}
-
-function resetZCForm() {
-  editingZCUid = null;
-  document.getElementById('m-zc-title').textContent = 'Add partner';
-  document.getElementById('zc-delete-btn').style.display = 'none';
-  ['zc-name','zc-country','zc-biztypes','zc-specialization','zc-coreTech',
-   'zc-teamSize','zc-matchingStudio','zc-avgScore','zc-tier',
-   'zc-lastInteraction','zc-contact','zc-refProjects','zc-note'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value='';
-  });
-  document.getElementById('zc-stage').value='Active';
-  document.getElementById('zc-strategicFit').value='Medium';
-  document.getElementById('zc-statement').value='';
-}
-
-/* ── Zone C seed data (pre-filled from spreadsheet) ── */
-const zcSeedData = [
-  {name:"Chengdu GuangYun Technology Co., LTD (成都光云科技有限公司)",country:"China",statement:"",bizTypes:["Co-Dev","Outsourcing"],specialization:"Function dev, Game Dev, RPG",coreTech:"Unreal",teamSize:"400-500",refProjects:"X5",stage:"Active",strategicFit:"High",matchingStudio:"Co-Dev",contact:"LiuXi",lastInteraction:"23-Oct-2025",avgScore:"8.85",tier:"A - Strategic",notes:[],reminders:[],attachments:[]},
-  {name:"Ai XinYou · 爱心游",country:"China",statement:"",bizTypes:["Game Dev","Game Publishing"],specialization:"RPG",coreTech:"Unity",teamSize:"",refProjects:"爱奇",stage:"Active",strategicFit:"Medium",matchingStudio:"Co-Dev Studio",contact:"陈薇",lastInteraction:"16-Jul-2025",avgScore:"",tier:"",notes:[{date:"2025-07-16",text:"Suggest VNG re-clone K9 product"}],reminders:[],attachments:[]},
-  {name:"Unity",country:"China",statement:"New",bizTypes:["Game Publishing"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"None",stage:"Paused",strategicFit:"Low",matchingStudio:"General",contact:"",lastInteraction:"22-Oct-2025",avgScore:"",tier:"",notes:[],reminders:[],attachments:[]},
-  {name:"Meridian Play",country:"China",statement:"New",bizTypes:["Game Publishing"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"None",stage:"Archived",strategicFit:"Low",matchingStudio:"General",contact:"alana@meridianplay.com",lastInteraction:"23-Oct-2025",avgScore:"",tier:"",notes:[{date:"2025-10-23",text:"This is the company Tam met in Thailand Gameshow. But the contact email is invalid."}],reminders:[],attachments:[]},
-  {name:"Guangzhou Qianzhou Shaoguang (广州浅跑韶光)",country:"China",statement:"",bizTypes:["Game Dev"],specialization:"CBG & Idle minigame",coreTech:"",teamSize:"",refProjects:"海陆竞战队, 龙驿挂机小程序（蘑菇like）, Pokemon (Fake IP) CBG",stage:"Paused",strategicFit:"Low",matchingStudio:"CT Studio",contact:"Fan JingYu (wechat:fy272719801)",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"FOREAR",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"胡明月",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"ORG 甜橙",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"毕雪松 (Bi Xuesong)",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"Guangzhou Boguan Telecommunication Technology Co., Ltd",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"周连冰",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"GSE",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"绳振伟",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"YDN & FBU",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"周阳",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"Aurora",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"曾美珍",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"XYZ",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"Fan Jingwen",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"CHX",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"姜超",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"SBD",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"深圳市海鸟",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"QLG",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"吴家雷",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
-  {name:"ShangHai-LingXin",country:"China",statement:"New",bizTypes:["Co-Dev","Game Dev"],specialization:"SLG",coreTech:"Unity",teamSize:"20",refProjects:"Project 16 - demo 30'",stage:"Paused",strategicFit:"Low",matchingStudio:"Co-Dev Studio",contact:"CEO: Eric",lastInteraction:"10-Mar-2025",avgScore:"",tier:"",notes:[{date:"2025-03-10",text:"Hongjie introduces"}],reminders:[],attachments:[]},
-  {name:"Dare",country:"LATAM",statement:"New",bizTypes:["Game Publishing"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"Tanks War",stage:"Archived",strategicFit:"High",matchingStudio:"AI Studio",contact:"Ana",lastInteraction:"11-Mar-2025",avgScore:"",tier:"",notes:[{date:"2025-03-11",text:"Meet in Thailand Gameshow"}],reminders:[],attachments:[]},
-  {name:"iDreamSky (创梦天地)",country:"China",statement:"New",bizTypes:["Game Publishing","Game development"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"Tanks War",stage:"Archived",strategicFit:"Medium",matchingStudio:"AI Studio",contact:"Alex",lastInteraction:"5-Nov-2025",avgScore:"",tier:"",notes:[],reminders:[],attachments:[]}
-];
-
-/* load Zone C from DB */
-async function loadZCFromDB() {
-  try {
-    const {data,error} = await db.from('zone_c_partners').select('*').order('created_at');
-    if (error) {
-      console.warn('ZC load error:', error.message);
-      // Use seed data and save to DB
-      await seedZCIfEmpty();
-      return;
-    }
-    if (data && data.length > 0) {
-      zcPartners = data.map(r=>({...r.data, _dbid:r.id}));
-    } else {
-      // DB table is empty — seed it
-      await seedZCIfEmpty();
-    }
-  } catch(e) {
-    console.warn('ZC load error:', e);
-    zcPartners = zcSeedData.map((p,i)=>({...p, uid:'seed'+i}));
-  }
-}
-
-async function seedZCIfEmpty() {
-  // Save all seed partners to DB
-  zcPartners = [];
-  for (const p of zcSeedData) {
-    const obj = {...p, uid:'seed'+Date.now()+Math.random()};
-    zcPartners.push(obj);
-    await saveZCToDB(obj);
-  }
-}
-
-</script>
-</body>
-</html>    tbody.innerHTML = filtered.map((p, i) => {
-    const avIdx = i % 6;
-    const products = (p.products || '').split('\n').filter(Boolean);
-    const members = (p.members || '').split('\n').filter(Boolean);
-    const notes = p.notes || [];
-    const reminders = p.reminders || [];
-    const attachments = p.attachments || [];
-    const did = p._dbid || p.uid;
-
-    // Business type tags
-    function bizTag(type) {
-      const t = type.toLowerCase();
-      if (t.includes('co-dev')) return `<span class="biz-tag biz-codev">${type}</span>`;
-      if (t.includes('publish')) return `<span class="biz-tag biz-pub">${type}</span>`;
-      if (t.includes('art')) return `<span class="biz-tag biz-art">${type}</span>`;
-      if (t.includes('game dev') || t.includes('development')) return `<span class="biz-tag biz-gamedev">${type}</span>`;
-      return `<span class="biz-tag biz-other">${type}</span>`;
-    }
-    const bizTypes = (p.bizTypes || []).map(bizTag).join('') || '<span style="color:var(--text-3);font-size:11px">—</span>';
-
-    // Stage badge
-    const stageMap = {active:'rs-active',paused:'rs-paused',archived:'rs-archived'};
-    const stageClass = stageMap[(p.stage||'').toLowerCase()] || 'rs-archived';
-    const stageBadge = p.stage ? `<span class="${stageClass}">${p.stage}</span>` : '—';
-
-    // Strategic fit badge
-    const fitMap = {high:'sf-high',medium:'sf-medium',low:'sf-low'};
-    const fitClass = fitMap[(p.strategicFit||'').toLowerCase()] || 'sf-low';
-    const fitBadge = p.strategicFit ? `<span class="${fitClass}">${p.strategicFit}</span>` : '—';
-
-    // Detail expand section
-    const notesHtml = notes.length
-      ? notes.slice().reverse().map(n=>`<div class="note-item"><div class="note-date">${n.date}</div><div class="note-text">${n.text}</div></div>`).join('')
-      : '<div style="font-size:12px;color:var(--text-3)">No notes yet</div>';
-
-    const remindersHtml = reminders.length
-      ? reminders.map((r,ri)=>`<div class="reminder-item-c"><span class="rc-dot ${zcDaysLeft(r.date)<0?'rc-hot':zcDaysLeft(r.date)<=3?'rc-mid':'rc-ok'}"></span><span style="flex:1">${r.text}</span><span style="font-size:10px;color:var(--text-3);font-family:var(--mono)">${r.date}</span><button onclick="removeZCReminder('${did}',${ri})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:11px;padding:0 3px">✕</button></div>`).join('')
-      : '<div style="font-size:12px;color:var(--text-3)">No reminders</div>';
-
-    const attachHtml = attachments.map(a=>`<a class="attach-chip" href="${a.url}" target="_blank" rel="noopener">${a.name}</a>`).join('');
-
-    const detailHtml = `<div class="partner-expand-detail" id="zcd-${did}">
-      <div class="detail-grid-c">
-        <div class="detail-box">
-          <h4>Company details</h4>
-          <div class="detail-row"><span class="detail-label">Country</span><span class="detail-val">${p.country||'—'}</span></div>
-          <div class="detail-row"><span class="detail-label">Specialization</span><span class="detail-val">${p.specialization||'—'}</span></div>
-          <div class="detail-row"><span class="detail-label">Core tech</span><span class="detail-val">${p.coreTech||'—'}</span></div>
-          <div class="detail-row"><span class="detail-label">Team size</span><span class="detail-val">${p.teamSize||'—'}</span></div>
-          <div class="detail-row"><span class="detail-label">Matching studio</span><span class="detail-val">${p.matchingStudio||'—'}</span></div>
-          <div class="detail-row"><span class="detail-label">Statement</span><span class="detail-val">${p.statement||'—'}</span></div>
-          <div class="detail-row"><span class="detail-label">Avg score</span><span class="detail-val">${p.avgScore||'—'}</span></div>
-          <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-val">${p.tier||'—'}</span></div>
-        </div>
-        <div class="detail-box">
-          <h4>Reference projects</h4>
-          ${(p.refProjects||'').split(',').filter(Boolean).map(r=>`<div class="note-item"><div class="note-text">${r.trim()}</div></div>`).join('') || '<div style="font-size:12px;color:var(--text-3)">None</div>'}
-        </div>
-        <div class="detail-box">
-          <h4>Notes & updates</h4>
-          ${notesHtml}
-          <div style="display:flex;gap:6px;margin-top:8px">
-            <input type="text" id="zc-new-note-${did}" placeholder="Add a note…" style="flex:1;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-            <button class="btn btn-sm" onclick="addZCNote('${did}')">Add</button>
-          </div>
-        </div>
-        <div class="detail-box">
-          <h4>Follow-up reminders</h4>
-          ${remindersHtml}
-          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-            <input type="text" id="zc-rm-text-${did}" placeholder="Reminder…" style="flex:1;min-width:80px;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-            <input type="date" id="zc-rm-date-${did}" style="height:28px;padding:0 6px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;outline:none">
-            <button class="btn btn-sm" onclick="addZCReminder('${did}')">Add</button>
-          </div>
-          <div style="margin-top:12px">
-            <h4 style="font-size:10px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Attachments</h4>
-            <div class="attach-list-c">${attachHtml}</div>
-            <div class="c-upload-area" onclick="document.getElementById('zc-file-${did}').click()">
-              📎 Attach contract / document
-              <input type="file" id="zc-file-${did}" multiple onchange="uploadZCFile(event,'${did}')">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-
-    return `<tr data-zcstatus="${(p.stage||'').toLowerCase()}" data-zcuid="${did}">
-      <td>
-        <div class="partner-row-main" onclick="toggleZCD('${did}')">
-          <div class="c-av c-av-${avIdx}">${(p.name||'?').replace(/[^a-zA-Z一-鿿]/g,'').slice(0,2).toUpperCase()||p.name.slice(0,2).toUpperCase()}</div>
-          <div style="min-width:0">
-            <div class="c-company">${p.name}</div>
-            ${p.statement ? `<span class="stmt-new">${p.statement}</span>` : ''}
-          </div>
-        </div>
-        ${detailHtml}
-      </td>
-      <td><div class="partner-row-main"><span class="country-pill">${p.country||'—'}</span></div></td>
-      <td><div class="partner-row-main" style="flex-wrap:wrap;gap:2px">${bizTypes}</div></td>
-      <td><div class="partner-row-main">${stageBadge}</div></td>
-      <td><div class="partner-row-main">${fitBadge}</div></td>
-      <td><div class="partner-row-main" style="font-size:11px;color:var(--text-2)">${p.contact||'—'}</div></td>
-      <td><div class="partner-row-main" style="font-size:11px;color:var(--text-3);font-family:var(--mono)">${p.lastInteraction||'—'}</div></td>
-      <td><div class="partner-row-main" style="flex-direction:column;align-items:flex-start;gap:2px">
-        ${p.avgScore ? `<span style="font-size:12px;font-weight:600;color:var(--text)">${p.avgScore}</span>` : ''}
-        ${p.tier ? `<span style="font-size:10px;color:var(--text-3)">${p.tier}</span>` : ''}
-        ${!p.avgScore && !p.tier ? '<span style="font-size:11px;color:var(--text-3)">—</span>' : ''}
-      </div></td>
-      <td>
-        <div class="partner-row-main" style="gap:4px;justify-content:flex-end">
-          <button class="ca-btn" onclick="editZC('${did}')" title="Edit"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z"/></svg></button>
-          <button class="ca-btn del" onclick="deleteZCDirect('${did}')" title="Delete"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--red-mid);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M3 5h10M6 5V3h4v2M6 8v4M10 8v4"/></svg></button>
-          <button class="exp-toggle" id="zct-${did}" onclick="toggleZCD('${did}')">▾</button>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
-  updateStats();
-}
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Workspace — Assistant & Partnership Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#f5f4f0;--surface:#fff;--surface2:#f0efe9;
-  --border:rgba(0,0,0,.08);--border-mid:rgba(0,0,0,.14);
-  --text:#1a1917;--text-2:#6b6a65;--text-3:#a09f9a;
-  --teal:#0f6e56;--teal-bg:#e1f5ee;--teal-mid:#1d9e75;
-  --purple:#3c3489;--purple-bg:#eeedfe;--purple-mid:#7f77dd;
-  --amber:#633806;--amber-bg:#faeeda;--amber-mid:#ba7517;
-  --red:#a32d2d;--red-bg:#fcebeb;--red-mid:#e24b4a;
-  --blue:#0c447c;--blue-bg:#e6f1fb;--blue-mid:#378add;
-  --green:#3b6d11;--green-bg:#eaf3de;--green-mid:#639922;
-  --coral:#712b13;--coral-bg:#faece7;
-  --pink:#72243e;--pink-bg:#fbeaf0;
-  --gray-bg:#f1efe8;
-  --radius:10px;--radius-sm:6px;--radius-pill:20px;
-  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
-  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;line-height:1.5}
-.page{max-width:1300px;margin:0 auto;padding:24px 20px 48px;display:flex;flex-direction:column;gap:18px}
-
-/* topbar */
-.topbar{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:var(--shadow)}
-.topbar-left{display:flex;align-items:center;gap:13px}
-.logo-mark{width:34px;height:34px;border-radius:8px;background:var(--text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-mark span{color:#fff;font-size:13px;font-weight:600;letter-spacing:-.5px}
-.topbar h1{font-size:15px;font-weight:600}
-.topbar .date{font-size:12px;color:var(--text-3);font-family:var(--mono)}
-.topbar-right{display:flex;gap:6px;flex-wrap:wrap}
-.btn{font-family:var(--font);font-size:12px;font-weight:500;padding:6px 14px;border-radius:var(--radius-pill);border:1px solid var(--border-mid);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all .15s}
-.btn:hover{background:var(--surface2);color:var(--text);border-color:rgba(0,0,0,.2)}
-.btn-primary{background:var(--text);color:#fff;border-color:var(--text)}
-.btn-primary:hover{background:#333}
-.btn-danger{background:var(--red-bg);color:var(--red);border-color:#f09595}
-.btn-danger:hover{background:#f7c1c1}
-
-/* metrics */
-.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
-.mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 16px;box-shadow:var(--shadow)}
-.mc-label{font-size:11px;color:var(--text-3);font-weight:500;letter-spacing:.03em;text-transform:uppercase;margin-bottom:4px}
-.mc-val{font-size:24px;font-weight:600;font-family:var(--mono)}
-.mc-val.red{color:var(--red-mid)}.mc-val.green{color:var(--green-mid)}.mc-val.blue{color:var(--blue-mid)}.mc-val.grey{color:var(--text-3)}
-
-/* zone */
-.zone-divider{display:flex;align-items:center;gap:10px;margin:4px 0 0}
-.zone-line{flex:1;height:1px;background:var(--border)}
-.zone-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);white-space:nowrap;display:flex;align-items:center;gap:6px}
-.zone-dot{width:6px;height:6px;border-radius:50%}
-.zone-dot.teal{background:var(--teal-mid)}.zone-dot.purple{background:var(--purple-mid)}
-.zone-a{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-.zone-b{display:grid;grid-template-columns:1fr;gap:14px}
-
-/* panel */
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
-.panel-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.panel-title{font-size:12px;font-weight:600;color:var(--text-2);letter-spacing:.02em}
-.pill-count{font-size:11px;padding:2px 8px;border-radius:var(--radius-pill);background:var(--surface2);color:var(--text-3);border:1px solid var(--border)}
-.cat-tabs{display:flex;gap:4px;flex-wrap:wrap}
-.ctab{font-family:var(--font);font-size:11px;font-weight:500;padding:3px 9px;border-radius:var(--radius-pill);border:1px solid var(--border);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s}
-.ctab.on{background:var(--text);color:#fff;border-color:var(--text)}
-.ctab:hover:not(.on){background:var(--surface2);color:var(--text-2)}
-
-/* STATUS BADGES */
-.st-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap;cursor:pointer;user-select:none;transition:all .15s;border:1px solid transparent}
-.st-new{background:var(--gray-bg);color:#5f5e5a;border-color:#d3d1c7}
-.st-progress{background:var(--blue-bg);color:var(--blue);border-color:#85b7eb}
-.st-done{background:var(--green-bg);color:var(--green);border-color:#97c459}
-.st-cancelled{background:var(--red-bg);color:var(--red);border-color:#f09595;text-decoration:line-through}
-.st-custom{background:var(--amber-bg);color:var(--amber);border-color:#fac775}
-
-/* DAILY TASK CARDS */
-.task-item{background:var(--surface2);border:1px solid transparent;border-radius:var(--radius-sm);transition:all .15s;position:relative}
-.task-item:hover{background:#e8e7e0;border-color:var(--border)}
-.task-item:hover .card-actions{opacity:1;pointer-events:all}
-.task-item.done-item .task-name{text-decoration:line-through;color:var(--text-3)}
-.task-item.cancelled-item .task-name{text-decoration:line-through;color:var(--text-3);opacity:.6}
-.task-item.cancelled-item{opacity:.55}
-.task-top{display:flex;align-items:flex-start;gap:8px;padding:8px 10px 6px}
-.chk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border-mid);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;background:var(--surface)}
-.chk.ticked{background:var(--text);border-color:var(--text)}
-.chk.ticked::after{content:'';width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translateY(-1px);display:block}
-.task-body{flex:1;min-width:0}
-.task-name{font-size:12px;font-weight:500;color:var(--text);line-height:1.4}
-.task-meta{font-size:11px;color:var(--text-3);margin-top:3px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
-.task-note{font-size:11px;color:var(--text-2);background:rgba(255,255,255,.7);border-top:1px solid var(--border);padding:5px 10px 6px 34px;border-radius:0 0 var(--radius-sm) var(--radius-sm);font-style:italic;line-height:1.5}
-.task-note:empty{display:none}
-
-/* CARD ACTION BUTTONS (edit / delete) */
-.card-actions{opacity:0;pointer-events:none;display:flex;gap:3px;flex-shrink:0;transition:opacity .15s;margin-top:1px}
-.ca-btn{width:22px;height:22px;border-radius:5px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0}
-.ca-btn:hover{border-color:var(--border-mid);background:var(--surface2)}
-.ca-btn.del:hover{background:var(--red-bg);border-color:#f09595}
-.ca-btn svg{width:11px;height:11px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.ca-btn.del svg{stroke:var(--red-mid)}
-
-/* badges */
-.badge{font-size:10px;padding:1px 7px;border-radius:var(--radius-pill);font-weight:600;white-space:nowrap}
-.b-adm{background:var(--purple-bg);color:var(--purple)}.b-rep{background:var(--blue-bg);color:var(--blue)}
-.b-trv{background:var(--teal-bg);color:var(--teal)}.b-evt{background:var(--amber-bg);color:var(--amber)}
-.b-par{background:var(--pink-bg);color:var(--pink)}.b-fup{background:var(--gray-bg);color:#444441}.b-int{background:var(--gray-bg);color:#444441}
-.b-custom{background:#faeeda;color:#633806;border:1px solid #fac775}
-.pdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.ph{background:var(--red-mid)}.pm{background:var(--amber-mid)}.pl{background:var(--green-mid)}
-
-/* trip/event */
-.trip-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;position:relative}
-.trip-card:last-of-type{margin-bottom:0}
-.trip-card:hover .card-actions{opacity:1;pointer-events:all}
-.trip-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:6px}
-.trip-name{font-size:12px;font-weight:600;color:var(--text)}
-.tstatus{font-size:10px;padding:2px 8px;border-radius:var(--radius-pill);font-weight:600;white-space:nowrap;flex-shrink:0}
-.ts-plan{background:var(--amber-bg);color:var(--amber)}.ts-book{background:var(--purple-bg);color:var(--purple)}.ts-ok{background:var(--green-bg);color:var(--green)}
-.steps{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
-.step{font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);border:1px solid var(--border);color:var(--text-3);background:var(--surface);white-space:nowrap}
-.step.s-done{background:var(--green-bg);border-color:#97c459;color:var(--green)}
-.step.s-curr{background:var(--purple-bg);border-color:#afa9ec;color:var(--purple)}
-.pbar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
-.pfill{height:100%;border-radius:2px;background:var(--green-mid)}
-.trip-sub{font-size:10px;color:var(--text-3);margin-top:5px;font-family:var(--mono)}
-
-/* kanban */
-.kanban{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.kcol{background:var(--surface2);border-radius:var(--radius-sm);border:1px solid var(--border);padding:8px;display:flex;flex-direction:column;gap:6px}
-.kcol-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:6px;border-bottom:1px solid var(--border);margin-bottom:2px}
-.kcol-title{font-size:11px;font-weight:600;color:var(--text-2)}
-.kcard{background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border);transition:all .15s;position:relative}
-.kcard:hover{border-color:var(--border-mid);transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.06)}
-.kcard:hover .card-actions{opacity:1;pointer-events:all}
-.kcard.done-card .kcard-title{text-decoration:line-through;color:var(--text-3)}
-.kcard.cancelled-card .kcard-title{text-decoration:line-through;color:var(--text-3);opacity:.6}
-.kcard.cancelled-card{opacity:.55}
-.kcard-top{padding:9px 10px 7px;display:flex;flex-direction:column;gap:5px}
-.kcard-title{font-size:12px;font-weight:500;color:var(--text);line-height:1.4}
-.kcard-row{display:flex;align-items:center;justify-content:space-between;gap:4px}
-.kcard-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex:1}
-.kcard-note{font-size:11px;color:var(--text-2);background:#f8f7f3;border-top:1px solid var(--border);padding:5px 10px 6px;border-radius:0 0 var(--radius-sm) var(--radius-sm);font-style:italic;line-height:1.5}
-.kcard-note:empty{display:none}
-.pri{font-size:10px;padding:1px 7px;border-radius:var(--radius-pill);font-weight:600;white-space:nowrap}
-.pri-h{background:var(--coral-bg);color:var(--coral)}.pri-m{background:var(--amber-bg);color:var(--amber)}.pri-l{background:var(--green-bg);color:var(--green)}
-.due{font-size:10px;color:var(--text-3);font-family:var(--mono)}
-.due-hot{color:var(--red-mid);font-family:var(--mono)}
-
-/* partner */
-.partner-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);position:relative}
-.partner-row:last-child{border-bottom:none}
-.partner-row:hover .card-actions{opacity:1;pointer-events:all}
-.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;font-family:var(--mono)}
-.av-p{background:var(--purple-bg);color:var(--purple)}.av-t{background:var(--teal-bg);color:var(--teal)}
-.av-b{background:var(--blue-bg);color:var(--blue)}.av-c{background:var(--pink-bg);color:var(--pink)}.av-g{background:var(--amber-bg);color:var(--amber)}
-.p-name{font-size:12px;font-weight:600;color:var(--text)}
-.p-sub{font-size:10px;color:var(--text-3);font-family:var(--mono)}
-.pstat{font-size:10px;font-weight:600;white-space:nowrap}
-.ps-act{color:var(--teal)}.ps-pend{color:var(--amber-mid)}.ps-warm{color:var(--purple)}
-
-/* reminders */
-.remind-item{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);position:relative}
-.remind-item:last-child{border-bottom:none}
-.remind-item:hover .card-actions{opacity:1;pointer-events:all}
-.ri-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
-.ri-urg{background:var(--red-mid)}.ri-mid{background:var(--amber-mid)}.ri-norm{background:var(--green-mid)}
-.ri-text{font-size:12px;color:var(--text);line-height:1.4}
-.ri-time{font-size:10px;color:var(--text-3);margin-top:1px;font-family:var(--mono)}
-
-.add-row{display:flex;justify-content:flex-end;padding-top:4px}
-.add-btn{font-family:var(--font);font-size:11px;font-weight:500;padding:4px 11px;border-radius:var(--radius-pill);border:1px dashed var(--border-mid);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s}
-.add-btn:hover{background:var(--surface2);color:var(--text-2);border-style:solid}
-
-/* modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:100;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border-mid);padding:20px;width:420px;max-width:95vw;box-shadow:0 8px 30px rgba(0,0,0,.12)}
-.modal h3{font-size:14px;font-weight:600;margin-bottom:14px}
-.form-group{margin-bottom:11px}
-.form-group label{font-size:11px;font-weight:600;color:var(--text-2);display:block;margin-bottom:4px;letter-spacing:.03em;text-transform:uppercase}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 10px;border:1px solid var(--border-mid);border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s}
-.form-group textarea{resize:vertical;min-height:64px;line-height:1.5}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(0,0,0,.3)}
-.modal-actions{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px}
-.modal-actions-right{display:flex;gap:8px}
-
-.footer{text-align:center;font-size:11px;color:var(--text-3);padding-top:8px;border-top:1px solid var(--border);font-family:var(--mono)}
-
-/* toast notification */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:#fff;font-size:12px;padding:8px 18px;border-radius:var(--radius-pill);z-index:200;transition:transform .2s;pointer-events:none;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* SMART SELECT — select + optional free-text input */
-.smart-select{display:flex;flex-direction:column;gap:6px}
-.smart-select select{width:100%}
-.smart-select .custom-input{width:100%;padding:8px 10px;border:1px solid var(--border-mid);border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s;display:none}
-.smart-select .custom-input.visible{display:block}
-.smart-select .custom-input:focus{border-color:rgba(0,0,0,.3)}
-.smart-select .custom-hint{font-size:11px;color:var(--text-3);display:none}
-.smart-select .custom-input.visible~.custom-hint{display:block}
-
-
-/* ════ ZONE C — Partner CRM ════ */
-.zone-c-table{width:100%;border-collapse:collapse;font-size:12px}
-.zone-c-table th{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface2)}
-.zone-c-table td{padding:0;vertical-align:top;border-bottom:1px solid var(--border)}
-.zone-c-table tr:last-child td{border-bottom:none}
-.zone-c-table tr:hover td{background:#faf9f6}
-.partner-row-main{display:flex;align-items:center;gap:6px;padding:9px 10px;cursor:pointer;min-height:44px}
-.partner-expand-detail{display:none;background:#faf9f6;border-top:1px solid var(--border);padding:14px}
-.partner-expand-detail.open{display:block}
-.c-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;font-family:var(--mono)}
-.c-av-0{background:#eeedfe;color:#3c3489}.c-av-1{background:#e1f5ee;color:#0f6e56}
-.c-av-2{background:#e6f1fb;color:#0c447c}.c-av-3{background:#fbeaf0;color:#72243e}
-.c-av-4{background:#faeeda;color:#633806}.c-av-5{background:#eaf3de;color:#3b6d11}
-.c-company{font-weight:600;color:var(--text);font-size:12px;line-height:1.3}
-.c-subtext{font-size:10px;color:var(--text-3);margin-top:1px}
-/* Relationship Stage */
-.rs-active{background:#e1f5ee;color:#0f6e56;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
-.rs-paused{background:#fcebeb;color:#a32d2d;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
-.rs-archived{background:#f1efe8;color:#5f5e5a;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
-/* Strategic Fit */
-.sf-high{background:#eeedfe;color:#3c3489;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
-.sf-medium{background:#faeeda;color:#633806;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
-.sf-low{background:#f1efe8;color:#5f5e5a;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
-/* Business Type tags */
-.biz-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;white-space:nowrap;display:inline-block;margin:1px}
-.biz-codev{background:#e6f1fb;color:#0c447c}
-.biz-pub{background:#eeedfe;color:#3c3489}
-.biz-art{background:#faeeda;color:#633806}
-.biz-gamedev{background:#e1f5ee;color:#0f6e56}
-.biz-other{background:#f1efe8;color:#5f5e5a}
-/* Statement badge */
-.stmt-new{background:#eaf3de;color:#3b6d11;font-size:10px;font-weight:600;padding:1px 6px;border-radius:20px}
-/* Country flag pill */
-.country-pill{font-size:10px;color:var(--text-3);font-family:var(--mono)}
-/* Detail grid */
-.detail-grid-c{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.detail-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px}
-.detail-box h4{font-size:10px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.detail-row{display:flex;justify-content:space-between;align-items:flex-start;font-size:12px;padding:3px 0;border-bottom:1px solid var(--border);gap:8px}
-.detail-row:last-child{border-bottom:none}
-.detail-label{color:var(--text-3);flex-shrink:0;font-size:11px}
-.detail-val{color:var(--text);text-align:right;font-size:11px;font-weight:500}
-.note-item{padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
-.note-item:last-child{border-bottom:none}
-.note-date{font-size:10px;color:var(--text-3);font-family:var(--mono);margin-bottom:2px}
-.note-text{color:var(--text);line-height:1.5}
-.reminder-item-c{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px}
-.reminder-item-c:last-child{border-bottom:none}
-.rc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.rc-hot{background:#e24b4a}.rc-mid{background:#ba7517}.rc-ok{background:#1d9e75}
-.attach-list-c{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
-.attach-chip{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--blue-bg);color:var(--blue);border:1px solid #85b7eb;cursor:pointer;text-decoration:none;white-space:nowrap}
-.c-upload-area{border:1.5px dashed var(--border-mid);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--text-3);cursor:pointer;text-align:center;transition:all .15s;margin-top:6px}
-.c-upload-area:hover{border-color:var(--text);color:var(--text);background:var(--surface2)}
-.c-upload-area input{display:none}
-.exp-toggle{background:none;border:none;cursor:pointer;color:var(--text-3);font-size:16px;transition:transform .2s;flex-shrink:0;padding:0 4px}
-.exp-toggle.open{transform:rotate(180deg)}
-.zone-c-wrap{overflow-x:auto}
-.c-contact-info{font-size:12px;color:var(--text-2);display:flex;flex-direction:column;gap:2px}
-.c-contact-info a{color:var(--blue);text-decoration:none;font-size:11px}
-.c-contract-cell{font-size:12px}
-.days-left{font-size:10px;font-family:var(--mono)}
-
-@media print{body{background:#fff}.btn,.add-btn,.modal-overlay,.card-actions{display:none!important}.panel,.mc{box-shadow:none}}
-@media(max-width:900px){.metrics{grid-template-columns:repeat(3,1fr)}.zone-a,.zone-b{grid-template-columns:1fr}.kanban{grid-template-columns:1fr}}
-@media(max-width:560px){.metrics{grid-template-columns:repeat(2,1fr)}.topbar{flex-direction:column;align-items:flex-start}}
-</style>
-</head>
-<body>
-<div class="page">
-
-<div class="topbar">
-  <div class="topbar-left">
-    <div class="logo-mark"><span>WS</span></div>
-    <div>
-      <h1>My Workspace</h1>
-      <div class="date" id="live-date"></div>
-    </div>
-  </div>
-  <div class="topbar-right">
-    <button class="btn" onclick="openModal('m-daily')">+ Daily task</button>
-    <button class="btn" onclick="openModal('m-trip')">+ Trip</button>
-    <button class="btn" onclick="openModal('m-event')">+ Event</button>
-    <button class="btn" onclick="openModal('m-ptask')">+ Partner task</button>
-    <span id="sync-status" style="font-size:11px;font-family:var(--mono);color:#a09f9a;padding:0 4px">Connecting…</span>
-    <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
-  </div>
-</div>
-
-<div class="metrics">
-  <div class="mc"><div class="mc-label">Total tasks</div><div class="mc-val" id="m-total">10</div></div>
-  <div class="mc"><div class="mc-label">In progress</div><div class="mc-val blue" id="m-prog">3</div></div>
-  <div class="mc"><div class="mc-label">Done today</div><div class="mc-val green" id="m-done">0</div></div>
-  <div class="mc"><div class="mc-label">Cancelled</div><div class="mc-val grey" id="m-cancel">0</div></div>
-  <div class="mc"><div class="mc-label">Partners (Zone C)</div><div class="mc-val blue" id="m-zc-partners">0</div></div>
-  <div class="mc"><div class="mc-label">Trips tracked</div><div class="mc-val">3</div></div>
-</div>
-
-<div class="zone-divider">
-  <div class="zone-line"></div>
-  <div class="zone-label"><span class="zone-dot teal"></span>Zone A — Daily & operations</div>
-  <div class="zone-line"></div>
-</div>
-
-<div class="zone-a">
-
-  <!-- DAILY CHECKLIST -->
-  <div class="panel">
-    <div class="panel-head">
-      <span class="panel-title">Daily checklist</span>
-      <div class="cat-tabs">
-        <div class="ctab on" onclick="filterDaily(this,'all')">All</div>
-        <div class="ctab" onclick="filterDaily(this,'adm')">Admin</div>
-        <div class="ctab" onclick="filterDaily(this,'rep')">Report</div>
-        <div class="ctab" onclick="filterDaily(this,'trv')">Travel</div>
-        <div class="ctab" onclick="filterDaily(this,'evt')">Event</div>
+        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-3);cursor:pointer;white-space:nowrap">
+          <input type="checkbox" id="hide-done-toggle" onchange="toggleHideDone(this.checked)" style="cursor:pointer">
+          Hide done
+        </label>
       </div>
     </div>
     <div id="daily-list" style="display:flex;flex-direction:column;gap:5px">
@@ -2471,7 +665,7 @@ async function loadAllFromDB(){
       dbLoad('daily_tasks'),dbLoad('kanban_tasks'),dbLoad('trips'),
       dbLoad('events'),dbLoad('partners'),dbLoad('reminders')
     ]);
-    if(dt&&dt.length) dailyTasks=dt;
+    if(dt&&dt.length) dailyTasks=dt.slice().reverse();
     if(kt&&kt.length) kanbanTasks=kt;
     if(tr&&tr.length) trips=tr;
     if(ev&&ev.length) events=ev;
@@ -2608,9 +802,23 @@ function tickDaily(chk){
 }
 
 /* ── filter ── */
+let hideDone = false;
 function filterDaily(el,cat){
   el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
-  document.querySelectorAll('#daily-list .task-item').forEach(t=>{t.style.display=(cat==='all'||t.dataset.cat===cat)?'flex':'none'});
+  applyDailyFilter(cat);
+}
+function toggleHideDone(val){
+  hideDone = val;
+  const active = document.querySelector('#daily-list').closest('.panel').querySelector('.ctab.on');
+  const cat = active ? (active.onclick+'').match(/'([^']+)'\)/)?.[1] || 'all' : 'all';
+  applyDailyFilter(cat);
+}
+function applyDailyFilter(cat){
+  document.querySelectorAll('#daily-list .task-item').forEach(t=>{
+    const catMatch = cat==='all'||t.dataset.cat===cat;
+    const doneHidden = hideDone && (t.dataset.status==='done'||t.classList.contains('done-item'));
+    t.style.display=(catMatch && !doneHidden)?'flex':'none';
+  });
 }
 function filterKanban(el,cat){
   el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
@@ -2693,7 +901,7 @@ function saveDailyTask(){
     note:document.getElementById('dt-note').value.trim()
   };
   if(editingDailyUid){const idx=dailyTasks.findIndex(x=>x.uid===editingDailyUid);if(idx>-1)dailyTasks[idx]=obj;}
-  else dailyTasks.push(obj);
+  else dailyTasks.unshift(obj);
   renderDailyTasks();resetDailyForm();closeModal('m-daily');toast(editingDailyUid?'Task updated':'Task added');
 }
 
@@ -2773,7 +981,7 @@ function savePTask(){
     note:document.getElementById('pt-note').value.trim()
   };
   if(editingPTaskUid){const idx=kanbanTasks.findIndex(x=>x.uid===editingPTaskUid);if(idx>-1)kanbanTasks[idx]=obj;}
-  else kanbanTasks.push(obj);
+  else kanbanTasks.unshift(obj);
   renderKanban();resetPTaskForm();closeModal('m-ptask');toast(editingPTaskUid?'Task updated':'Task added');
 }
 
@@ -3135,121 +1343,124 @@ function renderZC() {
     return;
   }
   tbody.innerHTML = filtered.map((p, i) => {
-    const days = zcDaysLeft(p.expiry);
-    const expClass = zcExpiryClass(days);
-    const expLabel = zcExpiryLabel(days, p.expiry);
-    const avIdx = i % zcAvColors;
-    const products = (p.products || '').split('\n').filter(Boolean);
-    const members = (p.members || '').split('\n').filter(Boolean);
+    const avIdx = i % 6;
+    const did = p._dbid || p.uid;
+
+    // Business type tags
+    function bizTag(type) {
+      const t = (type||'').toLowerCase();
+      if (t.includes('co-dev')) return `<span class="biz-tag biz-codev">${type}</span>`;
+      if (t.includes('publish')) return `<span class="biz-tag biz-pub">${type}</span>`;
+      if (t.includes('art')) return `<span class="biz-tag biz-art">${type}</span>`;
+      if (t.includes('game dev')||t.includes('development')) return `<span class="biz-tag biz-gamedev">${type}</span>`;
+      return `<span class="biz-tag biz-other">${type}</span>`;
+    }
+    const bizTypes = Array.isArray(p.bizTypes) && p.bizTypes.length
+      ? p.bizTypes.map(bizTag).join('')
+      : '<span style="color:var(--text-3);font-size:11px">—</span>';
+
+    // Stage badge
+    const stageKey = (p.stage||'').toLowerCase();
+    const stageCls = stageKey==='active'?'rs-active':stageKey==='paused'?'rs-paused':'rs-archived';
+    const stageBadge = p.stage ? `<span class="${stageCls}">${p.stage}</span>` : '<span style="color:var(--text-3)">—</span>';
+
+    // Strategic fit badge
+    const fitKey = (p.strategicFit||'').toLowerCase();
+    const fitCls = fitKey==='high'?'sf-high':fitKey==='medium'?'sf-medium':'sf-low';
+    const fitBadge = p.strategicFit ? `<span class="${fitCls}">${p.strategicFit}</span>` : '<span style="color:var(--text-3)">—</span>';
+
+    // Notes
     const notes = p.notes || [];
     const reminders = p.reminders || [];
     const attachments = p.attachments || [];
+    const notesHtml = notes.length
+      ? notes.slice().reverse().map(n=>`<div class="note-item"><div class="note-date">${n.date}</div><div class="note-text">${n.text}</div></div>`).join('')
+      : '<div style="font-size:12px;color:var(--text-3)">No notes yet</div>';
+    const remindersHtml = reminders.length
+      ? reminders.map((r,ri)=>`<div class="reminder-item-c"><span class="rc-dot rc-ok"></span><span style="flex:1">${r.text}</span><span style="font-size:10px;color:var(--text-3);font-family:var(--mono)">${r.date||''}</span><button onclick="removeZCReminder('${did}',${ri})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:11px;padding:0 3px">✕</button></div>`).join('')
+      : '<div style="font-size:12px;color:var(--text-3)">No reminders</div>';
+    const attachHtml = attachments.map(a=>`<a class="attach-chip" href="${a.url}" target="_blank" rel="noopener">${a.name}</a>`).join('');
+    const refItems = (p.refProjects||'').split(',').filter(Boolean).map(r=>`<div class="note-item"><div class="note-text">${r.trim()}</div></div>`).join('') || '<div style="font-size:12px;color:var(--text-3)">None</div>';
 
-    const detailHtml = `
-      <div class="partner-expand-detail" id="zcd-${p._dbid||p.uid}">
-        <div class="detail-grid-c">
-          <div class="detail-box">
-            <h4>Products & services</h4>
-            ${products.length ? products.map(pr=>`<div class="product-item">${pr}</div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">None added</div>'}
-          </div>
-          <div class="detail-box">
-            <h4>Key members</h4>
-            ${members.length ? members.map(m=>{
-              const parts = m.split('—').map(x=>x.trim());
-              return `<div class="member-row"><span class="member-name">${parts[0]||m}</span><span class="member-role">${parts[1]||''}</span></div>`;
-            }).join('') : '<div style="font-size:12px;color:var(--text-3)">None added</div>'}
-          </div>
-          <div class="detail-box">
-            <h4>Notes & updates</h4>
-            ${notes.length ? notes.slice().reverse().map(n=>`<div class="note-item"><div class="note-date">${n.date}</div><div class="note-text">${n.text}</div></div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">No notes yet</div>'}
-            <div style="display:flex;gap:6px;margin-top:8px">
-              <input type="text" id="zc-new-note-${p._dbid||p.uid}" placeholder="Add a note…" style="flex:1;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-              <button class="btn btn-sm" onclick="addZCNote('${p._dbid||p.uid}')">Add</button>
-            </div>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
-          <div class="detail-box">
-            <h4>Follow-up reminders</h4>
-            ${reminders.length ? reminders.map((r,ri)=>`<div class="reminder-item-c"><span class="rc-dot ${zcDaysLeft(r.date)<0?'rc-hot':zcDaysLeft(r.date)<=3?'rc-mid':'rc-ok'}"></span><span style="flex:1;font-size:12px">${r.text}</span><span style="font-size:10px;color:var(--text-3);font-family:var(--mono)">${r.date}</span><button onclick="removeZCReminder('${p._dbid||p.uid}',${ri})" style="background:none;border:none;cursor:pointer;color:var(--text-3);font-size:11px;padding:0 3px">✕</button></div>`).join('') : '<div style="font-size:12px;color:var(--text-3)">No reminders</div>'}
-            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-              <input type="text" id="zc-rm-text-${p._dbid||p.uid}" placeholder="Reminder…" style="flex:1;min-width:80px;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-              <input type="date" id="zc-rm-date-${p._dbid||p.uid}" style="height:28px;padding:0 6px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
-              <button class="btn btn-sm" onclick="addZCReminder('${p._dbid||p.uid}')">Add</button>
-            </div>
-          </div>
-          <div class="detail-box">
-            <h4>Attachments</h4>
-            <div class="attach-list-c">${attachments.map((a,ai)=>`<a class="attach-chip" href="${a.url}" target="_blank" rel="noopener">${a.name}</a>`).join('')}</div>
-            <div class="c-upload-area" onclick="document.getElementById('zc-file-${p._dbid||p.uid}').click()">
-              📎 Attach contract / document
-              <input type="file" id="zc-file-${p._dbid||p.uid}" multiple onchange="uploadZCFile(event,'${p._dbid||p.uid}')">
-            </div>
-          </div>
-        </div>
-      </div>`;
+    // Avatar initials - handle mixed ASCII/CJK
+    const nameStr = p.name || '?';
+    const initials = nameStr.replace(/[\s\(\).,&]/g,'').slice(0,2).toUpperCase();
 
-    return `<tr data-zcstatus="${p.status}" data-zcuid="${p._dbid||p.uid}">
+    return `<tr data-zcstatus="${stageKey}" data-zcuid="${did}">
       <td>
-        <div class="partner-row-main" onclick="toggleZCD('${p._dbid||p.uid}')">
-          <div class="c-av c-av-${avIdx}">${(p.name||'?').slice(0,2).toUpperCase()}</div>
-          <div>
+        <div class="partner-row-main" onclick="toggleZCD('${did}')">
+          <div class="c-av c-av-${avIdx}">${initials}</div>
+          <div style="min-width:0">
             <div class="c-company">${p.name||'—'}</div>
-            <div class="c-subtext">${p.address||''}</div>
+            ${p.statement ? `<span class="stmt-new">${p.statement}</span>` : ''}
           </div>
         </div>
-        ${detailHtml}
-      </td>
-      <td>
-        <div class="partner-row-main">
-          <div class="c-contact-info">
-            <span style="font-weight:500">${p.contact||'—'}</span>
-            ${p.phone?`<a href="tel:${p.phone}">${p.phone}</a>`:''}
-            ${p.email?`<a href="mailto:${p.email}">${p.email}</a>`:''}
+        <div class="partner-expand-detail" id="zcd-${did}">
+          <div class="detail-grid-c">
+            <div class="detail-box">
+              <h4>Company details</h4>
+              <div class="detail-row"><span class="detail-label">Country</span><span class="detail-val">${p.country||'—'}</span></div>
+              <div class="detail-row"><span class="detail-label">Specialization</span><span class="detail-val">${p.specialization||'—'}</span></div>
+              <div class="detail-row"><span class="detail-label">Core tech</span><span class="detail-val">${p.coreTech||'—'}</span></div>
+              <div class="detail-row"><span class="detail-label">Team size</span><span class="detail-val">${p.teamSize||'—'}</span></div>
+              <div class="detail-row"><span class="detail-label">Matching studio</span><span class="detail-val">${p.matchingStudio||'—'}</span></div>
+              <div class="detail-row"><span class="detail-label">Avg score</span><span class="detail-val">${p.avgScore||'—'}</span></div>
+              <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-val">${p.tier||'—'}</span></div>
+            </div>
+            <div class="detail-box">
+              <h4>Reference projects</h4>
+              ${refItems}
+            </div>
+            <div class="detail-box">
+              <h4>Notes & updates</h4>
+              ${notesHtml}
+              <div style="display:flex;gap:6px;margin-top:8px">
+                <input type="text" id="zc-new-note-${did}" placeholder="Add a note…" style="flex:1;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
+                <button class="btn btn-sm" onclick="addZCNote('${did}')">Add</button>
+              </div>
+            </div>
+            <div class="detail-box">
+              <h4>Reminders</h4>
+              ${remindersHtml}
+              <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+                <input type="text" id="zc-rm-text-${did}" placeholder="Reminder…" style="flex:1;min-width:80px;height:28px;padding:0 8px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;font-family:var(--font);outline:none">
+                <input type="date" id="zc-rm-date-${did}" style="height:28px;padding:0 6px;border:1px solid var(--border-mid);border-radius:6px;font-size:12px;outline:none">
+                <button class="btn btn-sm" onclick="addZCReminder('${did}')">Add</button>
+              </div>
+              <div style="margin-top:10px">
+                <h4 style="font-size:10px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Attachments</h4>
+                <div class="attach-list-c">${attachHtml}</div>
+                <div class="c-upload-area" onclick="document.getElementById('zc-file-${did}').click()">
+                  📎 Attach contract / document
+                  <input type="file" id="zc-file-${did}" multiple onchange="uploadZCFile(event,'${did}')">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </td>
-      <td>
-        <div class="partner-row-main">
-          <span class="c-status-badge ${zcStatusClass[p.status]||'cs-paused'}">${zcStatusLabel[p.status]||p.status}</span>
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main" style="flex-direction:column;align-items:flex-start;gap:3px">
-          ${products.length
-            ? products.slice(0,2).map(pr=>`<span style="font-size:11px;background:var(--teal-bg);color:var(--teal);padding:1px 7px;border-radius:20px;white-space:nowrap;font-weight:500">${pr}</span>`).join('')
-            + (products.length>2 ? `<span style="font-size:10px;color:var(--text-3)">+${products.length-2} more</span>` : '')
-            : '<span style="font-size:12px;color:var(--text-3)">—</span>'
-          }
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main">
-          <div class="c-contract-cell">${p.contract||'—'}</div>
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main">
-          <div class="${expClass} c-contract-cell">
-            ${expLabel}
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="partner-row-main" style="font-size:11px;color:var(--text-3);font-family:var(--mono)">
-          ${p.followup||'—'}
-        </div>
-      </td>
+      <td><div class="partner-row-main"><span class="country-pill">${p.country||'—'}</span></div></td>
+      <td><div class="partner-row-main" style="flex-wrap:wrap;gap:2px;padding-top:11px;padding-bottom:11px">${bizTypes}</div></td>
+      <td><div class="partner-row-main">${stageBadge}</div></td>
+      <td><div class="partner-row-main">${fitBadge}</div></td>
+      <td><div class="partner-row-main" style="font-size:11px;color:var(--text-2)">${p.contact||'—'}</div></td>
+      <td><div class="partner-row-main" style="font-size:11px;color:var(--text-3);font-family:var(--mono)">${p.lastInteraction||'—'}</div></td>
+      <td><div class="partner-row-main" style="flex-direction:column;align-items:flex-start;gap:2px">
+        ${p.avgScore?`<span style="font-size:12px;font-weight:600;color:var(--text)">${p.avgScore}</span>`:''}
+        ${p.tier?`<span style="font-size:10px;color:var(--text-3)">${p.tier}</span>`:''}
+        ${!p.avgScore&&!p.tier?'<span style="font-size:11px;color:var(--text-3)">—</span>':''}
+      </div></td>
       <td>
         <div class="partner-row-main" style="gap:4px;justify-content:flex-end">
-          <button class="ca-btn" onclick="editZC('${p._dbid||p.uid}')" title="Edit"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z"/></svg></button>
-          <button class="ca-btn del" onclick="deleteZCDirect('${p._dbid||p.uid}')" title="Delete"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--red-mid);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M3 5h10M6 5V3h4v2M6 8v4M10 8v4"/></svg></button>
-          <button class="exp-toggle" id="zct-${p._dbid||p.uid}" onclick="toggleZCD('${p._dbid||p.uid}')">▾</button>
+          <button class="ca-btn" onclick="editZC('${did}')" title="Edit"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--text-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z"/></svg></button>
+          <button class="ca-btn del" onclick="deleteZCDirect('${did}')" title="Delete"><svg viewBox="0 0 16 16" style="width:11px;height:11px;stroke:var(--red-mid);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M3 5h10M6 5V3h4v2M6 8v4M10 8v4"/></svg></button>
+          <button class="exp-toggle" id="zct-${did}" onclick="toggleZCD('${did}')">▾</button>
         </div>
       </td>
     </tr>`;
   }).join('');
 }
+
 
 function toggleZCD(uid) {
   const el = document.getElementById('zcd-'+uid);
@@ -3435,18 +1646,50 @@ function resetZCForm() {
 }
 
 /* load Zone C from DB */
+
+/* ── Zone C seed data ── */
+const zcSeedData = [
+  {name:"Chengdu GuangYun Technology Co., LTD (成都光云科技有限公司)",country:"China",statement:"",bizTypes:["Co-Dev","Outsourcing"],specialization:"Function dev, Game Dev, RPG",coreTech:"Unreal",teamSize:"400-500",refProjects:"X5",stage:"Active",strategicFit:"High",matchingStudio:"Co-Dev",contact:"LiuXi",lastInteraction:"23-Oct-2025",avgScore:"8.85",tier:"A - Strategic",notes:[],reminders:[],attachments:[]},
+  {name:"Ai XinYou · 爱心游",country:"China",statement:"",bizTypes:["Game Dev","Game Publishing"],specialization:"RPG",coreTech:"Unity",teamSize:"",refProjects:"爱奇",stage:"Active",strategicFit:"Medium",matchingStudio:"Co-Dev Studio",contact:"陈薇",lastInteraction:"16-Jul-2025",avgScore:"",tier:"",notes:[{date:"2025-07-16",text:"Suggest VNG re-clone K9 product"}],reminders:[],attachments:[]},
+  {name:"Unity",country:"China",statement:"New",bizTypes:["Game Publishing"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"None",stage:"Paused",strategicFit:"Low",matchingStudio:"General",contact:"",lastInteraction:"22-Oct-2025",avgScore:"",tier:"",notes:[],reminders:[],attachments:[]},
+  {name:"Meridian Play",country:"China",statement:"New",bizTypes:["Game Publishing"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"None",stage:"Archived",strategicFit:"Low",matchingStudio:"General",contact:"alana@meridianplay.com",lastInteraction:"23-Oct-2025",avgScore:"",tier:"",notes:[{date:"2025-10-23",text:"This is the company Tam met in Thailand Gameshow. But the contact email is invalid."}],reminders:[],attachments:[]},
+  {name:"Guangzhou Qianzhou Shaoguang (广州浅跑韶光)",country:"China",statement:"",bizTypes:["Game Dev"],specialization:"CBG & Idle minigame",coreTech:"",teamSize:"",refProjects:"海陆竞战队, 龙驿挂机小程序（蘑菇like）, Pokemon (Fake IP) CBG",stage:"Paused",strategicFit:"Low",matchingStudio:"CT Studio",contact:"Fan JingYu (wechat:fy272719801)",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"FOREAR",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"胡明月",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"ORG 甜橙",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"毕雪松 (Bi Xuesong)",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"Guangzhou Boguan Telecommunication Technology Co., Ltd",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"周连冰",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"GSE",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"绳振伟",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"YDN & FBU",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"周阳",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"Aurora",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"曾美珍",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"XYZ",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"Fan Jingwen",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"CHX",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"姜超",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"SBD",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"深圳市海鸟",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"QLG",country:"China",statement:"",bizTypes:["Art Outsourcing"],specialization:"Art",coreTech:"",teamSize:"",refProjects:"Aurora",stage:"Paused",strategicFit:"Low",matchingStudio:"CoreVision",contact:"吴家雷",lastInteraction:"",avgScore:"",tier:"",notes:[{date:"2025-01-01",text:"Art outsourcing for Aurora production of BeiJing GLS"}],reminders:[],attachments:[]},
+  {name:"ShangHai-LingXin",country:"China",statement:"New",bizTypes:["Co-Dev","Game Dev"],specialization:"SLG",coreTech:"Unity",teamSize:"20",refProjects:"Project 16 - demo 30'",stage:"Paused",strategicFit:"Low",matchingStudio:"Co-Dev Studio",contact:"CEO: Eric",lastInteraction:"10-Mar-2025",avgScore:"",tier:"",notes:[{date:"2025-03-10",text:"Hongjie introduces"}],reminders:[],attachments:[]},
+  {name:"Dare",country:"LATAM",statement:"New",bizTypes:["Game Publishing"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"Tanks War",stage:"Archived",strategicFit:"High",matchingStudio:"AI Studio",contact:"Ana",lastInteraction:"11-Mar-2025",avgScore:"",tier:"",notes:[{date:"2025-03-11",text:"Meet in Thailand Gameshow"}],reminders:[],attachments:[]},
+  {name:"iDreamSky (创梦天地)",country:"China",statement:"New",bizTypes:["Game Publishing","Game development"],specialization:"Game Publishing",coreTech:"Publishing",teamSize:"",refProjects:"Tanks War",stage:"Archived",strategicFit:"Medium",matchingStudio:"AI Studio",contact:"Alex",lastInteraction:"5-Nov-2025",avgScore:"",tier:"",notes:[],reminders:[],attachments:[]}
+];
 async function loadZCFromDB() {
   try {
     const {data,error} = await db.from('zone_c_partners').select('*').order('created_at');
     if (error) {
-      console.warn('ZC load error (table may not exist yet):', error.message);
-      zcPartners = [];
+      console.warn('ZC load error:', error.message);
+      zcPartners = zcSeedData.map((p,i)=>({...p,uid:'seed'+i}));
       return;
     }
-    zcPartners = data.map(r=>({...r.data, _dbid:r.id}));
+    if (data && data.length > 0) {
+      zcPartners = data.map(r=>({...r.data, _dbid:r.id}));
+    } else {
+      // Auto-seed from spreadsheet data
+      zcPartners = [];
+      for (const p of zcSeedData) {
+        const obj = {...p, uid:'seed'+Date.now()+Math.random().toString(36).slice(2)};
+        zcPartners.push(obj);
+        await saveZCToDB(obj);
+      }
+    }
   } catch(e) {
     console.warn('ZC load error:', e);
-    zcPartners = [];
+    zcPartners = zcSeedData.map((p,i)=>({...p,uid:'seed'+i}));;
   }
 }
 
