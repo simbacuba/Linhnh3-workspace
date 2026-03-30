@@ -1101,7 +1101,7 @@ function buildPartnerRow(d){
   return wrap;
 }
 
-function renderPartners(){const list=document.getElementById('partner-list');list.innerHTML='';partners.forEach(d=>list.appendChild(buildPartnerRow(d)))}
+function renderPartners(){const list=document.getElementById('partner-list');if(!list)return;list.innerHTML='';partners.forEach(d=>list.appendChild(buildPartnerRow(d)))}
 
 let editingPartnerUid=null;
 function editPartner(uid){
@@ -1135,7 +1135,7 @@ function buildReminderRow(d){
   return wrap;
 }
 
-function renderReminders(){const list=document.getElementById('reminder-list');list.innerHTML='';reminders.forEach(d=>list.appendChild(buildReminderRow(d)))}
+function renderReminders(){const list=document.getElementById('reminder-list');if(!list)return;list.innerHTML='';reminders.forEach(d=>list.appendChild(buildReminderRow(d)))}
 
 let editingReminderUid=null;
 function editReminder(uid){
@@ -1235,8 +1235,6 @@ function renderAll(){
   renderKanban();
   renderTrips();
   renderEvents();
-  renderPartners();
-  renderReminders();
 }
 
 /* ── boot: try DB first, fall back to seed data ── */
