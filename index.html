@@ -774,14 +774,28 @@ async function cycleStatus(el){
     card.classList.remove('done-item','cancelled-item','done-card','cancelled-card');
     if(nx.key==='done'){card.classList.add(card.classList.contains('task-item')?'done-item':'done-card');const chk=card.querySelector('.chk');if(chk)chk.classList.add('ticked')}
     if(nx.key==='cancelled')card.classList.add(card.classList.contains('task-item')?'cancelled-item':'cancelled-card');
-    // Save to DB
+    // Save to DB directly
     const uid=card.dataset.uid;
     if(card.classList.contains('task-item')){
       const task=dailyTasks.find(x=>x.uid===uid);
-      if(task){task.status=nx.key;await dbSave('daily_tasks',task);}
+      if(task && db){
+        task.status=nx.key;
+        try{
+          if(task._dbid){const {_dbid,...data}=task;await db.from('daily_tasks').update({data}).eq('id',_dbid);}
+          else{const {data:rows}=await db.from('daily_tasks').insert({data:task}).select();if(rows&&rows[0])task._dbid=rows[0].id;}
+          setSyncStatus('ok');
+        }catch(e){setSyncStatus('error');}
+      }
     } else {
       const ktask=kanbanTasks.find(x=>x.uid===uid);
-      if(ktask){ktask.status=nx.key;await dbSave('kanban_tasks',ktask);}
+      if(ktask && db){
+        ktask.status=nx.key;
+        try{
+          if(ktask._dbid){const {_dbid,...data}=ktask;await db.from('kanban_tasks').update({data}).eq('id',_dbid);}
+          else{const {data:rows}=await db.from('kanban_tasks').insert({data:ktask}).select();if(rows&&rows[0])ktask._dbid=rows[0].id;}
+          setSyncStatus('ok');
+        }catch(e){setSyncStatus('error');}
+      }
     }
   }
   updateMetrics();
@@ -820,9 +834,18 @@ async function tickDaily(chk){
   // Save status to DB
   const uid=item.dataset.uid;
   const task=dailyTasks.find(x=>x.uid===uid);
-  if(task){
+  if(task && db){
     task.status=key;
-    await dbSave('daily_tasks',task);
+    try{
+      if(task._dbid){
+        const {_dbid,...data}=task;
+        await db.from('daily_tasks').update({data}).eq('id',_dbid);
+      } else {
+        const {data:rows}=await db.from('daily_tasks').insert({data:task}).select();
+        if(rows&&rows[0]) task._dbid=rows[0].id;
+      }
+      setSyncStatus('ok');
+    }catch(e){console.error('tickDaily save error:',e);setSyncStatus('error');}
   }
   updateMetrics();
 }
@@ -1327,9 +1350,18 @@ deleteEditingItem=async function(type){
   const tableMap={daily:'daily_tasks',ptask:'kanban_tasks',trip:'trips',event:'events',partner:'partners',reminder:'reminders'};
   const arrMap={daily:dailyTasks,ptask:kanbanTasks,trip:trips,event:events,partner:partners,reminder:reminders};
   const uidMap={daily:editingDailyUid,ptask:editingPTaskUid,trip:editingTripUid,event:editingEventUid,partner:editingPartnerUid,reminder:editingReminderUid};
+  // Find object BEFORE _delItem removes it from array
   const obj=arrMap[type]?.find(x=>x.uid===uidMap[type]);
+  const dbid=obj?._dbid;
+  const table=tableMap[type];
   _delItem(type);
-  if(obj) await dbDelete(tableMap[type],obj);
+  // Delete from DB using saved _dbid
+  if(dbid && table && db){
+    try{
+      await db.from(table).delete().eq('id',dbid);
+      setSyncStatus('ok');
+    }catch(e){console.error('Delete error:',e);setSyncStatus('error');}
+  }
 };
 
 /* ════ ZONE C — Partner CRM ════ */
