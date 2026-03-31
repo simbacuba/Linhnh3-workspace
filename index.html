@@ -311,16 +311,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
   <div class="panel">
     <div class="panel-head">
       <span class="panel-title">Daily checklist</span>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <div class="cat-tabs">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <div class="cat-tabs" id="daily-cat-tabs">
           <div class="ctab on" onclick="filterDaily(this,'all')">All</div>
           <div class="ctab" onclick="filterDaily(this,'adm')">Admin</div>
           <div class="ctab" onclick="filterDaily(this,'rep')">Report</div>
           <div class="ctab" onclick="filterDaily(this,'trv')">Travel</div>
           <div class="ctab" onclick="filterDaily(this,'evt')">Event</div>
+          <div class="ctab" onclick="filterDaily(this,'done')" style="color:#3b6d11">Done</div>
         </div>
-        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-3);cursor:pointer;white-space:nowrap">
-          <input type="checkbox" id="hide-done-toggle" onchange="toggleHideDone(this.checked)" style="cursor:pointer">
+        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-3);cursor:pointer;white-space:nowrap;margin-left:4px">
+          <input type="checkbox" id="hide-done-toggle" onchange="toggleHideDone(this.checked)" style="cursor:pointer;accent-color:#1a1917">
           Hide done
         </label>
       </div>
@@ -763,7 +764,7 @@ const statusCycle={
 
 function stClassFor(key){return builtinStClass[key]||'st-custom';}
 function stLabelFor(key){return builtinStLabel[key]||key;}
-function cycleStatus(el){
+async function cycleStatus(el){
   const cur=Object.keys(statusCycle).find(k=>el.classList.contains(k));if(!cur)return;
   const nx=statusCycle[cur];
   el.classList.remove(cur);el.classList.add(nx.next);el.textContent=nx.label;
@@ -773,6 +774,15 @@ function cycleStatus(el){
     card.classList.remove('done-item','cancelled-item','done-card','cancelled-card');
     if(nx.key==='done'){card.classList.add(card.classList.contains('task-item')?'done-item':'done-card');const chk=card.querySelector('.chk');if(chk)chk.classList.add('ticked')}
     if(nx.key==='cancelled')card.classList.add(card.classList.contains('task-item')?'cancelled-item':'cancelled-card');
+    // Save to DB
+    const uid=card.dataset.uid;
+    if(card.classList.contains('task-item')){
+      const task=dailyTasks.find(x=>x.uid===uid);
+      if(task){task.status=nx.key;await dbSave('daily_tasks',task);}
+    } else {
+      const ktask=kanbanTasks.find(x=>x.uid===uid);
+      if(ktask){ktask.status=nx.key;await dbSave('kanban_tasks',ktask);}
+    }
   }
   updateMetrics();
 }
@@ -794,38 +804,56 @@ function updateMetrics(){
 }
 
 /* ── checkbox tick ── */
-function tickDaily(chk){
+async function tickDaily(chk){
   chk.classList.toggle('ticked');
   const item=chk.closest('.task-item');
   const isDone=chk.classList.contains('ticked');
   item.classList.toggle('done-item',isDone);
   item.classList.remove('cancelled-item');
   const sb=item.querySelector('.st-badge');
+  const key=isDone?'done':'new';
   if(sb){
     ['st-new','st-progress','st-done','st-cancelled'].forEach(c=>sb.classList.remove(c));
-    const key=isDone?'done':'new';
-    sb.classList.add(stClass[key]);sb.textContent=stLabel[key];item.dataset.status=key;
+    sb.classList.add(stClass[key]);sb.textContent=stLabel[key];
+  }
+  item.dataset.status=key;
+  // Save status to DB
+  const uid=item.dataset.uid;
+  const task=dailyTasks.find(x=>x.uid===uid);
+  if(task){
+    task.status=key;
+    await dbSave('daily_tasks',task);
   }
   updateMetrics();
 }
 
 /* ── filter ── */
 let hideDone = false;
-function filterDaily(el,cat){
-  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on');
-  applyDailyFilter(cat);
+let currentDailyCat = 'all';
+function filterDaily(el, cat){
+  el.closest('.cat-tabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  currentDailyCat = cat;
+  applyDailyFilter();
 }
 function toggleHideDone(val){
   hideDone = val;
-  const active = document.querySelector('#daily-list').closest('.panel').querySelector('.ctab.on');
-  const cat = active ? (active.onclick+'').match(/'([^']+)'\)/)?.[1] || 'all' : 'all';
-  applyDailyFilter(cat);
+  applyDailyFilter();
 }
-function applyDailyFilter(cat){
+function applyDailyFilter(){
+  const cat = currentDailyCat;
   document.querySelectorAll('#daily-list .task-item').forEach(t=>{
-    const catMatch = cat==='all'||t.dataset.cat===cat;
-    const doneHidden = hideDone && (t.dataset.status==='done'||t.classList.contains('done-item'));
-    t.style.display=(catMatch && !doneHidden)?'flex':'none';
+    const status = t.dataset.status || '';
+    const isDone = status==='done' || status==='cancelled' || t.classList.contains('done-item') || t.classList.contains('cancelled-item');
+    // 'done' tab: show only done/cancelled
+    if(cat === 'done'){
+      t.style.display = isDone ? 'flex' : 'none';
+      return;
+    }
+    // Other tabs
+    const catMatch = cat==='all' || t.dataset.cat===cat;
+    const doneHidden = hideDone && isDone;
+    t.style.display = (catMatch && !doneHidden) ? 'flex':'none';
   });
 }
 function filterKanban(el,cat){
@@ -867,7 +895,8 @@ function buildDailyTask(d){
   const body=document.createElement('div');body.className='task-body';
   const sc=stClassFor(d.status);
   const sl=stLabelFor(d.status);
-  body.innerHTML=`<div class="task-name">${d.name}</div><div class="task-meta"><span class="pdot ${priDot[d.pri]||'pl'}"></span>${priLabel[d.pri]||d.pri} · ${d.due}<span class="badge ${badgeClassFor(d.cat)}">${labelFor(d.cat)}</span><span class="st-badge ${sc}" onclick="cycleStatus(this)">${sl}</span></div>`;
+  const createdLabel = d.createdAt ? `<span style="font-size:10px;color:var(--text-3);font-family:var(--mono)">Created: ${d.createdAt}</span>` : '';
+  body.innerHTML=`<div class="task-name">${d.name}</div><div class="task-meta"><span class="pdot ${priDot[d.pri]||'pl'}"></span>${priLabel[d.pri]||d.pri} · ${d.due}<span class="badge ${badgeClassFor(d.cat)}">${labelFor(d.cat)}</span><span class="st-badge ${sc}" onclick="cycleStatus(this)">${sl}</span>${createdLabel}</div>`;
   const acts=makeActions(()=>editDailyTask(d.uid),()=>{wrap.remove();dailyTasks=dailyTasks.filter(x=>x.uid!==d.uid);updateMetrics();toast('Task deleted')});
   top.append(chk,body,acts);
   const note=document.createElement('div');note.className='task-note';note.textContent=d.note||'';
@@ -899,6 +928,7 @@ function editDailyTask(uid){
 
 function saveDailyTask(){
   const name=document.getElementById('dt-name').value.trim();if(!name)return;
+  const existingTask = editingDailyUid ? dailyTasks.find(x=>x.uid===editingDailyUid) : null;
   const obj={
     uid:editingDailyUid||id(),
     name,
@@ -906,7 +936,8 @@ function saveDailyTask(){
     pri:document.getElementById('dt-pri').value,
     due:document.getElementById('dt-due').value||'This week',
     status:readSmart('dt-status','dt-status-custom'),
-    note:document.getElementById('dt-note').value.trim()
+    note:document.getElementById('dt-note').value.trim(),
+    createdAt: existingTask?.createdAt || new Date().toISOString().slice(0,10)
   };
   if(editingDailyUid){const idx=dailyTasks.findIndex(x=>x.uid===editingDailyUid);if(idx>-1)dailyTasks[idx]=obj;}
   else dailyTasks.unshift(obj);
