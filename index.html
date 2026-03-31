@@ -644,18 +644,42 @@ async function dbSave(table,obj){
   setSyncStatus('saving');
   try{
     if(obj._dbid){
+      // Has DB id — do direct update
       const {_dbid,...data}=obj;
       await db.from(table).update({data}).eq('id',_dbid);
     } else {
-      const {data:rows}=await db.from(table).insert({data:obj}).select();
-      if(rows&&rows[0]) obj._dbid=rows[0].id;
+      // No _dbid — check if a row with same uid already exists
+      const uid = obj.uid;
+      if(uid){
+        const {data:existing} = await db.from(table).select('id').eq('data->>uid', uid).maybeSingle();
+        if(existing){
+          // Row exists — update it and store _dbid
+          obj._dbid = existing.id;
+          await db.from(table).update({data:obj}).eq('id',existing.id);
+        } else {
+          // Truly new — insert
+          const {data:rows}=await db.from(table).insert({data:obj}).select();
+          if(rows&&rows[0]) obj._dbid=rows[0].id;
+        }
+      } else {
+        const {data:rows}=await db.from(table).insert({data:obj}).select();
+        if(rows&&rows[0]) obj._dbid=rows[0].id;
+      }
     }
     setSyncStatus('ok');
-  }catch(e){setSyncStatus('error');console.error(e);}
+  }catch(e){setSyncStatus('error');console.error('dbSave error:',e);}
 }
 async function dbDelete(table,obj){
-  if(!db||!obj._dbid) return;
-  await db.from(table).delete().eq('id',obj._dbid);
+  if(!db) return;
+  try{
+    if(obj._dbid){
+      await db.from(table).delete().eq('id',obj._dbid);
+    } else if(obj.uid){
+      // Fallback: delete by uid stored in data
+      await db.from(table).delete().eq('data->>uid', obj.uid);
+    }
+    setSyncStatus('ok');
+  }catch(e){console.error('dbDelete error:',e);}
 }
 
 /* ── sync status indicator ── */
@@ -774,28 +798,14 @@ async function cycleStatus(el){
     card.classList.remove('done-item','cancelled-item','done-card','cancelled-card');
     if(nx.key==='done'){card.classList.add(card.classList.contains('task-item')?'done-item':'done-card');const chk=card.querySelector('.chk');if(chk)chk.classList.add('ticked')}
     if(nx.key==='cancelled')card.classList.add(card.classList.contains('task-item')?'cancelled-item':'cancelled-card');
-    // Save to DB directly
+    // Save to DB
     const uid=card.dataset.uid;
     if(card.classList.contains('task-item')){
       const task=dailyTasks.find(x=>x.uid===uid);
-      if(task && db){
-        task.status=nx.key;
-        try{
-          if(task._dbid){const {_dbid,...data}=task;await db.from('daily_tasks').update({data}).eq('id',_dbid);}
-          else{const {data:rows}=await db.from('daily_tasks').insert({data:task}).select();if(rows&&rows[0])task._dbid=rows[0].id;}
-          setSyncStatus('ok');
-        }catch(e){setSyncStatus('error');}
-      }
+      if(task){task.status=nx.key;await dbSave('daily_tasks',task);}
     } else {
       const ktask=kanbanTasks.find(x=>x.uid===uid);
-      if(ktask && db){
-        ktask.status=nx.key;
-        try{
-          if(ktask._dbid){const {_dbid,...data}=ktask;await db.from('kanban_tasks').update({data}).eq('id',_dbid);}
-          else{const {data:rows}=await db.from('kanban_tasks').insert({data:ktask}).select();if(rows&&rows[0])ktask._dbid=rows[0].id;}
-          setSyncStatus('ok');
-        }catch(e){setSyncStatus('error');}
-      }
+      if(ktask){ktask.status=nx.key;await dbSave('kanban_tasks',ktask);}
     }
   }
   updateMetrics();
@@ -834,18 +844,9 @@ async function tickDaily(chk){
   // Save status to DB
   const uid=item.dataset.uid;
   const task=dailyTasks.find(x=>x.uid===uid);
-  if(task && db){
+  if(task){
     task.status=key;
-    try{
-      if(task._dbid){
-        const {_dbid,...data}=task;
-        await db.from('daily_tasks').update({data}).eq('id',_dbid);
-      } else {
-        const {data:rows}=await db.from('daily_tasks').insert({data:task}).select();
-        if(rows&&rows[0]) task._dbid=rows[0].id;
-      }
-      setSyncStatus('ok');
-    }catch(e){console.error('tickDaily save error:',e);setSyncStatus('error');}
+    await dbSave('daily_tasks',task);
   }
   updateMetrics();
 }
