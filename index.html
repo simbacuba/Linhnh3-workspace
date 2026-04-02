@@ -640,7 +640,8 @@ async function dbLoad(table){
   return data.map(r=>({...r.data, _dbid:r.id}));
 }
 async function dbSave(table,obj){
-  if(!db) return;
+  console.log('[dbSave] called, table=', table, 'has _dbid=', !!obj._dbid, 'uid=', obj.uid);
+  if(!db){ console.error('[dbSave] db is null!'); return; }
   setSyncStatus('saving');
   try{
     if(obj._dbid){
@@ -1305,17 +1306,23 @@ function renderAll(){
 /* ── patch save/delete to also sync DB ── */
 const _saveDT=saveDailyTask;
 saveDailyTask=async function(){
-  const prev=editingDailyUid; // null if new task
-  _saveDT(); // runs unshift for new, or updates array for edit
+  console.log('[SAVE] saveDailyTask called, editingDailyUid=', editingDailyUid);
+  const prev=editingDailyUid;
+  _saveDT();
   let obj;
   if(prev){
-    // Editing existing task - find by uid
     obj=dailyTasks.find(x=>x.uid===prev);
   } else {
-    // New task - unshift puts it at index 0
     obj=dailyTasks[0];
   }
-  if(obj) await dbSave('daily_tasks',obj);
+  console.log('[SAVE] obj to save:', obj);
+  console.log('[SAVE] db available:', !!db);
+  if(obj){
+    const result = await dbSave('daily_tasks',obj);
+    console.log('[SAVE] dbSave done, _dbid=', obj._dbid);
+  } else {
+    console.error('[SAVE] obj is null/undefined!');
+  }
 };
 const _savePT=savePTask;
 savePTask=async function(){
