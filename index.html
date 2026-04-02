@@ -648,22 +648,23 @@ async function dbSave(table,obj){
       const {_dbid,...data}=obj;
       await db.from(table).update({data}).eq('id',_dbid);
     } else {
-      // No _dbid — check if a row with same uid already exists
+      // No _dbid — check if row with same uid exists using filter
       const uid = obj.uid;
       if(uid){
-        const {data:existing} = await db.from(table).select('id').eq('data->>uid', uid).maybeSingle();
-        if(existing){
-          // Row exists — update it and store _dbid
-          obj._dbid = existing.id;
-          await db.from(table).update({data:obj}).eq('id',existing.id);
+        const {data:rows} = await db.from(table).select('id').filter('data->>uid','eq',uid);
+        if(rows && rows.length > 0){
+          // Row exists — update and store _dbid
+          obj._dbid = rows[0].id;
+          const {_dbid,...data}=obj;
+          await db.from(table).update({data}).eq('id',rows[0].id);
         } else {
           // Truly new — insert
-          const {data:rows}=await db.from(table).insert({data:obj}).select();
-          if(rows&&rows[0]) obj._dbid=rows[0].id;
+          const {data:inserted}=await db.from(table).insert({data:obj}).select();
+          if(inserted&&inserted[0]) obj._dbid=inserted[0].id;
         }
       } else {
-        const {data:rows}=await db.from(table).insert({data:obj}).select();
-        if(rows&&rows[0]) obj._dbid=rows[0].id;
+        const {data:inserted}=await db.from(table).insert({data:obj}).select();
+        if(inserted&&inserted[0]) obj._dbid=inserted[0].id;
       }
     }
     setSyncStatus('ok');
@@ -675,8 +676,8 @@ async function dbDelete(table,obj){
     if(obj._dbid){
       await db.from(table).delete().eq('id',obj._dbid);
     } else if(obj.uid){
-      // Fallback: delete by uid stored in data
-      await db.from(table).delete().eq('data->>uid', obj.uid);
+      // Fallback: delete by uid using filter
+      await db.from(table).delete().filter('data->>uid','eq',obj.uid);
     }
     setSyncStatus('ok');
   }catch(e){console.error('dbDelete error:',e);}
