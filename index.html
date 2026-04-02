@@ -1305,30 +1305,42 @@ function renderAll(){
 /* ── patch save/delete to also sync DB ── */
 const _saveDT=saveDailyTask;
 saveDailyTask=async function(){
-  const prev=editingDailyUid;
-  _saveDT();
-  const obj=dailyTasks.find(x=>x.uid===(prev||dailyTasks[dailyTasks.length-1].uid));
+  const prev=editingDailyUid; // null if new task
+  _saveDT(); // runs unshift for new, or updates array for edit
+  let obj;
+  if(prev){
+    // Editing existing task - find by uid
+    obj=dailyTasks.find(x=>x.uid===prev);
+  } else {
+    // New task - unshift puts it at index 0
+    obj=dailyTasks[0];
+  }
   if(obj) await dbSave('daily_tasks',obj);
 };
 const _savePT=savePTask;
 savePTask=async function(){
   const prev=editingPTaskUid;
   _savePT();
-  const obj=kanbanTasks.find(x=>x.uid===(prev||kanbanTasks[kanbanTasks.length-1].uid));
+  let obj;
+  if(prev){
+    obj=kanbanTasks.find(x=>x.uid===prev);
+  } else {
+    obj=kanbanTasks[0];
+  }
   if(obj) await dbSave('kanban_tasks',obj);
 };
 const _saveTr=saveTrip;
 saveTrip=async function(){
   const prev=editingTripUid;
   _saveTr();
-  const obj=trips.find(x=>x.uid===(prev||trips[trips.length-1].uid));
+  const obj=prev ? trips.find(x=>x.uid===prev) : trips[0];
   if(obj) await dbSave('trips',obj);
 };
 const _saveEv=saveEvent;
 saveEvent=async function(){
   const prev=editingEventUid;
   _saveEv();
-  const obj=events.find(x=>x.uid===(prev||events[events.length-1].uid));
+  const obj=prev ? events.find(x=>x.uid===prev) : events[0];
   if(obj) await dbSave('events',obj);
 };
 const _savePn=savePartner;
