@@ -640,8 +640,7 @@ async function dbLoad(table){
   return data.map(r=>({...r.data, _dbid:r.id}));
 }
 async function dbSave(table,obj){
-  console.log('[dbSave] called, table=', table, 'has _dbid=', !!obj._dbid, 'uid=', obj.uid);
-  if(!db){ console.error('[dbSave] db is null!'); return; }
+  if(!db) return;
   setSyncStatus('saving');
   try{
     if(obj._dbid){
@@ -952,7 +951,7 @@ function editDailyTask(uid){
   openModal('m-daily');
 }
 
-function saveDailyTask(){
+async function saveDailyTask(){
   const name=document.getElementById('dt-name').value.trim();if(!name)return;
   const existingTask = editingDailyUid ? dailyTasks.find(x=>x.uid===editingDailyUid) : null;
   const obj={
@@ -968,6 +967,8 @@ function saveDailyTask(){
   if(editingDailyUid){const idx=dailyTasks.findIndex(x=>x.uid===editingDailyUid);if(idx>-1)dailyTasks[idx]=obj;}
   else dailyTasks.unshift(obj);
   renderDailyTasks();resetDailyForm();closeModal('m-daily');toast(editingDailyUid?'Task updated':'Task added');
+  // Save to DB directly with the obj we just created
+  await dbSave('daily_tasks', obj);
 }
 
 function resetDailyForm(){
@@ -1034,7 +1035,7 @@ function editKCard(uid,col){
   openModal('m-ptask');
 }
 
-function savePTask(){
+async function savePTask(){
   const name=document.getElementById('pt-name').value.trim();if(!name)return;
   const obj={
     uid:editingPTaskUid||id(),
@@ -1048,6 +1049,7 @@ function savePTask(){
   if(editingPTaskUid){const idx=kanbanTasks.findIndex(x=>x.uid===editingPTaskUid);if(idx>-1)kanbanTasks[idx]=obj;}
   else kanbanTasks.unshift(obj);
   renderKanban();resetPTaskForm();closeModal('m-ptask');toast(editingPTaskUid?'Task updated':'Task added');
+  await dbSave('kanban_tasks', obj);
 }
 
 function resetPTaskForm(){
@@ -1091,12 +1093,13 @@ function editTrip(uid){
   openModal('m-trip');
 }
 
-function saveTrip(){
+async function saveTrip(){
   const name=document.getElementById('tr-name').value.trim();if(!name)return;
   const pct=parseInt(document.getElementById('tr-pct').value)||0;
   const steps=pct>=100?['done','done','done','done','done']:pct>=60?['done','done','done','curr','']:pct>=40?['done','done','curr','','']:pct>=20?['done','curr','','','']:['curr','','','',''];
   const obj={uid:editingTripUid||id(),name,date:document.getElementById('tr-date').value||'TBD',note:document.getElementById('tr-note').value.trim(),status:document.getElementById('tr-status').value,pct,steps};
   if(editingTripUid){const idx=trips.findIndex(x=>x.uid===editingTripUid);if(idx>-1)trips[idx]=obj;}else trips.push(obj);
+  await dbSave('trips', obj);
   renderTrips();resetTripForm();closeModal('m-trip');toast(editingTripUid?'Trip updated':'Trip added');
 }
 
@@ -1134,10 +1137,11 @@ function editEvent(uid){
   openModal('m-event');
 }
 
-function saveEvent(){
+async function saveEvent(){
   const name=document.getElementById('ev-name').value.trim();if(!name)return;
   const obj={uid:editingEventUid||id(),name,sub:document.getElementById('ev-sub').value||'TBD',status:document.getElementById('ev-status').value,pct:parseInt(document.getElementById('ev-pct').value)||0};
   if(editingEventUid){const idx=events.findIndex(x=>x.uid===editingEventUid);if(idx>-1)events[idx]=obj;}else events.push(obj);
+  await dbSave('events', obj);
   renderEvents();resetEventForm();closeModal('m-event');toast(editingEventUid?'Event updated':'Event added');
 }
 
@@ -1304,52 +1308,10 @@ function renderAll(){
 })();
 
 /* ── patch save/delete to also sync DB ── */
-const _saveDT=saveDailyTask;
-saveDailyTask=async function(){
-  console.log('[SAVE] saveDailyTask called, editingDailyUid=', editingDailyUid);
-  const prev=editingDailyUid;
-  _saveDT();
-  let obj;
-  if(prev){
-    obj=dailyTasks.find(x=>x.uid===prev);
-  } else {
-    obj=dailyTasks[0];
-  }
-  console.log('[SAVE] obj to save:', obj);
-  console.log('[SAVE] db available:', !!db);
-  if(obj){
-    const result = await dbSave('daily_tasks',obj);
-    console.log('[SAVE] dbSave done, _dbid=', obj._dbid);
-  } else {
-    console.error('[SAVE] obj is null/undefined!');
-  }
-};
-const _savePT=savePTask;
-savePTask=async function(){
-  const prev=editingPTaskUid;
-  _savePT();
-  let obj;
-  if(prev){
-    obj=kanbanTasks.find(x=>x.uid===prev);
-  } else {
-    obj=kanbanTasks[0];
-  }
-  if(obj) await dbSave('kanban_tasks',obj);
-};
-const _saveTr=saveTrip;
-saveTrip=async function(){
-  const prev=editingTripUid;
-  _saveTr();
-  const obj=prev ? trips.find(x=>x.uid===prev) : trips[0];
-  if(obj) await dbSave('trips',obj);
-};
-const _saveEv=saveEvent;
-saveEvent=async function(){
-  const prev=editingEventUid;
-  _saveEv();
-  const obj=prev ? events.find(x=>x.uid===prev) : events[0];
-  if(obj) await dbSave('events',obj);
-};
+
+
+
+
 const _savePn=savePartner;
 savePartner=async function(){
   const prev=editingPartnerUid;
