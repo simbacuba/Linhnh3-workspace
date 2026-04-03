@@ -711,7 +711,7 @@ async function loadAllFromDB(){
 
 /* ── helpers ── */
 let uid=0;
-const id=()=>'i'+(++uid);
+const id=()=>'i'+(++uid)+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 function setDate(){const d=new Date(),s=d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});document.getElementById('live-date').textContent=s;document.getElementById('footer-date').textContent=s}
 setDate();
 
