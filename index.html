@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Workspace — Assistant & Partnership Manager</title>
+<title>Partner Directory — Zone C</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -276,108 +276,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
   <div class="topbar-left">
     <div class="logo-mark"><span>WS</span></div>
     <div>
-      <h1>My Workspace</h1>
+      <h1>Partner Directory</h1>
       <div class="date" id="live-date"></div>
     </div>
   </div>
   <div class="topbar-right">
-    <button class="btn" onclick="openModal('m-daily')">+ Daily task</button>
-    <button class="btn" onclick="openModal('m-trip')">+ Trip</button>
-    <button class="btn" onclick="openModal('m-event')">+ Event</button>
-    <button class="btn" onclick="openModal('m-ptask')">+ Partner task</button>
+    <button class="btn" onclick="openModal('m-zc')">+ Add partner</button>
     <span id="sync-status" style="font-size:11px;font-family:var(--mono);color:#a09f9a;padding:0 4px">Connecting…</span>
     <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
   </div>
 </div>
 
-<div class="metrics">
-  <div class="mc"><div class="mc-label">Total tasks</div><div class="mc-val" id="m-total">10</div></div>
-  <div class="mc"><div class="mc-label">In progress</div><div class="mc-val blue" id="m-prog">3</div></div>
-  <div class="mc"><div class="mc-label">Done today</div><div class="mc-val green" id="m-done">0</div></div>
-  <div class="mc"><div class="mc-label">Cancelled</div><div class="mc-val grey" id="m-cancel">0</div></div>
-  <div class="mc"><div class="mc-label">Partners (Zone C)</div><div class="mc-val blue" id="m-zc-partners">0</div></div>
-  <div class="mc"><div class="mc-label">Trips tracked</div><div class="mc-val">3</div></div>
+<div class="metrics" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+  <div class="mc"><div class="mc-label">Total partners</div><div class="mc-val blue" id="m-zc-partners">0</div></div>
+  <div class="mc"><div class="mc-label">Active</div><div class="mc-val green" id="m-zc-active">0</div></div>
+  <div class="mc"><div class="mc-label">High strategic fit</div><div class="mc-val" id="m-zc-high">0</div></div>
 </div>
-
-<div class="zone-divider">
-  <div class="zone-line"></div>
-  <div class="zone-label"><span class="zone-dot teal"></span>Zone A — Daily & operations</div>
-  <div class="zone-line"></div>
-</div>
-
-<div class="zone-a">
-
-  <!-- DAILY CHECKLIST -->
-  <div class="panel">
-    <div class="panel-head">
-      <span class="panel-title">Daily checklist</span>
-      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-        <div class="cat-tabs" id="daily-cat-tabs">
-          <div class="ctab on" onclick="filterDaily(this,'all')">All</div>
-          <div class="ctab" onclick="filterDaily(this,'adm')">Admin</div>
-          <div class="ctab" onclick="filterDaily(this,'rep')">Report</div>
-          <div class="ctab" onclick="filterDaily(this,'trv')">Travel</div>
-          <div class="ctab" onclick="filterDaily(this,'evt')">Event</div>
-          <div class="ctab" onclick="filterDaily(this,'done')" style="color:#3b6d11">Done</div>
-        </div>
-        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-3);cursor:pointer;white-space:nowrap;margin-left:4px">
-          <input type="checkbox" id="hide-done-toggle" onchange="toggleHideDone(this.checked)" style="cursor:pointer;accent-color:#1a1917">
-          Hide done
-        </label>
-      </div>
-    </div>
-    <div id="daily-list" style="display:flex;flex-direction:column;gap:5px">
-      <!-- tasks injected by JS -->
-    </div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-daily')">+ Add task</button></div>
-  </div>
-
-  <!-- TRIP TRACKER -->
-  <div class="panel">
-    <div class="panel-head"><span class="panel-title">Business trip tracker</span><span class="pill-count" id="trip-count">3 trips</span></div>
-    <div id="trip-list"></div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-trip')">+ New trip</button></div>
-  </div>
-
-  <!-- EVENT TRACKER -->
-  <div class="panel">
-    <div class="panel-head"><span class="panel-title">Event & teambuilding tracker</span><span class="pill-count" id="event-count">3 events</span></div>
-    <div id="event-list"></div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-event')">+ New event</button></div>
-  </div>
-
-</div>
-
-<div class="zone-divider">
-  <div class="zone-line"></div>
-  <div class="zone-label"><span class="zone-dot purple"></span>Zone B — Partnership & strategy</div>
-  <div class="zone-line"></div>
-</div>
-
-<div class="zone-b">
-
-  <!-- KANBAN -->
-  <div class="panel">
-    <div class="panel-head">
-      <span class="panel-title">Partnership task board</span>
-      <div class="cat-tabs">
-        <div class="ctab on" onclick="filterKanban(this,'all')">All</div>
-        <div class="ctab" onclick="filterKanban(this,'par')">Partnership</div>
-        <div class="ctab" onclick="filterKanban(this,'fup')">Follow-up</div>
-        <div class="ctab" onclick="filterKanban(this,'int')">Internal</div>
-      </div>
-    </div>
-    <div class="kanban">
-      <div class="kcol"><div class="kcol-head"><span class="kcol-title">To do</span><span class="pill-count" id="k-todo-count">4</span></div><div id="k-todo"></div></div>
-      <div class="kcol"><div class="kcol-head"><span class="kcol-title">In progress</span><span class="pill-count" id="k-prog-count">3</span></div><div id="k-prog"></div></div>
-      <div class="kcol"><div class="kcol-head"><span class="kcol-title">Done this week</span><span class="pill-count">4</span></div><div id="k-done"></div></div>
-    </div>
-    <div class="add-row"><button class="add-btn" onclick="openModal('m-ptask')">+ Add task</button></div>
-  </div>
-
-
-</div>
-
 
 <div class="zone-divider" style="margin-top:4px">
   <div class="zone-line"></div>
@@ -487,7 +401,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
   </div>
 </div>
 
-<div class="footer">My Workspace · Assistant & Partnership Manager · <span id="footer-date"></span></div>
+<div class="footer">Partner Directory · Zone C · <span id="footer-date"></span></div>
 </div><!-- /page -->
 
 <!-- TOAST -->
@@ -1291,12 +1205,7 @@ let reminders=[
 ];
 
 /* ── initial render ── */
-function renderAll(){
-  renderDailyTasks();
-  renderKanban();
-  renderTrips();
-  renderEvents();
-}
+function renderAll(){ /* Zone A & B removed */ }
 
 /* ── boot: try DB first, fall back to seed data ── */
 (async()=>{
@@ -1389,6 +1298,8 @@ function renderZC() {
     : zcPartners.filter(p => (p.stage||'').toLowerCase() === zcFilter);
   document.getElementById('zc-count').textContent = zcPartners.length + ' partner' + (zcPartners.length !== 1 ? 's' : '');
   const mzc = document.getElementById('m-zc-partners'); if(mzc) mzc.textContent = zcPartners.length;
+  const mActive = document.getElementById('m-zc-active'); if(mActive) mActive.textContent = zcPartners.filter(p=>(p.stage||'').toLowerCase()==='active').length;
+  const mHigh = document.getElementById('m-zc-high'); if(mHigh) mHigh.textContent = zcPartners.filter(p=>(p.strategicFit||'').toLowerCase()==='high').length;
   const tbody = document.getElementById('zc-tbody');
   if (!filtered.length) {
     tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-3);padding:2rem;font-size:13px">No partners yet. Click \"+ Add partner\" to get started.</td></tr>';
